@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox id="titulo" alignment="CENTER" maxWidth="700.0" minWidth="480.0" prefHeight="821.0" prefWidth="531.0" spacing="10.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controlersFXML.CrearCuentaContr">
+   <children>
+      <VBox alignment="TOP_CENTER" maxHeight="519.0" minWidth="220.0" prefHeight="514.0" prefWidth="460.0">
+         <children>
+            <HBox alignment="TOP_CENTER" maxHeight="132.0" maxWidth="344.0" minHeight="44.0" minWidth="319.0" prefHeight="44.0" prefWidth="344.0">
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+               <children>
+                  <Label text="Creando un usuario " textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblCambiarLogin" focusTraversable="true" onMouseClicked="#cambiarALogin" styleClass="lbl-anchor" text="¿Tienes ya una cuenta?" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+            </HBox>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="25.0" />
+               </VBox.margin>
+               <children>
+                  <Label layoutX="1.0" layoutY="6.0" text="Nombre" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <TextField alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="Bohn Jacopinni" styleClass="txtGenerico">
+               <padding>
+                  <Insets left="7.0" right="7.0" top="6.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </TextField>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <children>
+                  <Label layoutX="1.0" layoutY="6.0" text="Apellidos" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="20.0" />
+               </VBox.margin>
+            </Pane>
+            <TextField alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="Barrientos Linares" styleClass="txtGenerico">
+               <padding>
+                  <Insets left="7.0" right="7.0" top="6.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </TextField>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <children>
+                  <Label layoutX="1.0" layoutY="6.0" text="Pais" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="cbxPais" layoutX="47.0" layoutY="1.0" prefWidth="150.0" styleClass="combo-box" />
+               </children>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="20.0" />
+               </VBox.margin>
+            </Pane>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <children>
+                  <Label layoutX="1.0" layoutY="6.0" text="Email" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="20.0" />
+               </VBox.margin>
+            </Pane>
+            <TextField alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="miemail@.com" styleClass="txtGenerico">
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="7.0" right="7.0" top="6.0" />
+               </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <children>
+                  <Label layoutX="1.0" layoutY="6.0" text="Contraseña" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="20.0" />
+               </VBox.margin>
+            </Pane>
+            <PasswordField maxHeight="29.0" maxWidth="360.0" minHeight="27.0" minWidth="300.0" promptText="*******" styleClass="txtGenerico">
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </PasswordField>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="20.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="111.0" />
+               </padding>
+               <children>
+                  <CheckBox mnemonicParsing="false" styleClass="check-box" text="Acepto terminos de condiciones y servicios" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+               </children>
+            </Pane>
+         </children>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+      </VBox>
+      <Button fx:id="btnCrearCuenta" onAction="#crearCuenta" prefHeight="41.0" prefWidth="128.0" styleClass="mio" text="Crear usuario">
+         <padding>
+            <Insets top="3.0" />
+         </padding>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <VBox alignment="TOP_CENTER" maxHeight="200.0" minHeight="169.0" minWidth="160.0" prefHeight="170.0" prefWidth="460.0">
+         <children>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <children>
+                  <Label layoutX="1.0" layoutY="6.0" text="Continuar con" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </Pane>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="320.0">
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" top="30.0" />
+               </VBox.margin>
+               <children>
+                  <Pane focusTraversable="true" minWidth="101.0" prefHeight="100.0" prefWidth="102.0">
+                     <HBox.margin>
+                        <Insets right="40.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="pnlLog" />
+                        <String fx:value="p1" />
+                     </styleClass>
+                  </Pane>
+                  <Pane focusTraversable="true" minWidth="101.0" prefHeight="100.0" prefWidth="102.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <styleClass>
+                        <String fx:value="pnlLog" />
+                        <String fx:value="p2" />
+                     </styleClass>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

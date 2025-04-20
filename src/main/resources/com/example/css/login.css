@@ -1,0 +1,117 @@
+#titulo {
+  -fx-background-color: linear-gradient(
+        from 0% 0% to 0% 100%,
+        #1a1a2e,
+        #1f0036,
+        #0f0c29
+    );
+}
+
+.mio {
+  -fx-background-color: rgb(3, 0, 0);
+  -fx-background-radius: 20px 20px;
+  -fx-border-color: black;
+  -fx-border-radius: 20px;
+  -fx-text-fill: white;
+
+  -fx-font-size: 14px;
+}
+
+.mio:hover {
+  -fx-font-weight: bold;
+  -fx-text-fill: rgb(180, 122, 255);
+}
+
+.txtGenerico {
+  -fx-background-color: transparent;
+  -fx-text-fill: #c77dff;
+  -fx-prompt-text-fill: #7a5fa3; /* texto fantasma */
+  -fx-border-color: #c77dff;
+  -fx-border-width: 0 0 2 0; /* solo borde abajo */
+  -fx-border-radius: 0;
+}
+
+.txtGenerico:hover {
+  -fx-border-color: #ff9dff;
+  -fx-border-width: 0 0 2 0;
+}
+
+.pnlLog {
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center center;
+  -fx-background-size: cover;
+}
+
+.p1 {
+  -fx-background-image: url("../imagenes/google.png");
+}
+
+.p2 {
+  -fx-background-image: url("../imagenes/facebook.jpeg");
+}
+
+.pnlLog:hover {
+  -fx-border-color: magenta;
+}
+
+.pnlLog:focused {
+  -fx-border-color: magenta;
+}
+
+.lbl-anchor {
+  -fx-text-fill: white;
+}
+
+.lbl-anchor:focused {
+  -fx-text-fill: rgba(99, 213, 241, 0.705);
+  -fx-border-color: #2c6ee9;
+  -fx-border-width: 0 0 2 0;
+}
+
+.lbl-anchor:hover {
+  -fx-text-fill: rgba(99, 213, 241, 0.705);
+  -fx-border-color: #2c6ee9;
+  -fx-border-width: 0 0 2 0;
+}
+
+.combo-box {
+  -fx-background-color: #1a1a2e;
+  -fx-border-color: #7f5af0;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-text-fill: #f1f1f1;
+  -fx-padding: 5 10 5 10;
+  -fx-font-size: 13px;
+}
+
+.combo-box .list-cell {
+  -fx-background-color: #1a1a2e;
+  -fx-text-fill: #ffffff;
+}
+
+.combo-box .list-cell:hover {
+  -fx-background-color: #7f5af0;
+  -fx-text-fill: #000000;
+}
+
+.check-box {
+  -fx-text-fill: #f1f1f1;
+  -fx-font-size: 13px;
+}
+
+.check-box .box {
+  -fx-background-color: #1a1a2e;
+  -fx-border-color: #7f5af0;
+  -fx-border-width: 2;
+  -fx-border-radius: 3;
+  -fx-padding: 3;
+}
+
+.check-box:selected .box {
+  -fx-background-color: #7f5af0;
+  -fx-border-color: #f1f1f1;
+}
+
+.check-box:selected .mark {
+  -fx-background-color: #ffffff;
+}

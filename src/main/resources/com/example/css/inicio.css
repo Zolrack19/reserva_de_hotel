@@ -1,0 +1,120 @@
+#principal {
+  -fx-background-color: linear-gradient(from 0% 0% to 100% 120%, #2e1b59, #462e7d, #3b1f61);
+}
+
+
+.txtInicio {
+  -fx-background-color: #1f1335;
+    -fx-text-fill: #e0d7f8;
+    -fx-prompt-text-fill: #a899c9;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #6a4dbf;
+    -fx-border-width: 1.5;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 16px;
+}
+
+.textInicio:focused {
+  -fx-border-color: #9c7eff;    
+  -fx-background-color: #251946;
+}
+
+
+.btnBuscarInicio {
+  -fx-background-color: linear-gradient(to bottom, #462e7d, #2e1b59);
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-background-radius: 10;
+  -fx-border-radius: 10;
+  -fx-border-color: #6a4dbf;
+  -fx-border-width: 2;
+  -fx-padding: 8 16;
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 6, 0, 0, 3);
+}
+
+.btnBuscarInicio:hover {
+  -fx-background-color: linear-gradient(to bottom, #6a4dbf, #462e7d);
+  -fx-border-color: #9c7eff;
+}
+
+.btnBuscarInicio:pressed {
+  -fx-background-color: #251946;
+  -fx-border-color: #5f0fff;
+}
+
+
+.date-picker {
+  -fx-background-color: #1f1335;
+  -fx-text-fill: #e0d7f8;
+  -fx-font-size: 14px;
+  -fx-background-radius: 8;
+  -fx-border-radius: 8;
+  -fx-border-color: #6a4dbf;
+  -fx-border-width: 1.5;
+  -fx-padding: 6 10 6 10;
+}
+
+.date-picker > .text-field {
+  -fx-background-color: transparent;
+  -fx-text-fill: #e0d7f8;
+  -fx-prompt-text-fill: #a899c9;
+  -fx-background-insets: 0;
+  -fx-font-size: 14px;
+  -fx-padding: 4 8;
+}
+
+.date-picker:focused {
+  -fx-border-color: #9c7eff;
+  -fx-background-color: #251946;
+}
+
+.date-picker .arrow-button {
+  -fx-background-color: #462e7d;
+  -fx-border-radius: 8;
+  -fx-padding: 4;
+}
+
+.date-picker .arrow-button:hover {
+  -fx-background-color: #6a4dbf;
+}
+
+.date-picker .arrow-button:pressed {
+  -fx-background-color: #251946;
+}
+
+
+.scroll-pane {
+  -fx-background: transparent;
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-padding: 0;
+  -fx-border-width: 0;
+}
+.scroll-pane > .viewport {
+  -fx-background-color: transparent;
+}
+
+.caruselCard {
+  -fx-background-color: linear-gradient(to bottom, #2f2c3d, #1f1c2c);
+  -fx-background-radius: 12;
+  -fx-border-radius: 12;
+  -fx-border-color: #3a0ca3;
+  -fx-border-width: 1.5;
+  -fx-padding: 20;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0, 0, 2);
+  -fx-cursor: hand;
+  -fx-spacing: 10;
+}
+
+.caruselCard:hover {
+  -fx-background-color: linear-gradient(to bottom, #3a0ca3, #082245);
+  -fx-border-color: #9c7eff;
+}
+
+.caruselCard:pressed {
+  -fx-background-color: #251946;
+  -fx-border-color: #5f0fff;
+}
