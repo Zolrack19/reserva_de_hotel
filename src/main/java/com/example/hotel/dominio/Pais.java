@@ -53,4 +53,9 @@ public class Pais {
     this.maxNumLongitud = maxNumLongitud;
     this.divisa = divisa;
   }
+
+  @Override
+  public String toString() {
+    return this.nombre;
+  }
 }

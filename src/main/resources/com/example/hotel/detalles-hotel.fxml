@@ -5,33 +5,40 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@../css/inicio.css" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controlersFXML.DetallesController">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@../css/inicio.css" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.DetallesController">
    <content>
       <HBox fx:id="principal" prefHeight="720.0" prefWidth="986.0">
          <children>
             <Region maxWidth="300.0" minWidth="-Infinity" prefWidth="60.0" HBox.hgrow="ALWAYS" />
-            <VBox prefHeight="737.0" prefWidth="869.0" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="737.0" prefWidth="943.0" HBox.hgrow="ALWAYS">
                <children>
                   <Region minHeight="-Infinity" prefHeight="60.0" prefWidth="866.0" />
                   <Button fx:id="btnAtras" mnemonicParsing="false" onAction="#volver" styleClass="btnBuscarInicio" text="&lt;-  Atras" />
-                  <Label text="HOTEL SHANGAI" wrapText="true">
+                  <Label minHeight="-Infinity" prefWidth="866.0" text="HOTEL SHANGAI" wrapText="true">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
+                     <font>
+                        <Font name="System Bold" size="27.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="11.0" />
+                     </VBox.margin>
                   </Label>
-                  <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="866.0" VBox.vgrow="ALWAYS">
+                  <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="866.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox style="-fx-border-color: black;" HBox.hgrow="ALWAYS">
+                        <VBox fx:id="vboxFotosContainer" prefHeight="446.0" prefWidth="561.0" style="-fx-border-color: black;" HBox.hgrow="ALWAYS">
                            <children>
-                              <GridPane maxWidth="1.7976931348623157E308" prefHeight="248.0" VBox.vgrow="ALWAYS">
+                              <GridPane hgap="10.0" maxWidth="1.7976931348623157E308" prefHeight="337.0" prefWidth="572.0" VBox.vgrow="ALWAYS">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="308.0" />
                                     <ColumnConstraints hgrow="ALWAYS" maxWidth="270.0" minWidth="10.0" prefWidth="196.0" />
@@ -41,21 +48,27 @@
                                     <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="128.0" vgrow="ALWAYS" />
                                  </rowConstraints>
                                  <children>
-                                    <Pane style="-fx-background-color: red;" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
+                                    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.rowSpan="2" />
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1">
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
                                        <GridPane.margin>
-                                          <Insets right="6.0" />
+                                          <Insets bottom="5.0" />
                                        </GridPane.margin>
-                                    </Pane>
-                                    <Pane maxWidth="1.7976931348623157E308" prefHeight="200.0" style="-fx-background-color: red;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                                    <Pane maxWidth="1.7976931348623157E308" prefHeight="200.0" style="-fx-background-color: red;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                    </Label>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <GridPane.margin>
-                                          <Insets bottom="6.0" />
+                                          <Insets top="5.0" />
                                        </GridPane.margin>
-                                    </Pane>
+                                    </Label>
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="6.0" />
                                  </VBox.margin>
+                                 <effect>
+                                    <Blend />
+                                 </effect>
                               </GridPane>
                               <GridPane maxWidth="1.7976931348623157E308" prefHeight="108.0" VBox.vgrow="ALWAYS">
                                  <columnConstraints>
@@ -68,33 +81,46 @@
                                     <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
                                  </rowConstraints>
                                  <children>
-                                    <Pane maxWidth="1.7976931348623157E308" prefHeight="200.0" style="-fx-background-color: red;" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector">
                                        <GridPane.margin>
-                                          <Insets right="3.0" />
+                                          <Insets right="10.0" />
                                        </GridPane.margin>
-                                    </Pane>
-                                    <Pane maxWidth="1.7976931348623157E308" prefHeight="200.0" style="-fx-background-color: red;" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                    </Label>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="2">
                                        <GridPane.margin>
-                                          <Insets right="6.0" />
+                                          <Insets right="5.0" />
                                        </GridPane.margin>
-                                    </Pane>
-                                    <Pane maxWidth="1.7976931348623157E308" prefHeight="200.0" style="-fx-background-color: red;" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                    </Label>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="1">
                                        <GridPane.margin>
-                                          <Insets right="6.0" />
+                                          <Insets right="10.0" />
                                        </GridPane.margin>
-                                    </Pane>
-                                    <Pane maxWidth="1.7976931348623157E308" prefHeight="200.0" style="-fx-background-color: red;" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                    </Label>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="3">
                                        <GridPane.margin>
-                                          <Insets left="3.0" />
+                                          <Insets left="5.0" />
                                        </GridPane.margin>
-                                    </Pane>
+                                    </Label>
                                  </children>
                               </GridPane>
                            </children>
                         </VBox>
-                        <Region maxWidth="70.0" minWidth="-Infinity" prefHeight="305.0" prefWidth="1.0" HBox.hgrow="ALWAYS" />
-                        <VBox maxWidth="360.0" prefWidth="323.0" styleClass="caruselCard" HBox.hgrow="ALWAYS" />
+                        <Region maxWidth="70.0" minWidth="-Infinity" prefHeight="493.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                        <VBox alignment="TOP_CENTER" maxWidth="360.0" prefHeight="493.0" prefWidth="294.0" styleClass="caruselCard" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="COMENTARIOS">
+                                 <VBox.margin>
+                                    <Insets top="14.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children></VBox>
                      </children>
+                     <VBox.margin>
+                        <Insets top="11.0" />
+                     </VBox.margin>
                   </HBox>
                   <Label minHeight="-Infinity" prefHeight="150.0" text="lroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof a" wrapText="true">
                      <padding>
@@ -103,11 +129,17 @@
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="17.0" />
+                     </font>
                   </Label>
-                  <Label text="Leer mas">
+                  <Label style="-fx-text-fill: aqua;" text="Leer mas" underline="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
                   </Label>
                </children>
             </VBox>

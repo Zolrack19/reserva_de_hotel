@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="titulo" alignment="CENTER" maxWidth="700.0" minWidth="480.0" prefHeight="821.0" prefWidth="531.0" spacing="10.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controlersFXML.CrearCuentaContr">
+<VBox id="titulo" alignment="CENTER" maxWidth="700.0" minWidth="480.0" prefHeight="821.0" prefWidth="531.0" spacing="10.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.CrearCuentaContr">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="519.0" minWidth="220.0" prefHeight="514.0" prefWidth="460.0">
          <children>

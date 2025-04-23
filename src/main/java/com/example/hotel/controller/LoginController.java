@@ -1,4 +1,4 @@
-package com.example.hotel.controlersFXML;
+package com.example.hotel.controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -100,10 +100,10 @@ public class LoginController implements Initializable {
     if (App.inicioRoot == null) {
       App.inicioRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/inicio.fxml"));
     }
-    App.scene.setRoot(App.inicioRoot);
+    App.navegar(App.inicioRoot);
     App.primaryStage.setMaximized(true);
-    App.inicioRoot = null;
     App.crearCuentaRoot = null;
+    App.loginRoot = null;
   }
   
 

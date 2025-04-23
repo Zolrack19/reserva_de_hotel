@@ -1,17 +1,13 @@
-package com.example.hotel.controlersFXML;
+package com.example.hotel.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import org.hibernate.Session;
 
 import com.example.hotel.App;
-import com.example.hotel.HibernateUtil;
 import com.example.hotel.dominio.Pais;
 
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,36 +20,15 @@ public class CrearCuentaContr implements Initializable {
   private Label lblCambiarLogin;
 
   @FXML
-  private ComboBox<String> cbxPais;
+  private ComboBox<Pais> cbxPais;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    Task<List<Pais>> task = new Task<>() {
-      @Override
-      protected List<Pais> call() throws Exception {
-        Session sesion = HibernateUtil.getSession().openSession();
-        List<Pais> paises = sesion.createQuery("from Pais", Pais.class)
-          .list();
-        
-        sesion.close();
-        return paises;
-      }
-    };
-    task.setOnSucceeded(e -> {
-      List<Pais> paises = task.getValue();
-      for (int i = 0; i < paises.size(); i++) {
-        cbxPais.getItems().add(paises.get(i).getNombre());
-      }
-    });
-    new Thread(task).start();
-
-
 
     lblCambiarLogin.setOnKeyPressed(event -> {
       switch (event.getCode()) {
         case ENTER, SPACE -> cambiarALogin();
-        default -> {
-        }
+        default -> {}
       }
     });
   }
@@ -63,9 +38,9 @@ public class CrearCuentaContr implements Initializable {
     if (App.inicioRoot == null) {
       App.inicioRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/inicio.fxml"));
     }
-    App.scene.setRoot(App.inicioRoot);
+    App.navegar(App.inicioRoot);
     App.primaryStage.setMaximized(true);
-    App.inicioRoot = null;
+    App.loginRoot = null;
     App.crearCuentaRoot = null;
   }
 

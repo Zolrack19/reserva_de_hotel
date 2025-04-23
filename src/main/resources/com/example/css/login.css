@@ -25,9 +25,9 @@
 .txtGenerico {
   -fx-background-color: transparent;
   -fx-text-fill: #c77dff;
-  -fx-prompt-text-fill: #7a5fa3; /* texto fantasma */
+  -fx-prompt-text-fill: #7a5fa3; 
   -fx-border-color: #c77dff;
-  -fx-border-width: 0 0 2 0; /* solo borde abajo */
+  -fx-border-width: 0 0 2 0; 
   -fx-border-radius: 0;
 }
 

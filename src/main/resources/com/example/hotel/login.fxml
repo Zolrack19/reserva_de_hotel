@@ -15,7 +15,7 @@
 <VBox id="titulo" fx:id="conte" alignment="CENTER" maxWidth="700.0" minWidth="480.0"
    prefHeight="500" prefWidth="500" spacing="10.0" stylesheets="@../css/login.css"
    xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="com.example.hotel.controlersFXML.LoginController">
+   fx:controller="com.example.hotel.controller.LoginController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="240.0" minWidth="220.0" prefHeight="223.0"
          prefWidth="460.0">
