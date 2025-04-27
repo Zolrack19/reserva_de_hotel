@@ -26,7 +26,6 @@ public class Cuarto {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-
   @OneToMany(mappedBy = "cuarto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
   private List<Reserva> reservas;
 

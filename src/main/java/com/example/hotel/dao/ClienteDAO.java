@@ -1,0 +1,74 @@
+package com.example.hotel.dao;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.example.hotel.HibernateUtil;
+import com.example.hotel.dominio.Cliente;
+
+public class ClienteDAO {
+  
+    public void crearCliente(Cliente cliente) {
+    Session session = HibernateUtil.getSession().openSession();
+    Transaction tr = session.beginTransaction();
+
+    session.save(cliente);
+
+    tr.commit();
+    session.close();
+  }
+
+  public Cliente getById(int id, boolean init) {
+    Session session = HibernateUtil.getSession().openSession();
+    Cliente cliente = session.get(Cliente.class, id);
+    if (init) {
+      cliente.getPais();
+    } 
+    session.close();
+    return cliente;
+  }
+
+  public List<Cliente> getClientesRango(int inicio, int fin) {
+    Session session = HibernateUtil.getSession().openSession();
+    List<Cliente> Clientes = session.createQuery("from Cliente c order by c.id", Cliente.class)
+    .setFirstResult(inicio)
+    .setMaxResults(fin)
+    .list();
+    session.close();
+    return Clientes;
+  }
+
+  public List<Cliente> getClientesPorPais(int idPais, int inicio, int fin) {
+    Session session = HibernateUtil.getSession().openSession();
+    List<Cliente> Clientes = session.createQuery("from Cliente c where c.pais.id = :id order by c.id", Cliente.class)
+    .setParameter("id", idPais)
+    .setFirstResult(inicio)
+    .setMaxResults(fin)
+    .list();
+    session.close();
+    return Clientes;
+  }
+
+  public void actualizarCliente(Cliente cliente) {
+    Session session = HibernateUtil.getSession().openSession();
+    Transaction tr = session.beginTransaction();
+    
+    session.update(cliente);
+    
+    tr.commit();
+    session.close();
+  }
+
+  public void eliminarCliente(Cliente cliente) {
+    Session session = HibernateUtil.getSession().openSession();
+    Transaction tr = session.beginTransaction();
+    
+    session.delete(cliente);
+
+    tr.commit();
+    session.close();
+  }
+
+}

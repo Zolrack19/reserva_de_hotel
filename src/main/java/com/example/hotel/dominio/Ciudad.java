@@ -32,8 +32,8 @@ public class Ciudad {
   @JoinColumn(name = "pais_id")
   private Pais pais;
 
-  @OneToMany(mappedBy = "ciudad", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-  private List<Cliente> clientes;
+  // @OneToMany(mappedBy = "ciudad", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+  // private List<Cliente> clientes;
 
   @Column(length = 200, nullable = false)
   private String nombre;

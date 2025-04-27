@@ -22,14 +22,17 @@ import lombok.Setter;
 @Setter
 public class Cliente {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "ciudad_id")
-	private Ciudad ciudad;
+	@ManyToOne()
+	@JoinColumn(name = "pais_id")
+	private Pais pais;
+
+	// @ManyToOne
+	// @JoinColumn(name = "ciudad_id")
+	// private Ciudad ciudad;
 
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Comentario> comentarios;
@@ -58,9 +61,9 @@ public class Cliente {
 
 
 	public Cliente() {}
-	public Cliente(Ciudad ciudad, String email, String contrasena,
+	public Cliente(Pais pais, String email, String contrasena,
 	String nombre, String apellido, BigDecimal saldo, String telefono) {
-		this.ciudad = ciudad;
+		this.pais = pais;
 		this.email = email;
 		this.contrasena = contrasena;
 		this.nombre = nombre;

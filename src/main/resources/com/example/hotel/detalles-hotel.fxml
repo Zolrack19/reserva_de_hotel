@@ -106,17 +106,27 @@
                            </children>
                         </VBox>
                         <Region maxWidth="70.0" minWidth="-Infinity" prefHeight="493.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-                        <VBox alignment="TOP_CENTER" maxWidth="360.0" prefHeight="493.0" prefWidth="294.0" styleClass="caruselCard" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="COMENTARIOS">
-                                 <VBox.margin>
-                                    <Insets top="14.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                           </children></VBox>
+                        <ScrollPane HBox.hgrow="ALWAYS">
+                           <content>
+                              <VBox fx:id="vboxComentarios" alignment="TOP_CENTER" maxWidth="360.0" prefHeight="493.0" prefWidth="294.0" styleClass="caruselCard">
+                                 <children>
+                                    <Label text="COMENTARIOS">
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" top="14.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <HBox prefHeight="61.0" prefWidth="290.0">
+                                       <children>
+                                          <Label text="Label" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
                      </children>
                      <VBox.margin>
                         <Insets top="11.0" />

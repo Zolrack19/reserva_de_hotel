@@ -126,6 +126,17 @@
   -fx-padding: 16;
   -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0.2, 0, 3);
 }
+
+.resultadoCard:hover {
+  -fx-background-color: linear-gradient(from 15% 20% to 100% 100%, #430755, #462e7d, #a961b318);
+  -fx-border-color: #9c7eff;
+}
+
+.resultadoCard:pressed {
+  -fx-background-color: #251946;
+  -fx-border-color: #5f0fff;
+}
+
 .lblDescripcion {
   -fx-text-fill: rgb(237, 216, 255);
 }

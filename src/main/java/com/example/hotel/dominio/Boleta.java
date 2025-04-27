@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
@@ -34,7 +33,6 @@ public class Boleta implements Serializable {
   @Column(length = 25)
   private String codigo;
   
-  @ManyToOne
   @JoinColumn(name = "medio_pago_id")
   private MedioPago medioPago;
   

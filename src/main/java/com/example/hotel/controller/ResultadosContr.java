@@ -24,7 +24,6 @@ public class ResultadosContr implements Initializable {
   @FXML
   private void volverInicio() throws IOException {
     App.navegar(App.inicioRoot);
-    App.scene.setRoot(App.inicioRoot);
   }
 
   @FXML
@@ -38,13 +37,13 @@ public class ResultadosContr implements Initializable {
         Parent card = loader.load();
         TarjetaResultadoContr contr = loader.getController();
         contr.setData("Esto es un título",
-            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n" +
-            "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
-            "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
-            "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
-            "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
-            "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
-            "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.");
+          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n" +
+          "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
+          "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
+          "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
+          "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
+          "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.quam.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Qui modi nobis laudantium voluptatum ullam adipisci, autem\n"+
+          "aliquid ad porro natus magnam repellendus impedit ab dolor? Illo, incidunt ea. Quia, quam.");
         vboxResultados.getChildren().add(card);
       }
     } catch (Exception e) {

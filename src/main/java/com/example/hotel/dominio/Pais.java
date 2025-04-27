@@ -21,10 +21,12 @@ import lombok.Setter;
 @Setter
 public class Pais {
 
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private short id;
+
+  @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private List<Cliente> clientes;
 
   @Column(length = 150, nullable = false)
   private String nombre;
@@ -39,7 +41,7 @@ public class Pais {
   private short maxNumLongitud;
 
   @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-  private List<Ciudad> ciudads;
+  private List<Ciudad> ciudades;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "divisa_id")
