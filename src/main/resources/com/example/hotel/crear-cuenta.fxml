@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="titulo" alignment="CENTER" maxWidth="700.0" minWidth="480.0" prefHeight="821.0" prefWidth="531.0" spacing="10.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.CrearCuentaContr">
+<VBox id="titulo" fx:id="raiz" alignment="CENTER" maxWidth="700.0" minWidth="480.0" prefHeight="821.0" prefWidth="531.0" spacing="10.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.CrearCuentaContr">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="519.0" minWidth="220.0" prefHeight="514.0" prefWidth="460.0">
          <children>
@@ -47,7 +47,7 @@
                   </Label>
                </children>
             </Pane>
-            <TextField alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="Bohn Jacopinni" styleClass="txtGenerico">
+            <TextField fx:id="txtNombre" alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" promptText="Bohn Jacopinni" styleClass="txtGenerico">
                <padding>
                   <Insets left="7.0" right="7.0" top="6.0" />
                </padding>
@@ -58,6 +58,11 @@
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
             </TextField>
+            <Label fx:id="lblNombre" alignment="CENTER_RIGHT" maxWidth="360.0" minWidth="300.0" style="-fx-text-fill: #c77dff;" text="0/150">
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
             <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
                <children>
                   <Label layoutX="1.0" layoutY="6.0" text="Apellidos" textFill="WHITE">
@@ -70,7 +75,7 @@
                   <Insets left="70.0" right="70.0" top="20.0" />
                </VBox.margin>
             </Pane>
-            <TextField alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="Barrientos Linares" styleClass="txtGenerico">
+            <TextField fx:id="txtApellido" alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="Barrientos Linares" styleClass="txtGenerico">
                <padding>
                   <Insets left="7.0" right="7.0" top="6.0" />
                </padding>
@@ -81,6 +86,11 @@
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
             </TextField>
+            <Label fx:id="lblApellido" alignment="CENTER_RIGHT" maxWidth="360.0" minWidth="300.0" style="-fx-text-fill: #c77dff;" text="0/150">
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
             <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
                <children>
                   <Label layoutX="1.0" layoutY="6.0" text="Pais" textFill="WHITE">
@@ -106,7 +116,7 @@
                   <Insets left="70.0" right="70.0" top="20.0" />
                </VBox.margin>
             </Pane>
-            <TextField alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="miemail@.com" styleClass="txtGenerico">
+            <TextField fx:id="txtEmail" alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="miemail@.com" styleClass="txtGenerico">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
@@ -117,6 +127,11 @@
                   <Font size="16.0" />
                </font>
             </TextField>
+            <Label fx:id="lblEmail" alignment="CENTER_RIGHT" maxWidth="360.0" minWidth="300.0" style="-fx-text-fill: #c77dff;" text="0/200">
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
             <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
                <children>
                   <Label layoutX="1.0" layoutY="6.0" text="Contraseña" textFill="WHITE">
@@ -129,11 +144,16 @@
                   <Insets left="70.0" right="70.0" top="20.0" />
                </VBox.margin>
             </Pane>
-            <PasswordField maxHeight="29.0" maxWidth="360.0" minHeight="27.0" minWidth="300.0" promptText="*******" styleClass="txtGenerico">
+            <PasswordField fx:id="txtContrasena" maxHeight="29.0" maxWidth="360.0" minHeight="27.0" minWidth="300.0" promptText="*******" styleClass="txtGenerico">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
             </PasswordField>
+            <Label fx:id="lblContrasena" alignment="CENTER_RIGHT" maxWidth="360.0" minWidth="300.0" style="-fx-text-fill: #c77dff;" text="0/50">
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </Label>
             <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" top="20.0" />
@@ -142,7 +162,7 @@
                   <Insets left="111.0" />
                </padding>
                <children>
-                  <CheckBox mnemonicParsing="false" styleClass="check-box" text="Acepto terminos de condiciones y servicios" textFill="WHITE">
+                  <CheckBox fx:id="chxTerminos" mnemonicParsing="false" styleClass="check-box" text="Acepto terminos de condiciones y servicios" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

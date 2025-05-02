@@ -7,6 +7,10 @@
     );
 }
 
+.espera {
+  -fx-opacity: 0.5;
+}
+
 .mio {
   -fx-background-color: rgb(3, 0, 0);
   -fx-background-radius: 20px 20px;
@@ -34,6 +38,10 @@
 .txtGenerico:hover {
   -fx-border-color: #ff9dff;
   -fx-border-width: 0 0 2 0;
+}
+
+.txtInvalido {
+  -fx-border-color: red;
 }
 
 .pnlLog {
@@ -97,6 +105,10 @@
 .check-box {
   -fx-text-fill: #f1f1f1;
   -fx-font-size: 13px;
+}
+
+.check-box:focused {
+  -fx-border-color: #7f5af0;
 }
 
 .check-box .box {

@@ -1,5 +1,11 @@
 package com.example.hotel;
 
+import java.io.IOException;
+import java.util.Stack;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,12 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Stack;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 
 public class App extends Application {
 
@@ -38,22 +38,26 @@ public class App extends Application {
     scene = new Scene(loginRoot);
     scene.setOnKeyPressed(event -> {
       if (event.isAltDown() && event.getCode() == KeyCode.LEFT) {
-        if (puntero - 1 <= -1) return;
+        if (puntero - 1 <= -1)
+          return;
         scene.setRoot(stackNavegacion.get(--puntero));
       }
       if (event.isAltDown() && event.getCode() == KeyCode.RIGHT) {
-        if (puntero + 1 >= stackNavegacion.size()) return;
+        if (puntero + 1 >= stackNavegacion.size())
+          return;
         scene.setRoot(stackNavegacion.get(++puntero));
       }
     });
     scene.setOnMouseClicked(e -> {
       switch (e.getButton()) {
         case MouseButton.BACK -> {
-          if (puntero - 1 <= -1) return;
+          if (puntero - 1 <= -1)
+            return;
           scene.setRoot(stackNavegacion.get(--puntero));
         }
         case MouseButton.FORWARD -> {
-          if (puntero + 1 >= stackNavegacion.size()) return;
+          if (puntero + 1 >= stackNavegacion.size())
+            return;
           scene.setRoot(stackNavegacion.get(++puntero));
         }
         default -> {
@@ -89,7 +93,14 @@ public class App extends Application {
   }
 
   public static void main(String[] args) {
-    launch();
+    HibernateUtil.getSession();
+    launch(); 
+
+    // MensajeEmail m = new MensajeEmail();
+    // m.mandarMensaje();
+
+    //TODO: cambiar la ruta de las imagenes de hoteles
+    // ufrd izhp wiym bggz
   }
 
 }

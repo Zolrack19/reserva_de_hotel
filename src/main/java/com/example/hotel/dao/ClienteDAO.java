@@ -30,6 +30,17 @@ public class ClienteDAO {
     return cliente;
   }
 
+  public Cliente getByEmailContrasena(String email, String contrasena) {
+    Session session = HibernateUtil.getSession().openSession();
+    Cliente cliente = session.createQuery("from Cliente c where c.email = :email and c.contrasena = :contrasena", Cliente.class)
+    .setParameter("email", email)
+    .setParameter("contrasena", contrasena)
+    .uniqueResult();
+    session.close();
+    return cliente;
+  }
+
+
   public List<Cliente> getClientesRango(int inicio, int fin) {
     Session session = HibernateUtil.getSession().openSession();
     List<Cliente> Clientes = session.createQuery("from Cliente c order by c.id", Cliente.class)

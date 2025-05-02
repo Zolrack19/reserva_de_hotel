@@ -12,16 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="titulo" fx:id="conte" alignment="CENTER" maxWidth="700.0" minWidth="480.0"
-   prefHeight="500" prefWidth="500" spacing="10.0" stylesheets="@../css/login.css"
-   xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="com.example.hotel.controller.LoginController">
+<VBox id="titulo" fx:id="conte" alignment="CENTER" maxWidth="700.0" minWidth="480.0" prefHeight="500" prefWidth="500" spacing="10.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.LoginController">
    <children>
-      <VBox alignment="TOP_CENTER" maxHeight="240.0" minWidth="220.0" prefHeight="223.0"
-         prefWidth="460.0">
+      <VBox alignment="TOP_CENTER" maxHeight="240.0" minWidth="220.0" prefHeight="223.0" prefWidth="460.0">
          <children>
-            <HBox alignment="TOP_CENTER" maxHeight="49.0" maxWidth="321.0" minHeight="47.0"
-               minWidth="319.0" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="TOP_CENTER" maxHeight="49.0" maxWidth="321.0" minHeight="47.0" minWidth="319.0" prefHeight="100.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
@@ -31,9 +26,7 @@
                         <Font name="System Bold" size="19.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCrearCuenta" focusTraversable="true" styleClass="lbl-anchor"
-                     onMouseClicked="#cambiarACrearCuenta" contentDisplay="RIGHT"
-                     text="crea una cuenta">
+                  <Label fx:id="lblCrearCuenta" contentDisplay="RIGHT" focusTraversable="true" onMouseClicked="#cambiarACrearCuenta" styleClass="lbl-anchor" text="crea una cuenta">
                      <font>
                         <Font name="System Bold" size="19.0" />
                      </font>
@@ -43,8 +36,7 @@
                   </Label>
                </children>
             </HBox>
-            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0"
-               prefHeight="32.0" prefWidth="320.0">
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" top="25.0" />
                </VBox.margin>
@@ -56,9 +48,7 @@
                   </Label>
                </children>
             </Pane>
-            <TextField alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0"
-               minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="miemail@.com"
-               styleClass="txtGenerico">
+            <TextField fx:id="txtEmail" alignment="TOP_LEFT" maxHeight="38.0" maxWidth="360.0" minHeight="36.0" minWidth="300.0" prefHeight="37.0" prefWidth="60.0" promptText="miemail@.com" styleClass="txtGenerico">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
@@ -69,8 +59,7 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0"
-               prefHeight="32.0" prefWidth="320.0">
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
                <children>
                   <Label layoutX="1.0" layoutY="6.0" text="Contraseña" textFill="WHITE">
                      <font>
@@ -82,19 +71,29 @@
                   <Insets left="70.0" right="70.0" top="20.0" />
                </VBox.margin>
             </Pane>
-            <PasswordField maxHeight="29.0" maxWidth="360.0" minHeight="27.0" minWidth="300.0"
-               promptText="*******" styleClass="txtGenerico">
+            <PasswordField fx:id="txtContrasena" maxHeight="29.0" maxWidth="360.0" minHeight="27.0" minWidth="300.0" promptText="*******" styleClass="txtGenerico">
                <VBox.margin>
                   <Insets left="70.0" right="70.0" />
                </VBox.margin>
             </PasswordField>
+            <Pane maxHeight="33.0" maxWidth="360.0" minHeight="31.0" minWidth="300.0" prefHeight="32.0" prefWidth="320.0">
+               <children>
+                  <Label fx:id="lblWarning" layoutX="1.0" layoutY="6.0" textFill="#bc0000">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="70.0" right="70.0" />
+               </VBox.margin>
+            </Pane>
          </children>
          <padding>
             <Insets top="5.0" />
          </padding>
       </VBox>
-      <Button fx:id="primaryButton" onAction="#cambiarInicio" prefHeight="32.0"
-         prefWidth="159.0" styleClass="mio" text="Iniciar sesión">
+      <Button fx:id="primaryButton" onAction="#iniciarSesion" prefHeight="32.0" prefWidth="159.0" styleClass="mio" text="Iniciar sesión">
          <padding>
             <Insets top="3.0" />
          </padding>
@@ -102,8 +101,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <VBox alignment="TOP_CENTER" maxHeight="200.0" minHeight="169.0" minWidth="160.0"
-         prefHeight="170.0" prefWidth="460.0">
+      <VBox alignment="TOP_CENTER" maxHeight="200.0" minHeight="169.0" minWidth="160.0" prefHeight="170.0" prefWidth="460.0">
          <children>
             <Label text="O iniciar sesión con" textFill="WHITE">
                <font>
@@ -115,8 +113,7 @@
                   <Insets left="70.0" right="70.0" top="30.0" />
                </VBox.margin>
                <children>
-                  <Pane focusTraversable="true" minWidth="101.0" prefHeight="100.0"
-                     prefWidth="102.0">
+                  <Pane focusTraversable="true" minWidth="101.0" prefHeight="100.0" prefWidth="102.0">
                      <HBox.margin>
                         <Insets right="40.0" />
                      </HBox.margin>
@@ -128,8 +125,7 @@
                         <String fx:value="p1" />
                      </styleClass>
                   </Pane>
-                  <Pane focusTraversable="true" minWidth="101.0" prefHeight="100.0"
-                     prefWidth="102.0">
+                  <Pane focusTraversable="true" minWidth="101.0" prefHeight="100.0" prefWidth="102.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

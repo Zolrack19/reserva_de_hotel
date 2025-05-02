@@ -30,8 +30,8 @@ public class HibernateUtil {
       conf.addAnnotatedClass(Hotel.class);
       conf.addAnnotatedClass(Cuarto.class);
       conf.addAnnotatedClass(Divisa.class);
-      conf.addAnnotatedClass(Boleta.class);
       conf.addAnnotatedClass(MedioPago.class);
+      conf.addAnnotatedClass(Boleta.class);
       conf.addAnnotatedClass(Pais.class);
       conf.addAnnotatedClass(Ciudad.class);
       conf.addAnnotatedClass(Comentario.class);
