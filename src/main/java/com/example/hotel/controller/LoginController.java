@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.example.hotel.App;
-import com.example.hotel.service.CrearCuentaServicio;
 import com.example.hotel.service.LoginServicio;
 
 import javafx.animation.KeyFrame;

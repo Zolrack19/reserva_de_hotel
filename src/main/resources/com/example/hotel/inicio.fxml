@@ -14,6 +14,7 @@
 <VBox fx:id="principal" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="980.0" stylesheets="@../css/inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.InicioController">
 	<children>
 		<Region minHeight="60.0" prefHeight="60.0" prefWidth="980.0" />
+      <Button fx:id="btnInfoCuenta" mnemonicParsing="false" onAction="#irACuenta" prefHeight="40.0" prefWidth="122.0" styleClass="btnBuscarInicio" text="Mi usuario" />
 		<HBox prefHeight="612.0" prefWidth="980.0">
 			<children>
 				<Region maxWidth="250.0" minWidth="60.0" prefHeight="612.0" prefWidth="70.0" HBox.hgrow="ALWAYS" />

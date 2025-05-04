@@ -1,0 +1,84 @@
+#principal {
+  /* -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #2e1b59, #304072, #462e7d); */
+  -fx-background-color: linear-gradient(from 0% 0% to 100% 120%, #190055, #6c3b99, rgb(30, 1, 73));
+}
+
+.boxDetalles {
+  /* -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 10, 0.5, 0, 2); */
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 2, 0.5, 0, 2);
+  -fx-border-radius: 10;
+  -fx-border-color: white;
+  -fx-border-width: 2; 
+  -fx-background-insets: 0, 1;
+}
+
+#btnEliminarCuenta {
+  -fx-background-color: red;
+}
+
+#btnEliminarCuenta:focused {
+  -fx-background-color: rgb(189, 0, 0);
+}
+
+#btnEliminarCuenta:hover {
+  -fx-background-color: rgb(189, 0, 0);
+}
+
+#btnEliminarCuenta:pressed {
+  -fx-background-color: rgb(109, 45, 28);
+}
+
+#btnGuardar {
+  -fx-background-color: rgba(30, 255, 0, 0.664);
+  -fx-background-radius: 8;
+  -fx-border-radius: 8;
+  -fx-border-color: rgb(179, 37, 179);
+}
+
+#btnGuardar:focused {
+  -fx-background-color: rgb(81, 212, 41);
+}
+
+#btnGuardar:hover {
+  -fx-background-color: rgb(81, 212, 41);
+}
+
+#btnGuardar:pressed {
+  -fx-background-color: rgb(160, 255, 131);
+}
+
+.combo-box {
+  -fx-background-color: #1a1a2e;
+  -fx-border-color: #7f5af0;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-text-fill: #f1f1f1;
+  -fx-padding: 5 10 5 10;
+  -fx-font-size: 13px;
+}
+
+.combo-box:focused {
+  -fx-border-color: magenta;
+}
+
+.combo-box .list-cell {
+  -fx-background-color: #1a1a2e;
+  -fx-text-fill: #ffffff;
+}
+
+.combo-box .list-cell:hover {
+  -fx-background-color: #7f5af0;
+  -fx-text-fill: #000000;
+}
+
+.lblEditar {
+  -fx-text-fill: rgb(49, 224, 255);
+}
+
+.lblEditar:focused {
+  -fx-text-fill: rgb(255, 59, 190);
+}
+
+.lblEditar:pressed {
+  -fx-text-fill: rgb(27, 97, 247);
+}

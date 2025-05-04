@@ -22,6 +22,7 @@ public class App extends Application {
   public static Scene scene;
   public static Parent loginRoot;
   public static Parent crearCuentaRoot;
+  public static Parent clienteInfo;
   public static Parent inicioRoot;
   public static Parent resultadosRoot;
   public static Parent detallesRoot;
@@ -41,27 +42,21 @@ public class App extends Application {
         if (puntero - 1 <= -1)
           return;
         scene.setRoot(stackNavegacion.get(--puntero));
-      }
-      if (event.isAltDown() && event.getCode() == KeyCode.RIGHT) {
+      } else if (event.isAltDown() && event.getCode() == KeyCode.RIGHT) {
         if (puntero + 1 >= stackNavegacion.size())
           return;
         scene.setRoot(stackNavegacion.get(++puntero));
       }
     });
     scene.setOnMouseClicked(e -> {
-      switch (e.getButton()) {
-        case MouseButton.BACK -> {
-          if (puntero - 1 <= -1)
-            return;
-          scene.setRoot(stackNavegacion.get(--puntero));
-        }
-        case MouseButton.FORWARD -> {
-          if (puntero + 1 >= stackNavegacion.size())
-            return;
-          scene.setRoot(stackNavegacion.get(++puntero));
-        }
-        default -> {
-        }
+      if (e.getButton() == MouseButton.BACK) {
+        if (puntero - 1 <= -1)
+          return;
+        scene.setRoot(stackNavegacion.get(--puntero));
+      } else if (e.getButton() == MouseButton.FORWARD) {
+        if (puntero + 1 >= stackNavegacion.size())
+          return;
+        scene.setRoot(stackNavegacion.get(++puntero));
       }
     });
     primaryStage = stage;
@@ -73,16 +68,19 @@ public class App extends Application {
 
   public static void navegar(Parent root) {
     if (stackNavegacion.size() >= size) {
+      stackNavegacion.removeFirst();
       if (puntero + 1 == stackNavegacion.size()) {
-        stackNavegacion.removeFirst();
+        // stackNavegacion.removeFirst();
         puntero--;
       }
     }
-    puntero++;
-    stackNavegacion.add(root);
+    // puntero++;
+    // stackNavegacion.add(root);
     while (stackNavegacion.size() - 1 != puntero) {
       stackNavegacion.removeLast();
     }
+    puntero++;
+    stackNavegacion.add(root);
     App.scene.setRoot(root);
   }
 

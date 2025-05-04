@@ -193,4 +193,12 @@ public class InicioController implements Initializable {
     }
     App.navegar(App.resultadosRoot);
   }
+  
+  @FXML
+  private void irACuenta() throws IOException {
+    if (App.clienteInfo == null) {
+      App.clienteInfo = FXMLLoader.load(getClass().getResource("/com/example/hotel/cliente-info.fxml"));
+    }
+    App.navegar(App.clienteInfo);
+  }
 }
