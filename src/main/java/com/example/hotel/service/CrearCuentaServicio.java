@@ -10,6 +10,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.example.hotel.dao.ClienteDAO;
 import com.example.hotel.dao.PaisDAO;
 import com.example.hotel.dominio.Cliente;
@@ -69,7 +71,7 @@ public class CrearCuentaServicio {
   private void generarCodigo() {
     texto = "";
     for (int i = 0; i < 6; i++) {
-      texto += (byte) Math.floor(Math.random()* 10);
+      texto += (byte) Math.floor(Math.random() * 10);
     }
   }
 
@@ -78,9 +80,13 @@ public class CrearCuentaServicio {
     cliente.setNombre(nombre);
     cliente.setApellido(apellido);
     cliente.setEmail(email);
-    cliente.setContrasena(contrasena);
+    cliente.setContrasena(BCrypt.hashpw(contrasena, BCrypt.gensalt()));
     cliente.setPais(pais);
     clienteDAO.crearCliente(cliente);
+  }
+
+  public boolean emailRepetido(String email) {
+    return clienteDAO.existeByEmail(email);
   }
 
   public List<Pais> getPaises() {

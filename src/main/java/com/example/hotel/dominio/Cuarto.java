@@ -41,7 +41,7 @@ public class Cuarto {
   private String imagenUrl;
 
   @Column(length = 25)
-  private String numero;
+  private String numero; //número habitación
 
   @Column(name = "suma_votos")
   private int sumaVotos;
@@ -49,7 +49,7 @@ public class Cuarto {
   @Column(name = "cantidad_votos")
   private int cantidadVotos;
 
-  @Column(length = 1500)
+  @Column(length = 3000, nullable = false) //cambiar a 3000
   private String descripcion;
   
   @Column(precision = 10, scale = 2, name = "precio_por_noche")

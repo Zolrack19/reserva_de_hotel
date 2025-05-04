@@ -53,6 +53,8 @@ public class CrearCuentaContr implements Initializable {
   
   @FXML
   private Label lblEmail;
+  @FXML
+  private Label lblEmailWarning;
   
   @FXML
   private Label lblContrasena;
@@ -79,6 +81,8 @@ public class CrearCuentaContr implements Initializable {
     lblApellido.setText("0/150");
     lblEmail.setText("0/200");
     lblContrasena.setText("0/50");
+    lblEmailWarning.setVisible(false);
+    lblEmailWarning.setManaged(false);
 
     StringBuilder nombre = new StringBuilder(7);
     StringBuilder apellido = new StringBuilder(7);
@@ -136,7 +140,6 @@ public class CrearCuentaContr implements Initializable {
 
   @FXML
   public void crearCuenta() throws IOException {
-    borar();
     if (cbxPais.getValue() == null) return;
     if (!chxTerminos.isSelected()) {
       chxTerminos.requestFocus();
@@ -175,7 +178,7 @@ public class CrearCuentaContr implements Initializable {
       txtEmail.getStyleClass().removeLast();
     }
 
-    if (contra.isEmpty()) {
+    if (contra.isEmpty() || contra.length() < 8) {
       cortar = true;
       if (!txtContrasena.getStyleClass().contains("txtInvalido")) {
         txtContrasena.getStyleClass().add("txtInvalido");
@@ -184,7 +187,11 @@ public class CrearCuentaContr implements Initializable {
       txtContrasena.getStyleClass().removeLast();
     }
 
-    if (cortar) return;
+    if (cortar || crearCuentaServicio.emailRepetido(email)) {
+      lblEmailWarning.setVisible(true);
+      lblEmailWarning.setManaged(true);
+      return;
+    }
     raiz.getStyleClass().add("espera");
 
     if (secondaryStage == null) {
@@ -217,8 +224,6 @@ public class CrearCuentaContr implements Initializable {
     App.primaryStage.sizeToScene();
   }
 
-  public void borar() {
-  }
 
   public void crearCliente() throws IOException {
     crearCuentaServicio.crearCliente(cbxPais.getValue(), nombre, apellido, email, contra);

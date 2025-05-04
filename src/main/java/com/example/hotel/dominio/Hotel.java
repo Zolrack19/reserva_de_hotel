@@ -48,10 +48,10 @@ public class Hotel {
   @Column(name = "cantidad_votos")
   private int cantidadVotos;
 
-  @Column(length = 150)
+  @Column(length = 150, nullable =  false)
   private String nombre;
 
-  @Column(length = 1500)
+  @Column(length = 3000, nullable = false)
   private String descripcion;
 
   public Hotel() {} 

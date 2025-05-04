@@ -30,14 +30,23 @@ public class ClienteDAO {
     return cliente;
   }
 
-  public Cliente getByEmailContrasena(String email, String contrasena) {
+  public Cliente getByEmail(String email) {
     Session session = HibernateUtil.getSession().openSession();
-    Cliente cliente = session.createQuery("from Cliente c where c.email = :email and c.contrasena = :contrasena", Cliente.class)
+    Cliente cliente = session.createQuery("from Cliente c where c.email = :email", Cliente.class)
     .setParameter("email", email)
-    .setParameter("contrasena", contrasena)
     .uniqueResult();
     session.close();
     return cliente;
+  }
+
+  public boolean existeByEmail(String email) {
+    Session session = HibernateUtil.getSession().openSession();
+    long count = session.createQuery(
+    "SELECT COUNT(c) FROM Cliente c WHERE c.email = :email", Long.class)
+    .setParameter("email", email)
+    .getSingleResult();
+    session.close();
+    return count > 0;
   }
 
 

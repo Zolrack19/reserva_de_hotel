@@ -2,7 +2,7 @@ package com.example.hotel.dominio;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,14 +38,15 @@ public class Boleta implements Serializable {
   @JoinColumn(name = "medio_pago_id")
   private MedioPago medioPago;
   
-  @Column(precision = 10, scale = 2)
+  @Column(precision = 10, scale = 2, nullable = false) //cambiar
   private BigDecimal montoEmitido;
-  private LocalDate fechaPago;
+
+  private LocalDateTime fechaPago; //con hora
 
 
   public Boleta() {}
 
-  public Boleta(Reserva reserva, String codigo, MedioPago medioPago, BigDecimal montoEmitido, LocalDate fechaPago) {
+  public Boleta(Reserva reserva, String codigo, MedioPago medioPago, BigDecimal montoEmitido, LocalDateTime fechaPago) {
     this.reserva = reserva;
     this.codigo = codigo;
     this.medioPago = medioPago;

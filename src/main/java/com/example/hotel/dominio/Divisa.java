@@ -26,10 +26,10 @@ public class Divisa {
   @OneToMany(mappedBy = "divisa", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<Pais> paises;
 
-  @Column(length = 100)
+  @Column(length = 100, nullable = false)
   private String nombre;
 
-  @Column(length = 10)
+  @Column(length = 10, nullable = false)
   private String simbolo;
 
   public Divisa() {}

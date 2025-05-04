@@ -41,10 +41,10 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Reserva> reservas;
 
-	@Column(length = 200, nullable = false)
+	@Column(length = 200, nullable = false, unique = true)
 	private String email;
 
-	@Column(length = 50, nullable = false)
+	@Column(columnDefinition = "TEXT", nullable = false)
 	private String contrasena;
 
 	@Column(length = 150, nullable = false)

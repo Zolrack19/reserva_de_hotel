@@ -6,6 +6,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.mindrot.jbcrypt.BCrypt;
+
+import com.example.hotel.dominio.Cliente;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -94,11 +100,7 @@ public class App extends Application {
     HibernateUtil.getSession();
     launch(); 
 
-    // MensajeEmail m = new MensajeEmail();
-    // m.mandarMensaje();
-
     //TODO: cambiar la ruta de las imagenes de hoteles
-    // ufrd izhp wiym bggz
   }
 
 }
