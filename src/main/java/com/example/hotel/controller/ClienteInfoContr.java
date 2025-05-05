@@ -1,11 +1,13 @@
 package com.example.hotel.controller;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Pais;
+import com.example.hotel.service.ClienteServicio;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,12 +66,28 @@ public class ClienteInfoContr implements Initializable {
 
   private Stage modal;
   private ModalEdicionContr modalController;
+  private final ClienteServicio clienteServicio = new ClienteServicio();
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    lblNombre.setText(App.cliente.getNombre());
+    lblApellido.setText(App.cliente.getApellido());
+    lblEmail.setText(App.cliente.getEmail());
+    lblSaldo.setText(App.cliente.getSaldo() != null ? App.cliente.getSaldo().toString() : "0.00");
+    lblTelefono.setText(App.cliente.getTelefono() != null ? App.cliente.getTelefono() : "");
+
     btnGuardar.setVisible(false);
     btnGuardar.setManaged(false);
-    
+    btnGuardar.setOnMouseClicked(e -> {
+      App.cliente.setNombre(lblNombre.getText());
+      App.cliente.setApellido(lblApellido.getText());
+      App.cliente.setSaldo(new BigDecimal(lblSaldo.getText()));
+      App.cliente.setTelefono(lblTelefono.getText());
+      clienteServicio.actualizarCliente(App.cliente);
+      btnGuardar.setVisible(false);
+      btnGuardar.setManaged(false);
+      modalController.setGuardar(true);
+    });
     lblEditarNombre.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
       if (modal == null) {
@@ -113,7 +131,7 @@ public class ClienteInfoContr implements Initializable {
         crearModal();
       }
       modalController.setIsTelefono(true);
-      modalController.prepararModal("Número de teléfono", lblTelefono, (short) 20);
+      modalController.prepararModal("Número de teléfono", lblTelefono, (short) 25);
       modal.show();
     });
 
@@ -179,8 +197,9 @@ public class ClienteInfoContr implements Initializable {
         }
       });
       modal.setScene(scene);
+      modal.setTitle("Cambiar atributo");
       modal.initModality(Modality.WINDOW_MODAL);
-      modal.initOwner(App.scene.getWindow());
+      modal.initOwner(App.primaryStage);
       modal.setResizable(false);
     } catch (Exception e) {
       e.printStackTrace();

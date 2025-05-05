@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.example.hotel.App;
-import com.example.hotel.service.LoginServicio;
+import com.example.hotel.service.ClienteServicio;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -41,7 +41,7 @@ public class LoginController implements Initializable {
   @FXML
   private TextField txtContrasena;
 
-  private final LoginServicio loginServicio = new LoginServicio();
+  private final ClienteServicio loginServicio = new ClienteServicio();
 
 
   @Override

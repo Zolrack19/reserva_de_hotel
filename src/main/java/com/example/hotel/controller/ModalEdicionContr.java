@@ -3,6 +3,9 @@ package com.example.hotel.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+import com.example.hotel.App;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
@@ -149,8 +152,16 @@ public class ModalEdicionContr implements Initializable {
         isSaldo = false;
       }
 
-      if (lblAEditar != null) {
-        lblAEditar.setText(txtPrincipal.getText());
+      if (lblAEditar == null) { //contraseña
+        if (!BCrypt.checkpw(txtPrincipal.getText(), App.cliente.getContrasena())) return;
+        String contra = txtNuevaContra.getText();
+        if (contra.length() < 8) return;
+        if (contra.equals(txtConfirmar.getText())) {
+          App.cliente.setContrasena(BCrypt.hashpw(contra, BCrypt.gensalt()));
+          System.out.println("contraseña cambiada");
+        }
+      } else {
+        lblAEditar.setText(txtPrincipal.getText().trim());
       }
       if (guardar) {
         btnGuardar.setVisible(true);
@@ -236,6 +247,10 @@ public class ModalEdicionContr implements Initializable {
 
   public void setModal(Stage modal) {
     this.modal = modal;
+  }
+
+  public void setGuardar(boolean guardar) {
+    this.guardar = guardar;
   }
 
   public void setIsSaldo(boolean isSaldo) {

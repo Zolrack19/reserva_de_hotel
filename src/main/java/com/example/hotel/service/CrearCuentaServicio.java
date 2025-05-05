@@ -9,9 +9,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.Authenticator;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.example.hotel.App;
 import com.example.hotel.dao.ClienteDAO;
 import com.example.hotel.dao.PaisDAO;
 import com.example.hotel.dominio.Cliente;
@@ -33,7 +35,7 @@ public class CrearCuentaServicio {
     properties.put("mail.smtp.auth", "true");
     properties.put("mail.smtp.starttls.enable", "true");
 
-    Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+    Session session = Session.getInstance(properties, new Authenticator() {
       protected PasswordAuthentication getPasswordAuthentication() {
         return new javax.mail.PasswordAuthentication("carlosmbl1902@gmail.com", "ufrd izhp wiym bggz"); 
       }
@@ -76,13 +78,13 @@ public class CrearCuentaServicio {
   }
 
   public void crearCliente(Pais pais, String nombre, String apellido, String email, String contrasena) {
-    Cliente cliente = new Cliente();
-    cliente.setNombre(nombre);
-    cliente.setApellido(apellido);
-    cliente.setEmail(email);
-    cliente.setContrasena(BCrypt.hashpw(contrasena, BCrypt.gensalt()));
-    cliente.setPais(pais);
-    clienteDAO.crearCliente(cliente);
+    App.cliente = new Cliente();
+    App.cliente.setNombre(nombre);
+    App.cliente.setApellido(apellido);
+    App.cliente.setEmail(email);
+    App.cliente.setContrasena(BCrypt.hashpw(contrasena, BCrypt.gensalt()));
+    App.cliente.setPais(pais);
+    clienteDAO.crearCliente(App.cliente);
   }
 
   public boolean emailRepetido(String email) {

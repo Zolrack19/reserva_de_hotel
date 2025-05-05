@@ -6,10 +6,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.mindrot.jbcrypt.BCrypt;
-
 import com.example.hotel.dominio.Cliente;
 
 import javafx.application.Application;
@@ -34,7 +30,7 @@ public class App extends Application {
   public static Parent detallesRoot;
   public static Stage primaryStage;
 
-  public static final byte size = 20;
+  public static Cliente cliente;
   public static final Stack<Parent> stackNavegacion = new Stack<>();
   public static byte puntero = -1;
 
@@ -73,7 +69,7 @@ public class App extends Application {
   }
 
   public static void navegar(Parent root) {
-    if (stackNavegacion.size() >= size) {
+    if (stackNavegacion.size() >= 20) { //tamaño máximo de la pila
       stackNavegacion.removeFirst();
       if (puntero + 1 == stackNavegacion.size()) {
         // stackNavegacion.removeFirst();
