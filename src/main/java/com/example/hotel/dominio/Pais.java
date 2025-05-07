@@ -31,14 +31,11 @@ public class Pais {
   @Column(length = 150, nullable = false)
   private String nombre;
 
+  @Column(name = "nombre_normalizado", length = 150, nullable =  false)
+  private String nombreNormalizado;
+
   @Column(length = 10, nullable = false)
   private String prefijoTelefonico;
-
-  @Column(name = "numero_long_min")
-  private short minNumLongitud; 
-  
-  @Column(name = "numero_long_max")
-  private short maxNumLongitud;
 
   @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<Ciudad> ciudades;
@@ -47,12 +44,13 @@ public class Pais {
   @JoinColumn(name = "divisa_id")
   private Divisa divisa;
 
+  @Column(name = "codigo_iso", length = 5, nullable = false)
+  private String codigoISO;
+
   public Pais() {}
-  public Pais(String nombre, String prefijoTelefonico, short minNumLongitud, short maxNumLongitud, Divisa divisa) {
+  public Pais(String nombre, String prefijoTelefonico, Divisa divisa) {
     this.nombre = nombre;
     this.prefijoTelefonico = prefijoTelefonico;
-    this.minNumLongitud = minNumLongitud;
-    this.maxNumLongitud = maxNumLongitud;
     this.divisa = divisa;
   }
 

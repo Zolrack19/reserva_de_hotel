@@ -7,6 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
 import com.example.hotel.dominio.Cliente;
+import com.example.hotel.service.BusquedaServicio;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -92,11 +93,15 @@ public class App extends Application {
     scheduler.shutdownNow();
   }
 
+  //System.getProperty("user.home") + "/.hotel/imagenes" directorio en home del sistema
+  // WHERE nombre_normalizado ILIKE unaccent(lower('%HilTÓn PeRú%'))
   public static void main(String[] args) {
     HibernateUtil.getSession();
-    launch(); 
+    launch();
+    // BusquedaServicio.buscarHotel(null, null, null);
 
-    //TODO: cambiar la ruta de las imagenes de hoteles
+
+
   }
 
 }

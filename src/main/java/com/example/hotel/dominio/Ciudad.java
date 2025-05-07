@@ -38,6 +38,9 @@ public class Ciudad {
   @Column(length = 200, nullable = false)
   private String nombre;
 
+  @Column(name = "nombre_normalizado", length = 200, nullable =  false)
+  private String nombreNormalizado;
+
   public Ciudad() {}
   public Ciudad(Pais pais, String nombre) {
     this.pais = pais;

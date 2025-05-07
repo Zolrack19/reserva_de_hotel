@@ -2,6 +2,7 @@ package com.example.hotel.dominio;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,10 @@ public class Reserva {
   @JoinColumn(name = "cuarto_id")
   private Cuarto cuarto;
 
+  @Column(name = "fecha_entrada")
   private LocalDate fechaEntrada;
+  
+  @Column(name = "fecha_salida")
   private LocalDate fechaSalida;
 
   public Reserva() {}

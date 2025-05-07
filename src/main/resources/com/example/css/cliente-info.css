@@ -1,14 +1,11 @@
 #principal {
-  /* -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #2e1b59, #304072, #462e7d); */
   -fx-background-color: linear-gradient(from 0% 0% to 100% 120%, #190055, #6c3b99, rgb(30, 1, 73));
 }
 
 .boxDetalles {
-  /* -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 10, 0.5, 0, 2); */
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
   -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 2, 0.5, 0, 2);
-  -fx-border-radius: 10;
-  -fx-border-color: white;
-  -fx-border-width: 2; 
+  -fx-background-radius: 20;
   -fx-background-insets: 0, 1;
 }
 

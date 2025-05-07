@@ -50,6 +50,9 @@ public class Hotel {
 
   @Column(length = 150, nullable =  false)
   private String nombre;
+  
+  @Column(name = "nombre_normalizado", length = 150, nullable =  false)
+  private String nombreNormalizado;
 
   @Column(length = 3000, nullable = false)
   private String descripcion;
@@ -62,5 +65,10 @@ public class Hotel {
     this.imagenUrl = imagenUrl;
     this.nombre = nombre;
     this.descripcion = descripcion;
+  }
+  
+  @Override
+  public String toString() {
+    return this.nombre;
   }
 }

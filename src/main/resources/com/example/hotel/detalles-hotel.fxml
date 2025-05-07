@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@../css/inicio.css" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.DetallesController">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@../css/inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.DetallesController">
    <content>
       <HBox fx:id="principal" prefHeight="720.0" prefWidth="986.0">
          <children>
@@ -34,7 +34,7 @@
                         <Insets top="11.0" />
                      </VBox.margin>
                   </Label>
-                  <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="866.0" style="-fx-border-color: red;" VBox.vgrow="ALWAYS">
+                  <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="866.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox fx:id="vboxFotosContainer" prefHeight="446.0" prefWidth="561.0" style="-fx-border-color: black;" HBox.hgrow="ALWAYS">
                            <children>
@@ -48,8 +48,8 @@
                                     <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="128.0" vgrow="ALWAYS" />
                                  </rowConstraints>
                                  <children>
-                                    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;" styleClass="lblSelector" GridPane.rowSpan="2" />
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;" styleClass="lblSelector" GridPane.columnIndex="1">
+                                    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.rowSpan="2" />
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -57,7 +57,7 @@
                                           <Insets bottom="5.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;" styleClass="lblSelector" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets top="5.0" />
                                        </GridPane.margin>
@@ -81,22 +81,22 @@
                                     <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
                                  </rowConstraints>
                                  <children>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" style="-fx-background-color: red;" styleClass="lblSelector">
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector">
                                        <GridPane.margin>
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" style="-fx-background-color: red;" styleClass="lblSelector" GridPane.columnIndex="2">
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="2">
                                        <GridPane.margin>
                                           <Insets right="5.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" style="-fx-background-color: red;" styleClass="lblSelector" GridPane.columnIndex="1">
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" style="-fx-background-color: red;" styleClass="lblSelector" GridPane.columnIndex="3">
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="3">
                                        <GridPane.margin>
                                           <Insets left="5.0" />
                                        </GridPane.margin>

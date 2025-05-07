@@ -30,6 +30,15 @@ public class HotelDAO {
     session.close();
     return hotel;
   }
+  
+  // public List<Hotel> getByNombre(String nombre) {
+  //   Session session = HibernateUtil.getSession().openSession();
+  //  List<Hotel> hoteles = session.createQuery("from")
+
+  //   session.close();
+  //   return hoteles;
+  // }
+
 
   public List<Hotel> getHotelesRango(int inicio, int fin) {
     Session session = HibernateUtil.getSession().openSession();

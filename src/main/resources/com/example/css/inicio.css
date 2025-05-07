@@ -86,6 +86,21 @@
 }
 
 
+.scroll-bar:vertical {
+  -fx-background-color: #462e7d;
+  -fx-padding: 0;
+}
+
+.scroll-bar .thumb {
+  -fx-background-color: #d1b6d1ad;
+  -fx-background-insets: 3;
+  -fx-background-radius: 5;
+}
+
+.scroll-bar .track {
+  -fx-background-color: #462e7d;
+}
+
 .scroll-pane {
   -fx-background: transparent;
   -fx-background-color: transparent;
@@ -139,4 +154,53 @@
 
 .lblDescripcion {
   -fx-text-fill: rgb(237, 216, 255);
+}
+
+
+#vboxFiltros {
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 3, 0.5, 0, 0);
+  -fx-background-radius: 10;
+  -fx-background-insets: 0, 1;
+  -fx-padding: 10;
+}
+
+.check-box .box {
+  -fx-background-color: #381b5e;
+  -fx-border-radius: 3;
+  -fx-padding: 3;
+}
+
+.check-box:focused .box {
+  -fx-background-color: #1f4f97;
+  -fx-border-color: #f1f1f1;
+}
+
+.check-box:selected .box {
+  -fx-background-color: #7f5af0;
+  -fx-border-color: #f1f1f1;
+}
+
+.check-box:selected .mark {
+  -fx-background-color: #ffffff;
+}
+
+#btnFiltro {
+  -fx-background-color: linear-gradient(to bottom, #a84dbf5b, #330f31b0);
+  -fx-border-color: #3916ad;
+  -fx-text-fill: white;
+}
+
+#btnFiltro:focused {
+  -fx-background-color: linear-gradient(to bottom, #a84dbf5b, #330f31);
+  -fx-effect: dropshadow(gaussian, #ae56b654, 15, 0.5, 0, 0);
+}
+
+#btnFiltro:hover {
+  -fx-background-color: linear-gradient(to bottom, #a84dbf5b, #330f31);
+}
+
+#btnFiltro:pressed {
+  -fx-background-color: #251946;
+  -fx-border-color: #074e6e;
 }

@@ -70,6 +70,7 @@ public class ClienteInfoContr implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    crearModal();
     lblNombre.setText(App.cliente.getNombre());
     lblApellido.setText(App.cliente.getApellido());
     lblEmail.setText(App.cliente.getEmail());
@@ -90,36 +91,24 @@ public class ClienteInfoContr implements Initializable {
     });
     lblEditarNombre.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      if (modal == null) {
-        crearModal();
-      }
       modalController.prepararModal("Nombre", lblNombre, (short) 150);
       modal.show();
     });
 
     lblEditarApellido.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      if (modal == null) {
-        crearModal();
-      }
       modalController.prepararModal("Apellidos", lblApellido, (short) 150);
       modal.show();
     });    
 
     lblEditarContra.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      if (modal == null) {
-        crearModal();
-      }
       modalController.prepararModal("Contraseña actual", null, (short) 50);
       modal.show();
     });
     
     lblEditarSaldo.setOnKeyPressed(e -> {
     if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      if (modal == null) {
-        crearModal();
-      }
       modalController.setIsSaldo(true);
       modalController.prepararModal("Saldo", lblSaldo, (short) 11);
       modal.show();
@@ -127,51 +116,33 @@ public class ClienteInfoContr implements Initializable {
     
     lblEditarTelefono.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      if (modal == null) {
-        crearModal();
-      }
       modalController.setIsTelefono(true);
       modalController.prepararModal("Número de teléfono", lblTelefono, (short) 25);
       modal.show();
     });
 
     lblEditarNombre.setOnMouseClicked(e -> {
-      if (modal == null) {
-        crearModal();
-      }
       modalController.prepararModal("Nombre", lblNombre, (short) 150);
       modal.show();
     });
    
     lblEditarApellido.setOnMouseClicked(e -> {
-      if (modal == null) {
-        crearModal();
-      }
       modalController.prepararModal("Apellidos", lblApellido, (short) 150);
       modal.show();
     });
    
     lblEditarContra.setOnMouseClicked(e -> {
-      if (modal == null) {
-        crearModal();
-      }
       modalController.prepararModal("Contraseña actual", null, (short) 50);
       modal.show();
     });
    
     lblEditarSaldo.setOnMouseClicked(e -> {
-      if (modal == null) {
-        crearModal();
-      }
       modalController.setIsSaldo(true);
       modalController.prepararModal("Saldo", lblSaldo, (short) 11);
       modal.show();
     });
     
     lblEditarTelefono.setOnMouseClicked(e -> {
-      if (modal == null) {
-        crearModal();
-      }
       modalController.setIsTelefono(true);
       modalController.prepararModal("Número de teléfono", lblTelefono, (short) 20);
       modal.show();
