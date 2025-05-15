@@ -1,5 +1,72 @@
 #principal {
-  -fx-background-color: linear-gradient(from 0% 0% to 100% 120%, #190055, #6c3b99, rgb(30, 1, 73));
+  -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #0b002d, #3c096c, #9d4edd);
+
+}
+
+#modalFondo {
+  -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #1a1a2e, #1f0036, #0f0c29);
+}
+
+
+.scroll-bar:vertical {
+  -fx-background-color: #462e7d;
+  -fx-padding: 0;
+}
+
+.scroll-bar .thumb {
+  -fx-background-color: #d1b6d1ad;
+  -fx-background-insets: 3;
+  -fx-background-radius: 5;
+}
+
+.scroll-bar .track {
+  -fx-background-color: #462e7d;
+}
+
+.scroll-pane {
+  -fx-background: transparent;
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-padding: 0;
+  -fx-border-width: 0;
+}
+.scroll-pane > .viewport {
+  -fx-background-color: transparent;
+}
+
+#lblVolver {
+  -fx-background-image: url("../imagenes/back.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: 10px center;
+  -fx-background-size: 25px 25px;
+  -fx-padding: 5 10 5 30; 
+  -fx-font-size: 14px;
+  -fx-cursor: hand;
+  -fx-background-radius: 20px;
+}
+
+#lblVolver:hover {
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 0, 0.5, 0, 2);
+}
+
+#lblVolver:focused {
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 0, 0.5, 0, 2);
+}
+
+#lblVolver:pressed {
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 0, 0.5, 0, 2);
+}
+
+
+.lblDetalle {
+  -fx-background-image: url("../imagenes/user_detail.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: right center;
+  -fx-background-size: 44px 44px;
+  -fx-padding: 0 50 0 0; 
 }
 
 .boxDetalles {
@@ -7,17 +74,27 @@
   -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 2, 0.5, 0, 2);
   -fx-background-radius: 20;
   -fx-background-insets: 0, 1;
+  -fx-padding: 15 0 0 5;
 }
 
 #btnEliminarCuenta {
   -fx-background-color: red;
+  -fx-background-radius: 8;
+  -fx-border-radius: 8;
+  -fx-background-image: url("../imagenes/basura.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: left center;
+  -fx-background-size: 35px 35px;
+  -fx-padding: 7 10 7 35; 
 }
 
 #btnEliminarCuenta:focused {
+  -fx-border-color: rgb(255, 187, 0);
   -fx-background-color: rgb(189, 0, 0);
 }
 
 #btnEliminarCuenta:hover {
+  -fx-border-color: rgb(255, 187, 0);
   -fx-background-color: rgb(189, 0, 0);
 }
 
@@ -30,6 +107,11 @@
   -fx-background-radius: 8;
   -fx-border-radius: 8;
   -fx-border-color: rgb(179, 37, 179);
+  -fx-background-image: url("../imagenes/check.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: 3 center;
+  -fx-background-size: 35px 35px;
+  -fx-padding: 7 10 7 40; 
 }
 
 #btnGuardar:focused {
@@ -44,6 +126,33 @@
   -fx-background-color: rgb(160, 255, 131);
 }
 
+#btnCancelar {
+  -fx-background-color: rgba(167, 178, 199, 0.664);
+  -fx-background-radius: 8;
+  -fx-border-radius: 8;
+  -fx-border-color: rgb(87, 37, 179);
+  -fx-background-image: url("../imagenes/cancel_edit.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: 3 center;
+  -fx-background-size: 35px 35px;
+  -fx-padding: 7 10 7 40; 
+}
+
+#btnCancelar:focused {
+  -fx-border-color: rgb(255, 187, 0);
+  -fx-background-color: rgb(101, 99, 194);
+}
+
+#btnCancelar:hover {
+  -fx-border-color: rgb(255, 187, 0);
+  -fx-background-color: rgb(101, 99, 194);
+
+}
+
+#btnCancelar:pressed {
+  -fx-background-color: rgb(117, 153, 152);
+}
+
 .combo-box {
   -fx-background-color: #1a1a2e;
   -fx-border-color: #7f5af0;
@@ -51,7 +160,7 @@
   -fx-background-radius: 5;
   -fx-text-fill: #f1f1f1;
   -fx-padding: 5 10 5 10;
-  -fx-font-size: 13px;
+  -fx-font-size: 15px;
 }
 
 .combo-box:focused {
@@ -70,6 +179,11 @@
 
 .lblEditar {
   -fx-text-fill: rgb(49, 224, 255);
+  -fx-background-image: url("../imagenes/lapiz.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: 5px center;
+  -fx-background-size: 20px 20px;
+  -fx-padding: 5 10 5 30; 
 }
 
 .lblEditar:focused {
@@ -78,4 +192,37 @@
 
 .lblEditar:pressed {
   -fx-text-fill: rgb(27, 97, 247);
+}
+
+
+#btnCancelarM {
+  -fx-background-color: linear-gradient(to bottom, #2a2a40, #1a1a2e);
+  -fx-text-fill: #cccccc;
+  -fx-font-weight: normal;
+  -fx-background-radius: 8px;
+  -fx-padding: 8 16;
+  -fx-cursor: hand;
+}
+
+#btnAceptar {
+  -fx-background-color: linear-gradient(to bottom, #5a189a, #7b2cbf);
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-background-radius: 8px;
+  -fx-padding: 8 16;
+  -fx-cursor: hand;
+}
+
+.toggle {
+  -fx-background-radius: 20;
+  -fx-background-color: transparent;
+  -fx-background-image: url("../imagenes/eye.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center center;
+  -fx-cursor: hand;
+}
+
+
+.toggle:hover {
+  -fx-background-color: rgba(123, 44, 191, 0.2); 
 }

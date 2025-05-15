@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="387.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #1a1a2e, #1f0036, #0f0c29);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.ModalEdicionContr">
+<VBox id="modalFondo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="207.0" prefWidth="387.0" stylesheets="@../css/cliente-info.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.ModalEdicionContr">
    <children>
       <Label fx:id="lblTituloPrincipal" text="Contraseña actual" textFill="WHITE">
          <font>
@@ -53,7 +53,7 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="toggle1" mnemonicParsing="false" prefHeight="26.0" text="👁">
+            <Button fx:id="toggle1" alignment="CENTER" mnemonicParsing="false" styleClass="toggle" text=" ">
                <HBox.margin>
                   <Insets left="8.0" />
                </HBox.margin>
@@ -84,7 +84,7 @@
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="toggle2" mnemonicParsing="false" prefHeight="26.0" text="👁">
+            <Button fx:id="toggle2" alignment="CENTER" mnemonicParsing="false" styleClass="toggle" text=" ">
                <HBox.margin>
                   <Insets left="8.0" />
                </HBox.margin>
@@ -99,7 +99,7 @@
          </VBox.margin>
          <children>
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnCancelar" mnemonicParsing="false" style="-fx-background-color: rgb(3, 0, 0); -fx-border-color: rgb(0, 60, 100); -fx-border-radius: 12;" text="Cancelar" textFill="WHITE">
+            <Button fx:id="btnCancelarM" mnemonicParsing="false" text="Cancelar" textFill="WHITE">
                <HBox.margin>
                   <Insets right="11.0" />
                </HBox.margin>
@@ -113,7 +113,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="btnAceptar" mnemonicParsing="false" style="-fx-background-color: rgb(3, 0, 0); -fx-border-color: rgb(0, 60, 100); -fx-border-radius: 12;" text="Aceptar" textFill="WHITE">
+            <Button fx:id="btnAceptar" mnemonicParsing="false" text="Aceptar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

@@ -42,11 +42,8 @@ public class Hotel {
   @Column(name = "imagen_url")
   private String imagenUrl;
   
-  @Column(name = "suma_votos")
-  private int contador;
-
-  @Column(name = "cantidad_votos")
-  private int cantidadVotos;
+  @Column(nullable =  false)
+  private short estrellas;
 
   @Column(length = 150, nullable =  false)
   private String nombre;

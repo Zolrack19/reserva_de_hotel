@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.textfield.TextFields;
 
 import com.example.hotel.App;
 import com.example.hotel.service.ClienteServicio;
@@ -24,6 +22,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+/**
+  Controlador de la plantilla de inicio de sesión.
+  Verifica la cuenta del usuario.
+*/
 public class LoginController implements Initializable {
 
   @FXML
@@ -44,7 +46,7 @@ public class LoginController implements Initializable {
   @FXML
   private TextField txtContrasena;
 
-  private final ClienteServicio loginServicio = new ClienteServicio();
+  private final ClienteServicio loginServicio = ClienteServicio.getInstancia();
 
 
   @Override
@@ -112,6 +114,7 @@ public class LoginController implements Initializable {
     });
   }
   
+  // Se encarga de hacer validaciones con la data de la gui, a fin de obtener credenciales válidas
   @FXML
   private void iniciarSesion() throws IOException {
     String email = txtEmail.getText().trim();
@@ -139,6 +142,7 @@ public class LoginController implements Initializable {
     if (cortar) return;
 
     if (loginServicio.signIn(email, contra)) {
+      loginServicio.instanciarPais(App.cliente.getPais());
       if (App.inicioRoot == null) {
         App.inicioRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/inicio.fxml"));
       }

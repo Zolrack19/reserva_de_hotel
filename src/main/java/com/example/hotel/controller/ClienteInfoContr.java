@@ -1,9 +1,10 @@
 package com.example.hotel.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Pais;
@@ -15,12 +16,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
+/**
+  @see ModalEdicionContr
+*/
 public class ClienteInfoContr implements Initializable {
 
   @FXML
@@ -39,6 +45,8 @@ public class ClienteInfoContr implements Initializable {
   @FXML
   private Label lblEditarContra;
 
+  @FXML
+  private Label lblDivisa;
   @FXML
   private Label lblSaldo;
   @FXML
@@ -59,24 +67,73 @@ public class ClienteInfoContr implements Initializable {
   private ComboBox<Pais> cbxPais;
 
   @FXML
+  private CheckBox chxSesionActiva;
+
+  @FXML
   private Button btnEliminarCuenta;
   
   @FXML
   private Button btnGuardar;
+  
+  @FXML
+  private Button btnCancelar;
 
   private Stage modal;
   private ModalEdicionContr modalController;
-  private final ClienteServicio clienteServicio = new ClienteServicio();
+  private final ClienteServicio clienteServicio = ClienteServicio.getInstancia();
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    chxSesionActiva.setSelected(App.sesionActiva);
+    chxSesionActiva.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+      if (isNowSelected) {
+        App.sesionActiva = true;
+      } else {
+        App.sesionActiva = false;
+      }
+    });
+    App.scheduler.schedule(() -> {
+      cbxPais.getItems().addAll(clienteServicio.getPaises());
+      cbxPais.setValue(App.cliente.getPais());
+    }, 0, TimeUnit.SECONDS);
     crearModal();
     lblNombre.setText(App.cliente.getNombre());
     lblApellido.setText(App.cliente.getApellido());
     lblEmail.setText(App.cliente.getEmail());
+    lblDivisa.setText(App.cliente.getPais().getDivisa().getSimbolo());
     lblSaldo.setText(App.cliente.getSaldo() != null ? App.cliente.getSaldo().toString() : "0.00");
+    lblPrefijoTelefonico.setText(App.cliente.getPais().getPrefijoTelefonico());
     lblTelefono.setText(App.cliente.getTelefono() != null ? App.cliente.getTelefono() : "");
 
+    cbxPais.valueProperty().addListener((obs, oldVal, newVal) -> {
+      if (newVal == oldVal || newVal == App.cliente.getPais()) return;
+      lblDivisa.setText(newVal.getDivisa().getSimbolo());
+      lblPrefijoTelefonico.setText(newVal.getPrefijoTelefonico());
+      lblTelefono.setText("");
+      btnGuardar.setVisible(true);
+      btnGuardar.setManaged(true);
+      btnCancelar.setVisible(true);
+      btnCancelar.setManaged(true);
+      modalController.setISO(App.cliente.getPais().getCodigoISO());
+    });
+  
+    btnCancelar.setVisible(false);
+    btnCancelar.setManaged(false);
+    btnCancelar.setOnMouseClicked(e -> {
+      lblNombre.setText(App.cliente.getNombre());
+      lblApellido.setText(App.cliente.getApellido());
+      lblDivisa.setText(App.cliente.getPais().getDivisa().getSimbolo());
+      lblSaldo.setText(App.cliente.getSaldo().toString());
+      lblPrefijoTelefonico.setText(App.cliente.getPais().getPrefijoTelefonico());
+      cbxPais.setValue(App.cliente.getPais());
+      lblTelefono.setText(App.cliente.getTelefono());
+      btnCancelar.setVisible(false);
+      btnCancelar.setManaged(false);
+      btnGuardar.setVisible(false);
+      btnGuardar.setManaged(false);
+      modalController.setGuardar(true);
+    });
+    
     btnGuardar.setVisible(false);
     btnGuardar.setManaged(false);
     btnGuardar.setOnMouseClicked(e -> {
@@ -84,6 +141,7 @@ public class ClienteInfoContr implements Initializable {
       App.cliente.setApellido(lblApellido.getText());
       App.cliente.setSaldo(new BigDecimal(lblSaldo.getText()));
       App.cliente.setTelefono(lblTelefono.getText());
+      App.cliente.setPais(cbxPais.getValue());
       clienteServicio.actualizarCliente(App.cliente);
       btnGuardar.setVisible(false);
       btnGuardar.setManaged(false);
@@ -155,7 +213,8 @@ public class ClienteInfoContr implements Initializable {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/modal-edicion.fxml"));
       Parent parent = loader.load();
       modalController = loader.getController();
-      modalController.setBtnGuardar(btnGuardar);
+      modalController.setBotones(btnGuardar, btnCancelar);
+      modalController.setISO(App.cliente.getPais().getCodigoISO());
       modal.setOnCloseRequest(e -> {
         modalController.reiniciar();
       });
@@ -175,6 +234,11 @@ public class ClienteInfoContr implements Initializable {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @FXML
+  private void volver() throws IOException {
+    App.navegar(App.inicioRoot);
   }
 
 }

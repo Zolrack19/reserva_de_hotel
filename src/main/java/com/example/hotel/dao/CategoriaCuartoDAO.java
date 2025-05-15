@@ -5,8 +5,8 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.example.hotel.HibernateUtil;
 import com.example.hotel.dominio.CategoriaCuarto;
+import com.example.hotel.util.HibernateUtil;
 
 public class CategoriaCuartoDAO {
   

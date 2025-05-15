@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.Blend?>
@@ -22,8 +21,8 @@
             <VBox prefHeight="737.0" prefWidth="943.0" HBox.hgrow="ALWAYS">
                <children>
                   <Region minHeight="-Infinity" prefHeight="60.0" prefWidth="866.0" />
-                  <Button fx:id="btnAtras" mnemonicParsing="false" onAction="#volver" styleClass="btnBuscarInicio" text="&lt;-  Atras" />
-                  <Label minHeight="-Infinity" prefWidth="866.0" text="HOTEL SHANGAI" wrapText="true">
+                  <Label id="lblVolver" focusTraversable="true" onMouseClicked="#volver" text="Volver" />
+                  <Label fx:id="lblNombre" minHeight="-Infinity" prefWidth="866.0" text="HOTEL SHANGAI" wrapText="true">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
@@ -31,9 +30,10 @@
                         <Font name="System Bold" size="27.0" />
                      </font>
                      <VBox.margin>
-                        <Insets top="11.0" />
+                        <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
+                  <Label fx:id="lblEstrellas" minHeight="-Infinity" prefHeight="30.0" />
                   <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="866.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox fx:id="vboxFotosContainer" prefHeight="446.0" prefWidth="561.0" style="-fx-border-color: black;" HBox.hgrow="ALWAYS">
@@ -48,8 +48,8 @@
                                     <RowConstraints maxHeight="180.0" minHeight="0.0" prefHeight="128.0" vgrow="ALWAYS" />
                                  </rowConstraints>
                                  <children>
-                                    <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.rowSpan="2" />
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1">
+                                    <Label fx:id="lblImagen1" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.rowSpan="2" />
+                                    <Label fx:id="lblImagen2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -57,7 +57,7 @@
                                           <Insets bottom="5.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label fx:id="lblImagen3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSelector" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets top="5.0" />
                                        </GridPane.margin>
@@ -81,22 +81,22 @@
                                     <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
                                  </rowConstraints>
                                  <children>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector">
+                                    <Label fx:id="lblImagen4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector">
                                        <GridPane.margin>
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="2">
+                                    <Label fx:id="lblImagen6" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="2">
                                        <GridPane.margin>
                                           <Insets right="5.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="1">
+                                    <Label fx:id="lblImagen5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets right="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="3">
+                                    <Label fx:id="lblImagen7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="145.0" styleClass="lblSelector" GridPane.columnIndex="3">
                                        <GridPane.margin>
                                           <Insets left="5.0" />
                                        </GridPane.margin>
@@ -108,7 +108,7 @@
                         <Region maxWidth="111.0" minWidth="-Infinity" prefHeight="493.0" prefWidth="5.0" HBox.hgrow="ALWAYS" />
                         <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="380.0" HBox.hgrow="ALWAYS">
                            <content>
-                              <VBox fx:id="vboxComentarios" alignment="TOP_CENTER" prefHeight="493.0" prefWidth="294.0" styleClass="caruselCard">
+                              <VBox fx:id="vboxComentarios" alignment="TOP_CENTER" prefHeight="493.0" prefWidth="294.0" styleClass="comentario">
                                  <children>
                                     <Label text="COMENTARIOS">
                                        <VBox.margin>
@@ -118,11 +118,7 @@
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <HBox prefHeight="61.0" prefWidth="290.0">
-                                       <children>
-                                          <Label text="Label" />
-                                       </children>
-                                    </HBox>
+                                    <HBox prefHeight="61.0" prefWidth="290.0" />
                                  </children>
                               </VBox>
                            </content>
@@ -132,7 +128,7 @@
                         <Insets top="11.0" />
                      </VBox.margin>
                   </HBox>
-                  <Label minHeight="-Infinity" prefHeight="150.0" text="lroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeolroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof aa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof alroenaornaoeoa foa of ao dof os afoasfo asf asof a" wrapText="true">
+                  <Label fx:id="lblDescripcion" minHeight="150.0" wrapText="true">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
@@ -142,8 +138,11 @@
                      <font>
                         <Font size="17.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Label>
-                  <Label style="-fx-text-fill: aqua;" text="Leer mas" underline="true">
+                  <Label fx:id="lblVerMenos" style="-fx-text-fill: aqua;" text="Ver menos" underline="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -151,6 +150,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
+                  <Region minHeight="-Infinity" prefHeight="60.0" prefWidth="866.0" />
                </children>
             </VBox>
             <Region maxWidth="300.0" minWidth="-Infinity" prefWidth="60.0" HBox.hgrow="ALWAYS" />

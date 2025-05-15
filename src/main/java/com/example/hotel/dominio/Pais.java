@@ -34,7 +34,7 @@ public class Pais {
   @Column(name = "nombre_normalizado", length = 150, nullable =  false)
   private String nombreNormalizado;
 
-  @Column(length = 10, nullable = false)
+  @Column(name = "prefijo_telefonico", length = 10, nullable = false)
   private String prefijoTelefonico;
 
   @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -58,4 +58,11 @@ public class Pais {
   public String toString() {
     return this.nombre;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    Pais p = (Pais) obj;
+    return p != null && id == p.getId();
+  }
+
 }

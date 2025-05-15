@@ -5,8 +5,8 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.example.hotel.HibernateUtil;
 import com.example.hotel.dominio.Pais;
+import com.example.hotel.util.HibernateUtil;
 
 public class PaisDAO {
 
@@ -30,12 +30,20 @@ public class PaisDAO {
     return pais;
   }
 
-  public List<Pais> getPaisesRango(int inicio, int fin) {
+  public List<Pais> getPaisesRango(int inicio, int fin, boolean init) {
     Session session = HibernateUtil.getSession().openSession();
-    List<Pais> paises = session.createQuery("from Pais p order by p.id", Pais.class)
-    .setFirstResult(inicio)
-    .setMaxResults(fin)
-    .list();
+    List<Pais> paises;
+    if (init) {
+      paises = session.createQuery("from Pais p JOIN FETCH p.divisa order by p.id", Pais.class)
+      .setFirstResult(inicio)
+      .setMaxResults(fin)
+      .list();
+    } else {
+      paises = session.createQuery("from Pais p order by p.id", Pais.class)
+      .setFirstResult(inicio)
+      .setMaxResults(fin)
+      .list();
+    }
     session.close();
     return paises;
   }
@@ -67,6 +75,14 @@ public class PaisDAO {
 
     session.delete(pais);
 
+    tr.commit();
+    session.close();
+  }
+
+  public void instanciarDivisa(Pais pais) {
+    Session session = HibernateUtil.getSession().openSession();
+    Transaction tr = session.beginTransaction();
+    pais = (Pais) session.merge(pais);
     tr.commit();
     session.close();
   }

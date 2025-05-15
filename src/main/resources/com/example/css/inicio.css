@@ -2,7 +2,6 @@
   -fx-background-color: linear-gradient(from 0% 0% to 100% 120%, #2e1b59, #462e7d, #3b1f61);  
 }
 
-
 .txtInicio {
   -fx-background-color: #1f1335;
   -fx-text-fill: #e0d7f8;
@@ -20,6 +19,12 @@
   -fx-background-color: #251946;
 }
 
+#lblAvatar {
+  -fx-background-image: url("../imagenes/avatar.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center center;
+  -fx-background-size: contain;
+}
 
 .btnBuscarInicio {
   -fx-background-color: linear-gradient(to bottom, #462e7d, #2e1b59);
@@ -30,10 +35,10 @@
   -fx-border-radius: 10;
   -fx-border-color: #6a4dbf;
   -fx-border-width: 2;
-  -fx-padding: 8 16;
   -fx-cursor: hand;
   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 6, 0, 0, 3);
 }
+
 
 .btnBuscarInicio:hover {
   -fx-background-color: linear-gradient(to bottom, #6a4dbf, #462e7d);
@@ -44,6 +49,41 @@
   -fx-background-color: #251946;
   -fx-border-color: #5f0fff;
 }
+
+#btnBuscar {
+  -fx-background-image: url("../imagenes/search.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: 10px center;
+  -fx-background-size: 25px 25px;
+  -fx-padding: 5 10 5 30; 
+}
+
+#lblVolver {
+  -fx-background-image: url("../imagenes/back.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: 10px center;
+  -fx-background-size: 25px 25px;
+  -fx-padding: 5 10 5 30; 
+  -fx-font-size: 14px;
+  -fx-cursor: hand;
+  -fx-background-radius: 20px;
+}
+
+#lblVolver:hover {
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 0, 0.5, 0, 2);
+}
+
+#lblVolver:focused {
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 0, 0.5, 0, 2);
+}
+
+#lblVolver:pressed {
+  -fx-background-color: rgba(255, 255, 255, 0.05); 
+  -fx-effect: dropshadow(gaussian, rgba(255, 248, 187, 0.4), 0, 0.5, 0, 2);
+}
+
 
 
 .date-picker {
@@ -203,4 +243,8 @@
 #btnFiltro:pressed {
   -fx-background-color: #251946;
   -fx-border-color: #074e6e;
+}
+
+.comentario {
+  -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1d1133, #2c1b48);
 }

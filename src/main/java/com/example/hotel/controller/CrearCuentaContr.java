@@ -22,6 +22,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+  Controlador de la plantilla de creaación de usuario.
+  Verifica que la data del formulario sea verídica y crea un un usuario en la base de datos.
+*/
 public class CrearCuentaContr implements Initializable {
 
   @FXML
@@ -71,6 +75,9 @@ public class CrearCuentaContr implements Initializable {
   private Stage secondaryStage;
   private CodigoVeriContr contr;
   
+  /**
+    Inicializa componentes gráficos y asigna eventos para manejar la lógica de formulario. 
+  */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     App.scheduler.schedule(() -> {
@@ -84,16 +91,9 @@ public class CrearCuentaContr implements Initializable {
     lblEmailWarning.setVisible(false);
     lblEmailWarning.setManaged(false);
 
-    StringBuilder nombre = new StringBuilder(7);
-    StringBuilder apellido = new StringBuilder(7);
-    StringBuilder email = new StringBuilder(7);
-    StringBuilder contrasena = new StringBuilder(7);
-
     txtNombre.textProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue.length() <= 150) {
-        nombre.setLength(0);
-        nombre.append(newValue.length()).append("/150");
-        lblNombre.setText(nombre.toString());
+        lblNombre.setText(newValue.length() + "/150");
       } else {
         txtNombre.setText(oldValue);
       }
@@ -101,9 +101,7 @@ public class CrearCuentaContr implements Initializable {
     
     txtApellido.textProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue.length() <= 150) {
-        apellido.setLength(0);
-        apellido.append(newValue.length()).append("/150");
-        lblApellido.setText(apellido.toString());
+        lblApellido.setText(newValue.length() + "/150");
       } else {
         txtApellido.setText(oldValue);
       }
@@ -111,9 +109,7 @@ public class CrearCuentaContr implements Initializable {
     
     txtEmail.textProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue.length() <= 200) {
-        email.setLength(0);
-        email.append(newValue.length()).append("/200");
-        lblEmail.setText(email.toString());
+        lblEmail.setText(newValue.length() + "/150");
       } else {
         txtEmail.setText(oldValue);
       }
@@ -121,9 +117,7 @@ public class CrearCuentaContr implements Initializable {
     
     txtContrasena.textProperty().addListener((observable, oldValue, newValue) -> {
       if (newValue.length() <= 50) {
-        contrasena.setLength(0);
-        contrasena.append(newValue.length()).append("/50");
-        lblContrasena.setText(contrasena.toString());
+        lblContrasena.setText(newValue.length() + "/150");
       } else {
         txtContrasena.setText(oldValue);
       }
@@ -139,7 +133,7 @@ public class CrearCuentaContr implements Initializable {
   }
 
   @FXML
-  public void crearCuenta() throws IOException {
+  private void crearCuenta() throws IOException {
     if (cbxPais.getValue() == null) return;
     if (!chxTerminos.isSelected()) {
       chxTerminos.requestFocus();

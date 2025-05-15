@@ -83,6 +83,7 @@ public class CrearCuentaServicio {
     App.cliente.setApellido(apellido);
     App.cliente.setEmail(email);
     App.cliente.setContrasena(BCrypt.hashpw(contrasena, BCrypt.gensalt()));
+    paisDAO.instanciarDivisa(pais);
     App.cliente.setPais(pais);
     clienteDAO.crearCliente(App.cliente);
   }
@@ -92,7 +93,7 @@ public class CrearCuentaServicio {
   }
 
   public List<Pais> getPaises() {
-    return paisDAO.getPaisesRango(0, 20); //cambiar esto por si hay más paises
+    return paisDAO.getPaisesRango(0, 20, false); //cambiar esto por si hay más paises
   }
 
 }

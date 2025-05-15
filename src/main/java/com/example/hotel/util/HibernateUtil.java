@@ -1,4 +1,4 @@
-package com.example.hotel;
+package com.example.hotel.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -16,6 +16,10 @@ import com.example.hotel.dominio.MedioPago;
 import com.example.hotel.dominio.Pais;
 import com.example.hotel.dominio.Reserva;
 
+/**
+  Se encarga de empezar la conexión con la base de datos.
+  Abre una sesión, la almacena y usa el patrón singlenton para brindar conexiones a la base de datos.
+*/
 public class HibernateUtil {
   private static final SessionFactory session;
 

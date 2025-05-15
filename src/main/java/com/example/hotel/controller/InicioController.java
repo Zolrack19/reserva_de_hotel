@@ -2,11 +2,16 @@ package com.example.hotel.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Hotel;
@@ -29,6 +34,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
+/**
+* Clase de inicio a la aplicación, una vez que se inicia sesión o se crea una cuenta
+* esta clase instancia componentes de la página de bienvenida.
+* Implementa Initializable para instancar los componentes gráficos.
+* @see Initializable
+*/
 public class InicioController implements Initializable {
   
   @FXML
@@ -46,10 +57,25 @@ public class InicioController implements Initializable {
   @FXML
   private HBox hboxCarusel;
 
+  /*
+    Ventana emergente que aparece cuando hay resultados de búsqueda.
+  */
   private final Popup popup = new Popup();
+  /*
+    Lista sincronizada con popup para mostrar los resultados sugeridos.
+  */
   private final ListView<Hotel> sugerencias = new ListView<>();
+
+  /*
+    Boolean auxiliar para cancelar evento de teclado en txtBuscar.
+  */
   private boolean activar;
 
+  /*
+    Implementación del método de Initializable.
+    Encarga de dar configuración inicial a elementos gráficos como DatePicker, TextField, Popup, etc.
+    También hace una búsqueda inicial en la base de datos para llenar un carusel de hoteles.
+  */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     configurarCalendarios();
@@ -58,7 +84,9 @@ public class InicioController implements Initializable {
     popup.getContent().add(sugerencias);
     popup.setAutoHide(true);
 
+    // Evento de teclado en el que se programa una tarea asíncrona con un delay de 400 milisegundos para hacer búsquedas en la base de datos.
     txtBuscar.textProperty().addListener((obx, oldText, newText) -> {
+       // Si el usuario activa este evento antes de 400 milisegundos, la tarea se cancela y se programa una nueva
       if (App.future != null && !App.future.isDone()) {
         App.future.cancel(false);
       }
@@ -80,6 +108,7 @@ public class InicioController implements Initializable {
         }
         List<Hotel> filtrar = BusquedaServicio.buscarHotel(filtrado, dateInicio.getValue(), dateFin.getValue());
 
+        // Actualiza la interfaz del usuario para mostrar los resultados en el popup
         Platform.runLater(() -> {
           if (newText == null || newText.isEmpty()) {
             popup.hide();
@@ -135,7 +164,6 @@ public class InicioController implements Initializable {
   }
 
   private void configurarCalendarios() {
-
     dateInicio.setDayCellFactory(picker -> new DateCell() {
       @Override
       public void updateItem(LocalDate date, boolean empty) {
@@ -190,10 +218,11 @@ public class InicioController implements Initializable {
     });
   }
 
+
   private void congigurarListaSugerencias() {
     sugerencias.setStyle(
-      "-fx-background-color: rgba(255,255,255,0.05);" + // fondo translúcido
-      "-fx-border-color: #6c4dc2;" +                    // borde lavanda claro
+      "-fx-background-color: rgba(255,255,255,0.05);" +
+      "-fx-border-color: #6c4dc2;" +
       "-fx-border-width: 1;" +
       "-fx-background-radius: 8;" +
       "-fx-border-radius: 8;" +
@@ -240,25 +269,39 @@ public class InicioController implements Initializable {
       };
     });
 
-    sugerencias.prefWidthProperty().bind(txtBuscar.widthProperty());
+    sugerencias.prefWidthProperty().bind(txtBuscar.widthProperty()); //vincula la anchura con la del txtBuscar
     sugerencias.setPrefHeight(160);
     sugerencias.maxHeight(160);
   }
 
+  /**
+    Carga tarjetas de hoteles al azar en el componente hboxCarusel.
+    @see TarjetaCaruselContr
+  */
   private void llenarCarusel() {
-    try {
-      for (int i = 0; i < 6; i++) {
+    
+    List<Hotel> hoteles = BusquedaServicio.hotelesAlazar(6);
+    for (int i = 0; i < hoteles.size(); i++) {
+      Hotel hotel = hoteles.get(i);
+      Path carpeta = Paths.get(hotel.getImagenUrl());
+      try {
+        String url = Files.list(carpeta).sorted().map(path -> path.toUri().toString()).findFirst().orElseThrow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/tarjeta-carusel.fxml"));
         Parent card = loader.load();
         TarjetaCaruselContr contr = loader.getController();
-        contr.setData("titulo: " + i, "alguno: " + i + 1);
+        contr.setData(hotel, url);
         hboxCarusel.getChildren().add(card);
+      } catch (IOException e) {
+        e.printStackTrace();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
     }
+
   }
 
+  /**
+  * Versión de preuba, evento que cambia de plantilla fxml.
+  * @throws IOException
+  */
   @FXML
   private void buscarHotel() throws IOException {
     if (App.resultadosRoot == null) {
@@ -267,6 +310,11 @@ public class InicioController implements Initializable {
     App.navegar(App.resultadosRoot);
   }
   
+  /**
+  * Cambia a la plantilla de cuenta en donde se muestran los detalles de usuario.
+  * @see ClienteInfoContr
+  * @throws IOException
+  */
   @FXML
   private void irACuenta() throws IOException {
     if (App.clienteInfo == null) {
