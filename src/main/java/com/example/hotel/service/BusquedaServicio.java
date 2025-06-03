@@ -10,6 +10,9 @@ import com.example.hotel.dominio.Categoria;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.util.HibernateUtil;
 
+/**
+  Servicio que se encarga de hacer consultas personalizadas y generales en la base de datos
+*/
 public class BusquedaServicio {
   private static final CategoriaDAO categoriaDao = new CategoriaDAO();
   // len = 106
@@ -20,6 +23,14 @@ public class BusquedaServicio {
     JOIN pais p ON c.pais_id = p.id
   """);
   
+  /**
+    Método para generar un query complejo y personalizado, se encarga de buscar hoteles
+    según las opciones de búsqueda marcadas por el usuario.
+    @param tokens lista de String que son tratados como tokens de búsqueda
+    @param fechaInicio fecha de inicio de reserva
+    @param fechaFin fecha de fin de reserva
+    @return
+  */
   public static List<Hotel> buscarHotel(List<String> tokens, LocalDate fechaInicio, LocalDate fechaFin) {
     if (tokens.size() == 0) return null;
     Session session = HibernateUtil.getSession().openSession();
@@ -40,7 +51,7 @@ public class BusquedaServicio {
     for (int i = 0; i < tokens.size(); i++) {
       String token = tokens.get(i);
       if (i != 0) {
-        query.append(" AND ");
+        query.append(" OR ");
       }
       query.append("(\n");
       query.append("h.nombre_normalizado ILIKE unaccent('%").append(token); 
@@ -57,6 +68,10 @@ public class BusquedaServicio {
     return hotles;
   }
 
+  /**
+    Método para obtener hoteles aleatoriamente.
+    @param cantidad cantidad de hoteles a obtener
+  */
   public static List<Hotel> hotelesAlazar(int cantidad) {
     Session session = HibernateUtil.getSession().openSession();
     List<Hotel> hoteles =  session.createNativeQuery("select * from hoteles_aleatorios(:cantidad)", Hotel.class)

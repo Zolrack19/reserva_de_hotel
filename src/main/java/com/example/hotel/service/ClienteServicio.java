@@ -10,6 +10,9 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+  Servicio para hacer operaciones relacionadas a los clientes en la base de datos.
+*/
 public class ClienteServicio {
 
   private static ClienteServicio clienteServicio;
@@ -25,6 +28,12 @@ public class ClienteServicio {
     clienteDAO.actualizarCliente(cliente);
   }
 
+  /**
+    Método para comprobar los datos de usuario.
+    @param email email de usuario.
+    @param contrasena contraseña de usuario.
+    @return
+  */
   public boolean signIn(String email, String contrasena) {
     App.cliente = clienteDAO.getByEmail(email);
     if (App.cliente == null) {
@@ -37,6 +46,9 @@ public class ClienteServicio {
     paisDAO.instanciarDivisa(pais);
   }
 
+  /**
+    Método para obtener una lista de paises.
+  */
   public List<Pais> getPaises() {
     return paisDAO.getPaisesRango(0, 20, true); //cambiar esto por si hay más paises
   }

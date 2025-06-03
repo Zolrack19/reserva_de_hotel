@@ -48,4 +48,12 @@ public class Reserva {
     this.fechaEntrada = fechaEntrada;
     this.fechaSalida = fechaSalida;
   }
+  public Reserva(long id, Boleta boleta, Cliente cliente, Cuarto cuarto, LocalDate fechaEntrada, LocalDate fechaSalida) {
+    this.id = id;
+    this.boleta = boleta;
+    this.cliente = cliente;
+    this.cuarto = cuarto;
+    this.fechaEntrada = fechaEntrada;
+    this.fechaSalida = fechaSalida;
+  }
 }

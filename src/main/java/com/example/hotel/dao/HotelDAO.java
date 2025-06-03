@@ -8,6 +8,9 @@ import org.hibernate.Transaction;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.util.HibernateUtil;
 
+/**
+  Clase para realizar crud para la tabla hotel en la base de datos.
+*/
 public class HotelDAO {
 
   public void crearHotel(Hotel hotel) {

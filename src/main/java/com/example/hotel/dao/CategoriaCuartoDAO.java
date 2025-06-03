@@ -8,6 +8,9 @@ import org.hibernate.Transaction;
 import com.example.hotel.dominio.CategoriaCuarto;
 import com.example.hotel.util.HibernateUtil;
 
+/**
+  Encargado de proporcionar un crud para la tabla categoria_cuarto en la base de datos,
+*/
 public class CategoriaCuartoDAO {
   
   public void crearCategoriaCuarto(CategoriaCuarto categoriaCuarto) {

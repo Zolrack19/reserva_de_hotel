@@ -38,9 +38,10 @@ public class Boleta implements Serializable {
   @JoinColumn(name = "medio_pago_id")
   private MedioPago medioPago;
   
-  @Column(precision = 10, scale = 2, nullable = false) //cambiar
+  @Column(name = "monto_emitido", precision = 10, scale = 2, nullable = false)
   private BigDecimal montoEmitido;
 
+  @Column(name = "fecha_pago")
   private LocalDateTime fechaPago; //con hora
 
 
@@ -52,5 +53,10 @@ public class Boleta implements Serializable {
     this.medioPago = medioPago;
     this.montoEmitido = montoEmitido;
     this.fechaPago = fechaPago;
+  }
+
+  @Override
+  public String toString() {
+    return codigo;
   }
 }

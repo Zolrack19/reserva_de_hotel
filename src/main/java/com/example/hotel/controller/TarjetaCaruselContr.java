@@ -36,7 +36,6 @@ public class TarjetaCaruselContr {
   @FXML
   private void verDetalles() throws IOException {
     if (App.detallesRoot == null) {
-      App.detallesRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/resultados.fxml"));
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
       App.detallesRoot = loader.load();
       dController = loader.getController();
@@ -69,5 +68,4 @@ public class TarjetaCaruselContr {
     );
   }
 
-  
 }

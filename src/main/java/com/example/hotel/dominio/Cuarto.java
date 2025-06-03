@@ -41,15 +41,11 @@ public class Cuarto {
   private String imagenUrl;
 
   @Column(length = 25)
-  private String numero; //número habitación
+  private String numero;
 
-  @Column(name = "suma_votos")
-  private int sumaVotos;
+  private short estrellas;
 
-  @Column(name = "cantidad_votos")
-  private int cantidadVotos;
-
-  @Column(length = 3000, nullable = false) //cambiar a 3000
+  @Column(length = 3000, nullable = false)
   private String descripcion;
   
   @Column(precision = 10, scale = 2, name = "precio_por_noche")
@@ -59,14 +55,20 @@ public class Cuarto {
 
   public Cuarto() {}
   public Cuarto(Hotel hotel, CategoriaCuarto categoriaCuarto, String imagenUrl, String numero,
-      String descripcion, BigDecimal precioPorNoche, byte capacidad) {
+    short estrellas, String descripcion, BigDecimal precioPorNoche, byte capacidad) {
     this.hotel = hotel;
     this.categoriaCuarto = categoriaCuarto;
     this.imagenUrl = imagenUrl;
     this.numero = numero;
+    this.estrellas = estrellas;
     this.descripcion = descripcion;
     this.precioPorNoche = precioPorNoche;
     this.capacidad = capacidad;
+  }
+
+  @Override
+  public String toString() {
+    return this.getNumero();
   }
   
 }

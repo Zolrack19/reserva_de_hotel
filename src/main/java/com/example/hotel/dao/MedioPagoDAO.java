@@ -8,6 +8,9 @@ import org.hibernate.Transaction;
 import com.example.hotel.dominio.MedioPago;
 import com.example.hotel.util.HibernateUtil;
 
+/**
+  Clase para realizar crud para la tabla medio_pago en la base de datos.
+*/
 public class MedioPagoDAO {
   
   public void crearMedioPago(MedioPago medioPago) {

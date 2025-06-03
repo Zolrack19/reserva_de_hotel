@@ -8,6 +8,9 @@ import org.hibernate.Transaction;
 import com.example.hotel.dominio.Pais;
 import com.example.hotel.util.HibernateUtil;
 
+/**
+  Clase para realizar crud para la tabla pais en la base de datos.
+*/
 public class PaisDAO {
 
   public void crearPais(Pais pais) {

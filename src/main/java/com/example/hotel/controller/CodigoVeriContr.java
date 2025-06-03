@@ -14,6 +14,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+  Controlador del modal de verificación de código, se encarga 
+  de verificar el código de comprobación.
+*/
 public class CodigoVeriContr implements Initializable {
   
   @FXML
@@ -46,6 +50,12 @@ public class CodigoVeriContr implements Initializable {
   private String email;
 
 
+  /**
+    Método que sirve para instanciar atributos de clase.
+    @param contr controlador de creación de cuenta, para inyectar un campo de la clase.
+    @param email email ingresado en el formulario.
+    @see CrearCuentaContr
+  */
   public void init(CrearCuentaContr contr, String email) {
     this.contr = contr;
     this.email = email;
@@ -91,7 +101,7 @@ public class CodigoVeriContr implements Initializable {
   }
 
   @FXML
-  public void reenviarCodigo() {
+  private void reenviarCodigo() {
    App.scheduler.schedule(() -> {
       contr.getCrearCuentaServicio().evnviarComprobante(email);
     }, 0, TimeUnit.MILLISECONDS);

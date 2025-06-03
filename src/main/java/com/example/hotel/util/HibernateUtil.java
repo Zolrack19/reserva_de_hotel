@@ -48,6 +48,10 @@ public class HibernateUtil {
     }
   }
 
+  /**
+    Método para obtener una instancia Session singleton. 
+    @return sesión para conectarse a la base de datos 
+  */
   public static SessionFactory getSession() {
     return session;
   }

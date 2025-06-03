@@ -8,6 +8,9 @@ import org.hibernate.Transaction;
 import com.example.hotel.dominio.Boleta;
 import com.example.hotel.util.HibernateUtil;
 
+/**
+  Clase que se encarga de hacer un crud sencillo para la tabla de boletas en la base de datos
+*/
 public class BoletaDAO {
   
   public void crearBoleta(Boleta boleta) {

@@ -63,59 +63,6 @@
                                     <Font size="19.0" />
                                  </font>
                               </Label>
-                              <Label text="Presupuesto (por noche)">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="7.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <VBox fx:id="vboxPresupuesto">
-                                 <children>
-                                    <HBox prefHeight="14.0" prefWidth="347.0">
-                                       <children>
-                                          <Label fx:id="lblDivisa1" text="S/">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="lblMinValor" text="10">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="-">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <Label fx:id="lblDivisa2" text="S/">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="lblMaxValor" text="500+">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="7.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="11.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets left="18.0" />
-                                 </padding>
-                              </VBox>
                               <Label text="Categoria">
                                  <font>
                                     <Font size="16.0" />
@@ -190,7 +137,6 @@
                                     <Insets left="18.0" />
                                  </padding>
                               </VBox>
-                              <Button fx:id="btnFiltro" mnemonicParsing="false" text="Aplicar filtros" />
                            </children></VBox>
                         <Region prefHeight="300.0" prefWidth="19.0" />
                         <VBox fx:id="vboxResultados" spacing="20.0" HBox.hgrow="ALWAYS" />

@@ -45,6 +45,11 @@
   -fx-border-color: #9c7eff;
 }
 
+.btnBuscarInicio:focused {
+  -fx-background-color: linear-gradient(to bottom, #6a4dbf, #462e7d);
+  -fx-border-color: #9c7eff;
+}
+
 .btnBuscarInicio:pressed {
   -fx-background-color: #251946;
   -fx-border-color: #5f0fff;
@@ -167,6 +172,11 @@
   -fx-border-color: #9c7eff;
 }
 
+.caruselCard:focused {
+  -fx-background-color: linear-gradient(to bottom, #3a0ca3, #082245);
+  -fx-border-color: #9c7eff;
+}
+
 .caruselCard:pressed {
   -fx-background-color: #251946;
   -fx-border-color: #5f0fff;
@@ -183,6 +193,11 @@
 }
 
 .resultadoCard:hover {
+  -fx-background-color: linear-gradient(from 15% 20% to 100% 100%, #430755, #462e7d, #a961b318);
+  -fx-border-color: #9c7eff;
+}
+
+.resultadoCard:focused {
   -fx-background-color: linear-gradient(from 15% 20% to 100% 100%, #430755, #462e7d, #a961b318);
   -fx-border-color: #9c7eff;
 }
@@ -225,26 +240,90 @@
   -fx-background-color: #ffffff;
 }
 
-#btnFiltro {
-  -fx-background-color: linear-gradient(to bottom, #a84dbf5b, #330f31b0);
-  -fx-border-color: #3916ad;
+.comentario {
+  -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1d1133, #2c1b48);
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: rgba(46, 27, 89, 0.8); 
+    -fx-table-cell-border-color: transparent;
+    -fx-border-color: #9d4edd33;
+    -fx-border-width: 1;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: #3b1f61;
+  -fx-border-color: transparent transparent #9d4edd transparent;
+}
+
+.table-view .column-header,
+.table-view .filler {
+  -fx-padding: 5 0;
+  -fx-size: 28px;
+  -fx-background-color: transparent;
+  -fx-border-color: #5a189a;
+  -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header .label {
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+  -fx-font-size: 15px;
+  -fx-alignment: CENTER_LEFT;
+  -fx-padding: 0 10;
+}
+
+.table-view .table-row-cell {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-padding: 4 8 4 8;
+}
+
+.table-view .table-row-cell:filled:hover {
+  -fx-background-color: rgba(185, 110, 214, 0.3);
+}
+
+.table-view .table-row-cell:filled:selected {
+  -fx-background-color: rgba(185, 110, 214, 0.3);
   -fx-text-fill: white;
 }
 
-#btnFiltro:focused {
-  -fx-background-color: linear-gradient(to bottom, #a84dbf5b, #330f31);
-  -fx-effect: dropshadow(gaussian, #ae56b654, 15, 0.5, 0, 0);
+.table-view .table-cell {
+  -fx-text-fill: #e0e0ff;
+  -fx-font-size: 15px;
+  -fx-padding: 6 4;
 }
 
-#btnFiltro:hover {
-  -fx-background-color: linear-gradient(to bottom, #a84dbf5b, #330f31);
+.spinner {
+  -fx-background-color: rgba(255, 255, 255, 0.1);
+  -fx-text-fill: #e0d7f8;
+  -fx-font-size: 14px;
+  -fx-background-radius: 8;
+  -fx-border-radius: 8;
+  -fx-border-color: #6a4dbf;
+  -fx-border-width: 1.5;
 }
 
-#btnFiltro:pressed {
-  -fx-background-color: #251946;
-  -fx-border-color: #074e6e;
+.spinner .text-field {
+  -fx-background-color: #1f1335;
+  -fx-text-fill: white;
+  -fx-border-color: transparent;
+  -fx-alignment: center;
 }
 
-.comentario {
-  -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1d1133, #2c1b48);
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+  -fx-background-color: linear-gradient(to bottom, #9d4edd, #7b2cbf);
+  -fx-background-radius: 0 6 6 0;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+  -fx-background-color: #c77dff;
+}
+
+.spinner .increment-arrow,
+.spinner .decrement-arrow {
+  -fx-background-color: white;
 }

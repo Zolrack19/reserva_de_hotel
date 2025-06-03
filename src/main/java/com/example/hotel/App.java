@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 
 
 /**
-  @author Carlos Barrientos <a>https://linkdegithubps</a>
+  @author Carlos Barrientos <a>https://github.com/Zolrack19/reserva_de_hotel</a>
 */
 public class App extends Application {
 

@@ -5,15 +5,13 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 import com.example.hotel.App;
+import com.example.hotel.auxiliar.Calendario;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
 
@@ -23,8 +21,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -51,27 +47,23 @@ public class InicioController implements Initializable {
   @FXML
   private DatePicker dateFin;
   
-  @FXML
-  private Button btnBuscar;
 
   @FXML
   private HBox hboxCarusel;
 
-  /*
-    Ventana emergente que aparece cuando hay resultados de búsqueda.
-  */
+  
+  // Ventana emergente que aparece cuando hay resultados de búsqueda.
   private final Popup popup = new Popup();
-  /*
-    Lista sincronizada con popup para mostrar los resultados sugeridos.
-  */
+
+  //  Lista sincronizada con popup para mostrar los resultados sugeridos.
   private final ListView<Hotel> sugerencias = new ListView<>();
 
-  /*
-    Boolean auxiliar para cancelar evento de teclado en txtBuscar.
-  */
+  
+  // Boolean auxiliar para cancelar evento de teclado en txtBuscar.
   private boolean activar;
+  private ResultadosContr resultadosContr;
 
-  /*
+  /**
     Implementación del método de Initializable.
     Encarga de dar configuración inicial a elementos gráficos como DatePicker, TextField, Popup, etc.
     También hace una búsqueda inicial en la base de datos para llenar un carusel de hoteles.
@@ -80,7 +72,7 @@ public class InicioController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     configurarCalendarios();
     llenarCarusel();
-    congigurarListaSugerencias();
+    configurarListaSugerencias();
     popup.getContent().add(sugerencias);
     popup.setAutoHide(true);
 
@@ -164,62 +156,13 @@ public class InicioController implements Initializable {
   }
 
   private void configurarCalendarios() {
-    dateInicio.setDayCellFactory(picker -> new DateCell() {
-      @Override
-      public void updateItem(LocalDate date, boolean empty) {
-        super.updateItem(date, empty);
-        if (empty) return;
-
-        if (date.isBefore(LocalDate.now())) {
-          setDisable(true);
-          setStyle("-fx-background-color: #EEEEEE;");
-        }
-      }
-    });
-    
-    dateFin.setDayCellFactory(picker -> new DateCell() {
-      @Override
-      public void updateItem(LocalDate date, boolean empty) {
-        super.updateItem(date, empty);
-        if (date.isBefore(LocalDate.now())) {
-          setDisable(true);
-          setStyle("-fx-background-color: #EEEEEE;");
-        }
-      }
-    });
-
-    dateInicio.showingProperty().addListener((obs, wasShowing, isShowing) -> {
-      if (!isShowing) {
-        if (dateFin.getValue() == null && dateInicio.getValue() != null) {
-          dateFin.setValue(dateInicio.getValue().plusDays(1));
-        }
-      }
-    });
-
-    dateFin.showingProperty().addListener((obs, wasShowing, isShowing) -> {
-      if (!isShowing) {
-        if (dateInicio.getValue() == null) {
-          dateFin.setValue(null);
-        }
-      }
-    });
-
-    dateInicio.valueProperty().addListener((obs, oldVal, newVal) -> {
-      if (dateFin.getValue() != null && newVal != null && (newVal.isAfter(dateFin.getValue()) || newVal.isEqual(dateFin.getValue()))) {
-        dateFin.setValue(newVal.plusDays(1));
-      }
-    });
-  
-    dateFin.valueProperty().addListener((obs, oldVal, newVal) -> {
-      if (dateInicio.getValue() != null && newVal != null && (newVal.isBefore(dateInicio.getValue()) || newVal.isEqual(dateInicio.getValue()))) {
-        dateInicio.setValue(newVal);
-        dateFin.setValue(newVal.plusDays(1));
-      }
-    });
+    Calendario.confEstilo(dateInicio);
+    Calendario.confEstilo(dateFin);
+    Calendario.confCalendarios(dateInicio, dateFin);
   }
 
 
-  private void congigurarListaSugerencias() {
+  private void configurarListaSugerencias() {
     sugerencias.setStyle(
       "-fx-background-color: rgba(255,255,255,0.05);" +
       "-fx-border-color: #6c4dc2;" +
@@ -304,9 +247,16 @@ public class InicioController implements Initializable {
   */
   @FXML
   private void buscarHotel() throws IOException {
+    if (sugerencias.getItems().isEmpty()) return;
     if (App.resultadosRoot == null) {
-      App.resultadosRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/resultados.fxml"));
+      // App.resultadosRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/resultados.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/resultados.fxml"));
+      Parent parent = loader.load();
+      resultadosContr = loader.getController();
+      App.resultadosRoot = parent;
     }
+
+    resultadosContr.inicarTarjetas(sugerencias.getItems());
     App.navegar(App.resultadosRoot);
   }
   

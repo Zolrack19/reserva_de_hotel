@@ -8,6 +8,9 @@ import org.hibernate.Transaction;
 import com.example.hotel.dominio.Cliente;
 import com.example.hotel.util.HibernateUtil;
 
+/**
+  Clase para realizar crud para la tabla cliente en la base de datos.
+*/
 public class ClienteDAO {
   
     public void crearCliente(Cliente cliente) {

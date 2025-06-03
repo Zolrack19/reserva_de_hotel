@@ -3,13 +3,16 @@ package com.example.hotel.controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Pais;
+import com.example.hotel.dominio.Reserva;
 import com.example.hotel.service.ClienteServicio;
 
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,12 +22,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
 /**
+  Controlador para la plantilla de información de cuenta, se encarga de mostrar los atributos del usuario
+  y da la posibilidad de actualizar sus valores, haciendo validaciones de entrada respectivas para cada campo.
   @see ModalEdicionContr
 */
 public class ClienteInfoContr implements Initializable {
@@ -77,6 +85,9 @@ public class ClienteInfoContr implements Initializable {
   
   @FXML
   private Button btnCancelar;
+  
+  @FXML
+  private TableView<Reserva> tblReservasH;
 
   private Stage modal;
   private ModalEdicionContr modalController;
@@ -205,6 +216,41 @@ public class ClienteInfoContr implements Initializable {
       modalController.prepararModal("Número de teléfono", lblTelefono, (short) 20);
       modal.show();
     });
+    configurarTabla();
+  }
+
+  @SuppressWarnings("unchecked")
+  private void configurarTabla() {
+    TableColumn<Reserva, Integer> colId = new TableColumn<>("Id");
+    colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    colId.setPrefWidth(100);
+    colId.setReorderable(false);
+
+    TableColumn<Reserva, LocalDate> colBoleta = new TableColumn<>("Código de boleta");
+    colBoleta.setCellValueFactory(new PropertyValueFactory<>("boleta"));
+    colBoleta.setPrefWidth(200);
+    colBoleta.setReorderable(false);
+    
+    TableColumn<Reserva, LocalDate> colfechaEntrada = new TableColumn<>("Fecha de Entrada");
+    colfechaEntrada.setCellValueFactory(new PropertyValueFactory<>("fechaEntrada"));
+    colfechaEntrada.setPrefWidth(200);
+    colfechaEntrada.setReorderable(false);
+    
+    TableColumn<Reserva, LocalDate> colfechaSalida = new TableColumn<>("Fecha de Salida");
+    colfechaSalida.setCellValueFactory(new PropertyValueFactory<>("fechaSalida"));
+    colfechaSalida.setPrefWidth(200);
+    colfechaSalida.setReorderable(false);
+
+    tblReservasH.getColumns().addAll(colId, colBoleta, colfechaEntrada, colfechaSalida);
+    tblReservasH.setFixedCellSize(35);
+    tblReservasH.prefHeightProperty().bind(
+      Bindings.size(tblReservasH.getItems()).multiply(tblReservasH.getFixedCellSize()).add(35)
+    );
+
+    tblReservasH.getItems().add(new Reserva(1, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
+    tblReservasH.getItems().add(new Reserva(2, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
+    tblReservasH.getItems().add(new Reserva(3, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
+    tblReservasH.getItems().add(new Reserva(4, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
   }
 
   private void crearModal() {
