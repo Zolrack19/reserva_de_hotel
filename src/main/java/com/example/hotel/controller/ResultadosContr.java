@@ -19,10 +19,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 /**
@@ -34,6 +37,9 @@ import javafx.scene.layout.VBox;
 public class ResultadosContr implements Initializable {
 
   @FXML
+  private Label lblInicio;
+  
+  @FXML
   private DatePicker dateInicio;
   
   @FXML
@@ -44,6 +50,9 @@ public class ResultadosContr implements Initializable {
   
   @FXML
   private VBox vboxCategoria;
+  
+  @FXML
+  private VBox vboxEstrellas;
 
   @FXML
   private VBox vboxResultados;
@@ -53,13 +62,26 @@ public class ResultadosContr implements Initializable {
 
   private List<Hotel> resultados;
 
-  /**
+  private List<CheckBox> categorias;
+  private List<CheckBox> estrellas;
+  /**}
     Método para  instanciar los elementos gráficos del fxml asociado, se encarga de hacer configurarciones
     como la validación de fechas en los DatePicker y asignar eventos de mouse y teclado, así como crear otros
     componentes gráficos desde código java, ejemplo: RangeSlider.
   */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    categorias = new ArrayList<>();
+    estrellas = new ArrayList<>();
+    lblInicio.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        try {
+          irAInicio();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
     resultados = new ArrayList<>();
     configurarCalendarios();
 
@@ -67,8 +89,12 @@ public class ResultadosContr implements Initializable {
     for (int i = 0; i < categorias.size(); i++) {
       CheckBox checkBox = new CheckBox(categorias.get(i).getNombre());
       vboxCategoria.getChildren().add(checkBox);
+      this.categorias.add(checkBox);
     }
 
+    for (Node nodo : vboxEstrellas.getChildren()) {
+      estrellas.add((CheckBox) nodo);
+    }
   }
 
   private void configurarCalendarios() {
@@ -81,7 +107,6 @@ public class ResultadosContr implements Initializable {
     Implementación de prueba del botón de buscar, solo se encarga de cambiar de plantilla, fxml.
     @throws IOException
   */
-
   private void crearTarjetas() {
     // prueba de lo que sería la generación de las tarjetas de resultados de búsqueda de hoteles
     try {
@@ -117,7 +142,7 @@ public class ResultadosContr implements Initializable {
   }
 
   @FXML
-  private void volver() throws IOException {
+  private void irAInicio() throws IOException {
     App.navegar(App.inicioRoot);
   }
 }

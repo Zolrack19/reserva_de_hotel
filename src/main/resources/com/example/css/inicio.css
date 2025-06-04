@@ -26,6 +26,10 @@
   -fx-background-size: contain;
 }
 
+#lblAvatar:focused {
+  -fx-effect: dropshadow(gaussian, rgb(255, 216, 41), 3, 5.5, 0, 0);
+}
+
 .btnBuscarInicio {
   -fx-background-color: linear-gradient(to bottom, #462e7d, #2e1b59);
   -fx-text-fill: #ffffff;

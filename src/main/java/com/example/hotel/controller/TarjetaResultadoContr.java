@@ -1,10 +1,6 @@
 package com.example.hotel.controller;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javax.persistence.criteria.Root;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Hotel;
@@ -12,7 +8,6 @@ import com.example.hotel.util.Imagenes;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -20,10 +15,9 @@ import javafx.scene.input.KeyCode;
 /**
  * Controlador de los componentes de una tarjeta en la plantilla Resultados.
  * Muestra los resultados, hoteles, de una búsqueda.
- * 
  * @see ResultadosContr
  */
-public class TarjetaResultadoContr implements Initializable {
+public class TarjetaResultadoContr {
 
   @FXML
   private Parent root;
@@ -43,19 +37,6 @@ public class TarjetaResultadoContr implements Initializable {
   private static DetallesController dController;
   private Hotel hotel;
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    root.setOnKeyPressed(e -> {
-      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
-        try {
-          verDetalles();
-        } catch (Exception ex) {
-          ex.printStackTrace();
-        }
-      }
-    });
-  }
-
   /**
    * Instancia los componentes gráficos de la plantilla. Aún falta implementar la
    * url de imágen.
@@ -65,6 +46,16 @@ public class TarjetaResultadoContr implements Initializable {
    * @version 1.0
    */
   public void setData(Hotel hotel, String imagenURL) {
+    root.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        try {
+          verDetalles();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
+
     this.hotel = hotel;
     lblImagen.setStyle(
       "-fx-background-image: url('" + imagenURL + "');" +
@@ -85,11 +76,13 @@ public class TarjetaResultadoContr implements Initializable {
   @FXML
   private void verDetalles() throws IOException {
     if (App.detallesRoot == null) {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
-      App.detallesRoot = loader.load();
-      dController = loader.getController();
+      App.detallesRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
     }
-    TarjetaResultadoContr.dController.setData(hotel);
+    dController.setData(hotel);
     App.navegar(App.detallesRoot);
+  }
+
+  protected static void setDControlador(DetallesController controller) {
+    dController = controller;
   }
 }

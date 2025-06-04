@@ -20,7 +20,7 @@
       		<VBox alignment="CENTER" prefWidth="858.0" HBox.hgrow="ALWAYS">
       			<children>
       				<Region minHeight="-Infinity" prefHeight="40.0" prefWidth="980.0" />
-                  <Label fx:id="lblAvatar" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#irACuenta" prefHeight="100.0" prefWidth="100.0">
+                  <Label fx:id="lblAvatar" focusTraversable="true" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#irACuenta" prefHeight="100.0" prefWidth="100.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

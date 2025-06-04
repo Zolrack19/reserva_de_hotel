@@ -25,8 +25,8 @@
             <Region maxWidth="300.0" minWidth="-Infinity" prefWidth="60.0" HBox.hgrow="ALWAYS" />
             <VBox prefHeight="737.0" prefWidth="943.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Region minHeight="-Infinity" prefHeight="60.0" prefWidth="866.0" />
-                  <Label id="lblVolver" focusTraversable="true" onMouseClicked="#volver" text="Volver" />
+                  <Region minHeight="-Infinity" prefHeight="60.0" prefWidth="866.0" visible="false" />
+                  <Label id="lblVolver" fx:id="lblVolver" focusTraversable="true" onMouseClicked="#volver" text="Volver" />
                   <Label fx:id="lblNombre" minHeight="-Infinity" prefWidth="866.0" text="HOTEL SHANGAI" wrapText="true">
                      <padding>
                         <Insets right="20.0" />

@@ -40,6 +40,9 @@ public class Cuarto {
   @Column(name = "imagen_url")
   private String imagenUrl;
 
+  @Column(nullable = false)
+  private String nombre;
+
   @Column(length = 25)
   private String numero;
 
@@ -54,11 +57,12 @@ public class Cuarto {
   private byte capacidad;
 
   public Cuarto() {}
-  public Cuarto(Hotel hotel, CategoriaCuarto categoriaCuarto, String imagenUrl, String numero,
+  public Cuarto(Hotel hotel, CategoriaCuarto categoriaCuarto, String imagenUrl, String nombre, String numero,
     short estrellas, String descripcion, BigDecimal precioPorNoche, byte capacidad) {
     this.hotel = hotel;
     this.categoriaCuarto = categoriaCuarto;
     this.imagenUrl = imagenUrl;
+    this.nombre = nombre;
     this.numero = numero;
     this.estrellas = estrellas;
     this.descripcion = descripcion;

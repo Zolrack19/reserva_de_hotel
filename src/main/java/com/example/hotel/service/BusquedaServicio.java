@@ -43,10 +43,11 @@ public class BusquedaServicio {
       );
       query.append("AND r.fecha_entrada < DATE '").append(fechaFin).append("'\n");
       query.append("AND r.fecha_salida > DATE '").append(fechaInicio).append("'\n");
-      query.append("\nWHERE\n r.id IS NULL\n ");
+      query.append("\nWHERE\n r.id IS NULL AND\n ");
     } else {
       query.append("\nWHERE\n");
     }
+    // query.append("h.categoria_id IN (1,2,3,7) AND h.estrellas IN (1,3,4,5,2) AND");
 
     for (int i = 0; i < tokens.size(); i++) {
       String token = tokens.get(i);

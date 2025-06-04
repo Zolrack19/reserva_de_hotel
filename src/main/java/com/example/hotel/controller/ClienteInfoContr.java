@@ -38,6 +38,9 @@ import javafx.stage.Stage;
 public class ClienteInfoContr implements Initializable {
 
   @FXML
+  private Label lblVolver;
+
+  @FXML
   private Label lblNombre;
   @FXML
   private Label lblEditarNombre;
@@ -95,6 +98,16 @@ public class ClienteInfoContr implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    lblVolver.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        try {
+          volver();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
+    
     chxSesionActiva.setSelected(App.sesionActiva);
     chxSesionActiva.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
       if (isNowSelected) {

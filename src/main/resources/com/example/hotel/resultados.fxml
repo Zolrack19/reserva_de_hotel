@@ -22,7 +22,7 @@
             <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Region minHeight="-Infinity" prefHeight="60.0" prefWidth="837.0" />
-                  <Label id="lblVolver" focusTraversable="true" onMouseClicked="#volver" text="Inicio" />
+                  <Label id="lblVolver" fx:id="lblInicio" focusTraversable="true" onMouseClicked="#irAInicio" text="Inicio" />
                   <HBox alignment="CENTER_LEFT" minWidth="840.0" prefHeight="62.0" prefWidth="840.0">
                      <children>
                         <TextField maxWidth="500.0" prefHeight="42.0" prefWidth="372.0" promptText="La ciudad de tus sueños te espera" styleClass="txtInicio" HBox.hgrow="ALWAYS">
@@ -87,7 +87,7 @@
                                     <Insets bottom="4.0" left="7.0" />
                                  </VBox.margin>
                               </Label>
-                              <VBox spacing="6.0">
+                              <VBox fx:id="vboxEstrellas" spacing="6.0">
                                  <children>
                                     <CheckBox mnemonicParsing="false" text="1 Estrella">
                                        <font>

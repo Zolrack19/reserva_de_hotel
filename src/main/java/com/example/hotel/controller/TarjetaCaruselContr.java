@@ -8,7 +8,9 @@ import com.example.hotel.util.Imagenes;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 
 /**
  * Controlador de los componentes de una tarjeta de carusel.
@@ -20,6 +22,9 @@ public class TarjetaCaruselContr {
   private static DetallesController dController;
   private Hotel hotel;
   
+  @FXML
+  private Parent root;
+
   @FXML
   private Label lblImagen;
   
@@ -38,9 +43,8 @@ public class TarjetaCaruselContr {
     if (App.detallesRoot == null) {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
       App.detallesRoot = loader.load();
-      dController = loader.getController();
     }
-    TarjetaCaruselContr.dController.setData(hotel);
+    dController.setData(hotel);
     App.navegar(App.detallesRoot);
   }
 
@@ -51,6 +55,16 @@ public class TarjetaCaruselContr {
   * @param imagenURL Url de la imagen a mostrar.
   */
   public void setData(Hotel hotel, String imagenURL) {
+    root.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        try {
+          verDetalles();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
+
     this.hotel = hotel;
     lblImagen.setStyle(
     "-fx-background-image: url('" + imagenURL + "');" +
@@ -68,4 +82,7 @@ public class TarjetaCaruselContr {
     );
   }
 
+  protected static void setDControlador(DetallesController controller) {
+    dController = controller;
+  }
 }

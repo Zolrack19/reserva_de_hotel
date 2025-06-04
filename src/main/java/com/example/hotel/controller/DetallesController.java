@@ -6,28 +6,24 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
-import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.util.Imagenes;
 
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
 
@@ -40,6 +36,9 @@ public class DetallesController implements Initializable {
 
   private Hotel hotel;
 
+  @FXML
+  private Label lblVolver;
+  
   @FXML
   private VBox vboxFotosContainer;
 
@@ -105,6 +104,17 @@ public class DetallesController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    TarjetaResultadoContr.setDControlador(this);
+    TarjetaCaruselContr.setDControlador(this);
+    lblVolver.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        try {
+          volver();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
     labels = new Label[] { lblImagen1, lblImagen2, lblImagen3, lblImagen4, lblImagen5, lblImagen6, lblImagen7 };
     lblVerMenos.setVisible(false);
     lblVerMenos.setManaged(false);
@@ -188,10 +198,10 @@ public class DetallesController implements Initializable {
       Bindings.size(tblCuartos.getItems()).multiply(tblCuartos.getFixedCellSize()).add(35)
     );
 
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "1234", (short) 1, null, BigDecimal.valueOf(4.51), (byte) 5));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "1235", (short) 5, null, BigDecimal.valueOf(14.51), (byte) 1));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "1236", (short) 2, null, BigDecimal.valueOf(47.51), (byte) 3));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "1237", (short) 4, null, BigDecimal.valueOf(422.51), (byte) 5));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1234", (short) 1, null, BigDecimal.valueOf(4.51), (byte) 5));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1235", (short) 5, null, BigDecimal.valueOf(14.51), (byte) 1));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1236", (short) 2, null, BigDecimal.valueOf(47.51), (byte) 3));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1237", (short) 4, null, BigDecimal.valueOf(422.51), (byte) 5));
   }
 
 

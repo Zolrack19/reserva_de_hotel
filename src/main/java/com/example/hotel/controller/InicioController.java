@@ -22,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -37,6 +38,13 @@ import javafx.stage.Popup;
 * @see Initializable
 */
 public class InicioController implements Initializable {
+
+
+  @FXML
+  private HBox principal; 
+  
+  @FXML
+  private Label lblAvatar;
   
   @FXML
   private TextField txtBuscar;
@@ -61,6 +69,7 @@ public class InicioController implements Initializable {
   
   // Boolean auxiliar para cancelar evento de teclado en txtBuscar.
   private boolean activar;
+  private boolean hayResultados;
   private ResultadosContr resultadosContr;
 
   /**
@@ -76,6 +85,17 @@ public class InicioController implements Initializable {
     popup.getContent().add(sugerencias);
     popup.setAutoHide(true);
 
+    lblAvatar.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        try {
+          irACuenta();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+      }
+    });
+    List<String> filtrado = new ArrayList<>();
+
     // Evento de teclado en el que se programa una tarea asíncrona con un delay de 400 milisegundos para hacer búsquedas en la base de datos.
     txtBuscar.textProperty().addListener((obx, oldText, newText) -> {
        // Si el usuario activa este evento antes de 400 milisegundos, la tarea se cancela y se programa una nueva
@@ -89,31 +109,30 @@ public class InicioController implements Initializable {
           return;
         }
         if (newText.isEmpty()) return;
-  
+        
+        filtrado.clear();
         String tokens[] = newText.split(" ");
-        List<String> filtrado = new ArrayList<>();
         for (int i = 0; i < tokens.length; i++) {
           if (tokens[i].length() > 3) {
             filtrado.add(tokens[i]);
             if (filtrado.size() > 5) break;
           }
         }
-        List<Hotel> filtrar = BusquedaServicio.buscarHotel(filtrado, dateInicio.getValue(), dateFin.getValue());
+        List<Hotel> resultados = BusquedaServicio.buscarHotel(filtrado, dateInicio.getValue(), dateFin.getValue());
 
         // Actualiza la interfaz del usuario para mostrar los resultados en el popup
         Platform.runLater(() -> {
-          if (newText == null || newText.isEmpty()) {
+          if (newText == null || newText.isEmpty() || resultados == null || resultados.isEmpty()) {
             popup.hide();
+            hayResultados = false;
+            sugerencias.getItems().clear();
           } else {
-            if (filtrar == null || filtrar.isEmpty()) {
-              popup.hide();
-            } else {
-              sugerencias.setItems(FXCollections.observableArrayList(filtrar));
-              if (!popup.isShowing()) {
-                popup.show(txtBuscar,
-                txtBuscar.localToScreen(0, txtBuscar.getHeight()).getX(),
-                txtBuscar.localToScreen(0, txtBuscar.getHeight()).getY());
-              }
+            hayResultados = true;
+            sugerencias.setItems(FXCollections.observableArrayList(resultados));
+            if (!popup.isShowing()) {
+              popup.show(txtBuscar,
+              txtBuscar.localToScreen(0, txtBuscar.getHeight()).getX(),
+              txtBuscar.localToScreen(0, txtBuscar.getHeight()).getY());
             }
           }
         });
@@ -121,7 +140,26 @@ public class InicioController implements Initializable {
 
     });
 
-    // #region eventos para btnBuscar
+    txtBuscar.setOnMouseClicked(e -> {
+      if (!popup.isShowing() && hayResultados) {
+        popup.show(txtBuscar,
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getX(),
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getY());
+      }
+    });
+
+    txtBuscar.focusedProperty().addListener((obs, oldVal, newVal) -> {
+      if (newVal) {
+        if (!hayResultados) return;
+        popup.show(txtBuscar,
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getX(),
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getY());
+      } else {
+        popup.hide();
+      }
+    });
+
+    // #region evento para btnBuscar
     txtBuscar.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER) {
         try {
@@ -135,7 +173,19 @@ public class InicioController implements Initializable {
 
     // #region eventos para la lista de sugerencia
     sugerencias.setOnKeyPressed(e -> {
-      if (e.getCode() == KeyCode.ENTER) {
+      if (e.getCode() == KeyCode.ESCAPE) {
+        if (popup.isShowing()) {
+          popup.hide();
+        }
+      } else if (e.getCode() == KeyCode.TAB) {
+        e.consume();
+        if (e.isShiftDown()) {
+          lblAvatar.requestFocus();
+        } else {
+          dateInicio.requestFocus();
+        }
+        popup.hide();
+      } else if (e.getCode() == KeyCode.ENTER) {
         Hotel selected = sugerencias.getSelectionModel().getSelectedItem();
         if (selected != null) {
           activar = true;
@@ -188,12 +238,26 @@ public class InicioController implements Initializable {
           } else {
             setText(item.getNombre());
             setTextFill(Color.WHITE);
-            setStyle(
-                "-fx-background-color: rgba(255, 255, 255, 0.08);" +
-                "-fx-font-size: 14px;" +
-                "-fx-padding: 6 12;" +
-                "-fx-background-radius: 4;"
-            );
+            
+            if (isSelected()) {
+              setStyle(
+                """
+                -fx-background-color: rgba(255, 255, 255, 0.3);
+                -fx-font-size: 14px; 
+                -fx-padding: 6 12; 
+                -fx-background-radius: 4
+                """
+              );
+            } else {
+              setStyle(
+                """
+                  -fx-background-color: rgba(255, 255, 255, 0.08);
+                  -fx-font-size: 14px;
+                  -fx-padding: 6 12;
+                  -fx-background-radius: 4;
+                """
+              );
+            }
             
             setOnMouseEntered(e -> setStyle(
               "-fx-background-color: rgba(255, 255, 255, 0.2);" +
@@ -249,7 +313,6 @@ public class InicioController implements Initializable {
   private void buscarHotel() throws IOException {
     if (sugerencias.getItems().isEmpty()) return;
     if (App.resultadosRoot == null) {
-      // App.resultadosRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/resultados.fxml"));
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/resultados.fxml"));
       Parent parent = loader.load();
       resultadosContr = loader.getController();

@@ -24,7 +24,7 @@
             <VBox prefHeight="737.0" prefWidth="943.0" HBox.hgrow="ALWAYS">
                <children>
                   <Region minHeight="-Infinity" prefHeight="60.0" prefWidth="866.0" />
-                  <Label id="lblVolver" focusTraversable="true" onMouseClicked="#volver" text="Inicio">
+                  <Label id="lblVolver" fx:id="lblVolver" focusTraversable="true" onMouseClicked="#volver" text="Inicio">
                      <VBox.margin>
                         <Insets bottom="11.0" />
                      </VBox.margin>
