@@ -6,15 +6,18 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.hibernate.Session;
 
 import com.example.hotel.dominio.Cliente;
 import com.example.hotel.util.HibernateUtil;
+import com.example.hotel.util.Rutas;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -40,13 +43,6 @@ public class App extends Application {
   * Panel principal de la aplicación, similar a JPanel en swing.
   */
   public static Scene scene;
-  public static Parent loginRoot;
-  public static Parent crearCuentaRoot;
-  public static Parent clienteInfo;
-  public static Parent inicioRoot;
-  public static Parent resultadosRoot;
-  public static Parent detallesRoot;
-
   public static boolean sesionActiva;
 
   /**
@@ -58,33 +54,47 @@ public class App extends Application {
   /**
   * Pila global de navegación.
   */
-  public static final Stack<Parent> stackNavegacion = new Stack<>();
+  private static final Stack<Parent> stackNavegacion = new Stack<>();
   
   /**
   * Puntero de navegación en la pila.
   */
-  public static byte puntero = -1;
+  private static byte puntero = -1;
+  private static HashMap<Byte, Parent> vistas = new HashMap<>();
+
+  @Override
+  public void stop() throws Exception {
+    super.stop();
+    scheduler.shutdownNow();
+    String ruta = "imagenesdb" + File.separator + "sesion.txt";
+    BufferedWriter writer = new BufferedWriter(new FileWriter(ruta));
+    if (sesionActiva) {
+      writer.write(cliente.getEmail());
+    } else {
+      writer.write("");
+    }
+    writer.close();
+  }
 
   /**
   * Configura las instancias y comportamientos necesarios para inicar la aplicación.
   * Tales como: el fxml de incio, añade eventos de mouse y teclado para la navegación.
   */
-
   @Override
   public void start(Stage stage) throws IOException {
     boolean resultado = iniciarSesion();
     sesionActiva = resultado;
     if (!resultado) {
-      FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login.fxml"));
-      loginRoot = fxmlLoader.load();
-      scene = new Scene(loginRoot);
+      FXMLLoader fxmlLoader = new FXMLLoader(Rutas.LOGIN.getUrlVista());
+      vistas.put(Rutas.LOGIN.getId(), fxmlLoader.load());
+      scene = new Scene(vistas.get(Rutas.LOGIN.getId()));
     }
     confInit(stage, resultado);
   }
 
   private boolean iniciarSesion() throws IOException {
     Session s = HibernateUtil.getSession().openSession();
-    String ruta = System.getProperty("user.home") + File.separator + ".hotel" + File.separator + "sesion.txt";
+    String ruta = "imagenesdb" + File.separator + "sesion.txt";
     BufferedReader reader = new BufferedReader(new FileReader(ruta));
     String contenido = reader.readLine();
     reader.close();
@@ -94,21 +104,21 @@ public class App extends Application {
     .uniqueResult();
     s.close();
     if (cliente == null) return false;
-    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("inicio.fxml"));
-    inicioRoot = fxmlLoader.load();
+    FXMLLoader fxmlLoader = new FXMLLoader(Rutas.INICIO.getUrlVista());
+    vistas.put(Rutas.INICIO.getId(), fxmlLoader.load());
     puntero++;
-    stackNavegacion.add(inicioRoot);
-    scene = new Scene(inicioRoot);
+    stackNavegacion.add(vistas.get(Rutas.INICIO.getId()));
+    scene = new Scene(vistas.get(Rutas.INICIO.getId()));
     return true;
   }
 
   private void confInit(Stage stage, boolean maxTamanio) {
-    scene.setOnKeyPressed(event -> {
-      if (event.isAltDown() && event.getCode() == KeyCode.LEFT) {
+    scene.setOnKeyPressed(e -> {
+      if (e.isAltDown() && e.getCode() == KeyCode.LEFT) {
         if (puntero - 1 <= -1)
           return;
         scene.setRoot(stackNavegacion.get(--puntero));
-      } else if (event.isAltDown() && event.getCode() == KeyCode.RIGHT) {
+      } else if (e.isAltDown() && e.getCode() == KeyCode.RIGHT) {
         if (puntero + 1 >= stackNavegacion.size())
           return;
         scene.setRoot(stackNavegacion.get(++puntero));
@@ -139,9 +149,9 @@ public class App extends Application {
   /**
   * Lógica de la navegación entre páginas de la aplicación, simula una navegación web guardando 
   * las páginas de la aplicación en una pila y ajustando un puntero a la posición del usuario.
-  * @param root Página a la que está navegando el usuario, se guarda en la pila.
+  * @param ruta Página a la que está navegando el usuario, se guarda en la pila.
   */
-  public static void navegar(Parent root) {
+  public static void navegar(ScheduledFuture<?> ttlTask, Rutas ruta) {
     if (stackNavegacion.size() >= 20) { // tamaño máximo de la pila
       stackNavegacion.removeFirst();
       if (puntero + 1 == stackNavegacion.size()) {
@@ -152,29 +162,41 @@ public class App extends Application {
       stackNavegacion.removeLast();
     }
     puntero++;
-    stackNavegacion.add(root);
-    App.scene.setRoot(root);
+    stackNavegacion.add(vistas.get(ruta.getId()));
+    App.scene.setRoot(vistas.get(ruta.getId()));
+
+    if (ttlTask != null) confTtl(ttlTask, ruta);
   }
 
-  /**
-  * Cierra todos los recursos globales al cerrar la ventana general.
-  */
-  @Override
-  public void stop() throws Exception {
-    super.stop();
-    scheduler.shutdownNow();
-    String ruta = System.getProperty("user.home") + File.separator + ".hotel" + File.separator + "sesion.txt";
-    BufferedWriter writer = new BufferedWriter(new FileWriter(ruta));
-    if (sesionActiva) {
-      writer.write(cliente.getEmail());
-    } else {
-      writer.write("");
+
+
+  public static void confTtl(ScheduledFuture<?> task, Rutas ruta) {
+    if (task != null && !task.isDone()) {
+      task.cancel(false);
     }
-    writer.close();
+
+    task = scheduler.schedule(() -> {
+      vistas.remove(ruta.getId());
+    }, 3, TimeUnit.MINUTES);
   }
 
-   public static void main(String[] args) {
+  public static Parent setVista(Rutas ruta) throws IOException {
+    return vistas.put(ruta.getId(), FXMLLoader.load(ruta.getUrlVista()));
+  }
+  
+  public static Parent setVista(Rutas ruta, Parent nodo) {
+    return vistas.put(ruta.getId(), nodo);
+  }
+
+  public static void removeVista(Rutas ruta) {
+    vistas.remove(ruta.getId());
+  }
+  
+  public static Parent getVista(Rutas ruta) {
+    return vistas.get(ruta.getId());
+  }
+
+  public static void main(String[] args) {
     launch();
   }
-
 }

@@ -1,13 +1,14 @@
 package com.example.hotel.controller;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledFuture;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.util.Imagenes;
+import com.example.hotel.util.Rutas;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -40,12 +41,13 @@ public class TarjetaCaruselContr {
 
   @FXML
   private void verDetalles() throws IOException {
-    if (App.detallesRoot == null) {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
-      App.detallesRoot = loader.load();
+    if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
+      // FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
+      // App.detallesRoot = loader.load();
+      App.setVista(Rutas.DETALLES_HOTEL);
     }
     dController.setData(hotel);
-    App.navegar(App.detallesRoot);
+    App.navegar(null, Rutas.DETALLES_HOTEL);
   }
 
   /**

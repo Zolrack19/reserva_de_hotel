@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="spinnerRoot" xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/inicio.css" fx:controller="com.example.hotel.controller.SpinnerController" prefWidth="50" prefHeight="50">
+    <Circle fx:id="spinnerCircle" radius="50" styleClass="spinner"/>
+</StackPane>

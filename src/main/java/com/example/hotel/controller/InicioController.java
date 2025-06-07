@@ -5,15 +5,17 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
 import com.example.hotel.auxiliar.Calendario;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
+import com.example.hotel.util.Imagenes;
+import com.example.hotel.util.Rutas;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -59,6 +61,7 @@ public class InicioController implements Initializable {
   @FXML
   private HBox hboxCarusel;
 
+  private ScheduledFuture<?> ttlTask;
   
   // Ventana emergente que aparece cuando hay resultados de búsqueda.
   private final Popup popup = new Popup();
@@ -83,7 +86,6 @@ public class InicioController implements Initializable {
     llenarCarusel();
     configurarListaSugerencias();
     popup.getContent().add(sugerencias);
-    popup.setAutoHide(true);
 
     lblAvatar.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
@@ -94,11 +96,9 @@ public class InicioController implements Initializable {
         }
       }
     });
-    List<String> filtrado = new ArrayList<>();
 
-    // Evento de teclado en el que se programa una tarea asíncrona con un delay de 400 milisegundos para hacer búsquedas en la base de datos.
+    String[] filtrado = new String[5];
     txtBuscar.textProperty().addListener((obx, oldText, newText) -> {
-       // Si el usuario activa este evento antes de 400 milisegundos, la tarea se cancela y se programa una nueva
       if (App.future != null && !App.future.isDone()) {
         App.future.cancel(false);
       }
@@ -110,13 +110,18 @@ public class InicioController implements Initializable {
         }
         if (newText.isEmpty()) return;
         
-        filtrado.clear();
         String tokens[] = newText.split(" ");
+        int j = 0;
         for (int i = 0; i < tokens.length; i++) {
           if (tokens[i].length() > 3) {
-            filtrado.add(tokens[i]);
-            if (filtrado.size() > 5) break;
+            filtrado[j] = tokens[i];
+            j++;
+            if (j >= 5) break;
           }
+        }
+        while (j < 5) {
+          filtrado[j] = null;
+          j++;
         }
         List<Hotel> resultados = BusquedaServicio.buscarHotel(filtrado, dateInicio.getValue(), dateFin.getValue());
 
@@ -290,7 +295,7 @@ public class InicioController implements Initializable {
     List<Hotel> hoteles = BusquedaServicio.hotelesAlazar(6);
     for (int i = 0; i < hoteles.size(); i++) {
       Hotel hotel = hoteles.get(i);
-      Path carpeta = Paths.get(hotel.getImagenUrl());
+      Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
       try {
         String url = Files.list(carpeta).sorted().map(path -> path.toUri().toString()).findFirst().orElseThrow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/tarjeta-carusel.fxml"));
@@ -312,15 +317,15 @@ public class InicioController implements Initializable {
   @FXML
   private void buscarHotel() throws IOException {
     if (sugerencias.getItems().isEmpty()) return;
-    if (App.resultadosRoot == null) {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/resultados.fxml"));
+    if (App.getVista(Rutas.RESULTADOS) == null) {
+      FXMLLoader loader = new FXMLLoader(Rutas.RESULTADOS.getUrlVista());
       Parent parent = loader.load();
       resultadosContr = loader.getController();
-      App.resultadosRoot = parent;
+      App.setVista(Rutas.RESULTADOS, parent);
     }
 
     resultadosContr.inicarTarjetas(sugerencias.getItems());
-    App.navegar(App.resultadosRoot);
+    App.navegar(ttlTask, Rutas.RESULTADOS);
   }
   
   /**
@@ -330,9 +335,10 @@ public class InicioController implements Initializable {
   */
   @FXML
   private void irACuenta() throws IOException {
-    if (App.clienteInfo == null) {
-      App.clienteInfo = FXMLLoader.load(getClass().getResource("/com/example/hotel/cliente-info.fxml"));
+    if (App.getVista(Rutas.CLIENTE_INFO) == null) {
+      // App.clienteInfo = FXMLLoader.load(getClass().getResource("/com/example/hotel/cliente-info.fxml"));
+      App.setVista(Rutas.CLIENTE_INFO);
     }
-    App.navegar(App.clienteInfo);
+    App.navegar(ttlTask, Rutas.CLIENTE_INFO);
   }
 }

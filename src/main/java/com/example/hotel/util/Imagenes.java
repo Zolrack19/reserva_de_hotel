@@ -1,5 +1,8 @@
 package com.example.hotel.util;
 
+import java.io.File;
+// import java.nio.file.Paths;
+
 import lombok.Getter;
 /**
   Enum que alamcena la url de imagenes estáticas, para centralización.
@@ -7,6 +10,7 @@ import lombok.Getter;
 @Getter
 public enum Imagenes {
 
+  DB("imagenesdb" + File.separator + "imagenes"),
   ESTRELLA(Imagenes.class.getResource("/com/example/imagenes/star.png").toString());
   
   private final String url;

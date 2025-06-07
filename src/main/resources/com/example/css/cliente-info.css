@@ -85,7 +85,7 @@
   -fx-background-repeat: no-repeat;
   -fx-background-position: left center;
   -fx-background-size: 35px 35px;
-  -fx-padding: 7 10 7 35; 
+  -fx-padding: 7 10 7 35;
 }
 
 #btnEliminarCuenta:focused {

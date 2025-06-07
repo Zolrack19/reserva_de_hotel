@@ -5,12 +5,14 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Pais;
 import com.example.hotel.dominio.Reserva;
 import com.example.hotel.service.ClienteServicio;
+import com.example.hotel.util.Rutas;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -91,6 +93,8 @@ public class ClienteInfoContr implements Initializable {
   
   @FXML
   private TableView<Reserva> tblReservasH;
+
+  private ScheduledFuture<?> ttlTask;
 
   private Stage modal;
   private ModalEdicionContr modalController;
@@ -297,7 +301,7 @@ public class ClienteInfoContr implements Initializable {
 
   @FXML
   private void volver() throws IOException {
-    App.navegar(App.inicioRoot);
+    App.navegar(ttlTask, Rutas.CLIENTE_INFO);
   }
 
 }

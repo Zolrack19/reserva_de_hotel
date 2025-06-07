@@ -7,11 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
+import java.util.concurrent.ScheduledFuture;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.util.Imagenes;
+import com.example.hotel.util.Rutas;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -88,6 +90,12 @@ public class DetallesController implements Initializable {
   private VBox vboxPresupuesto;
 
   @FXML
+  private Label lblDivisa1;
+
+  @FXML
+  private Label lblDivisa2;
+
+  @FXML
   private Label lblMinValor;
   
   @FXML
@@ -96,6 +104,7 @@ public class DetallesController implements Initializable {
   @FXML
   private TableView<Cuarto> tblCuartos;
 
+  private ScheduledFuture<?> ttlTask;
 
   private Label[] labels;
   private byte estrella;
@@ -198,10 +207,10 @@ public class DetallesController implements Initializable {
       Bindings.size(tblCuartos.getItems()).multiply(tblCuartos.getFixedCellSize()).add(35)
     );
 
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1234", (short) 1, null, BigDecimal.valueOf(4.51), (byte) 5));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1235", (short) 5, null, BigDecimal.valueOf(14.51), (byte) 1));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1236", (short) 2, null, BigDecimal.valueOf(47.51), (byte) 3));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, "hola mundo", "1237", (short) 4, null, BigDecimal.valueOf(422.51), (byte) 5));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 1, "hola mundo", BigDecimal.valueOf(4.51), (byte) 5));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 5, "hola mundo", BigDecimal.valueOf(14.51), (byte) 1));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 2, "hola mundo", BigDecimal.valueOf(47.51), (byte) 3));
+    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 4, "hola mundo", BigDecimal.valueOf(422.51), (byte) 5));
   }
 
 
@@ -225,9 +234,10 @@ public class DetallesController implements Initializable {
       );
     }
     lblDescripcion.setText(hotel.getDescripcion());
-    Path carpeta = Paths.get(hotel.getImagenUrl());
+    Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
     try {
-      Object[] urls = Files.list(carpeta).sorted().limit(7).map(path -> path.toUri().toString()).toArray();
+      Object[] urls = Files.list(carpeta).filter(Files::isRegularFile).sorted().limit(7).map(path -> path.toUri().toString()).toArray();
+      // Object[] urls = Files.list(carpeta).sorted().limit(7).map(path -> path.toUri().toString()).toArray();
       for (int i = 0; i < urls.length; i++) {
         labels[i].setStyle(
           "-fx-background-image: url('" + urls[i] + "');" +
@@ -243,11 +253,11 @@ public class DetallesController implements Initializable {
 
   @FXML
   public void volver() throws IOException {
-    if (App.resultadosRoot == null) {
+    if (App.getVista(Rutas.RESULTADOS) == null) {
       // App.resultadosRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/resultados.fxml3"));
-      App.navegar(App.inicioRoot);
+      App.navegar(ttlTask, Rutas.INICIO);
     } else {
-      App.navegar(App.resultadosRoot);
+      App.navegar(ttlTask, Rutas.RESULTADOS);
     }
   }
 

@@ -31,26 +31,40 @@ public class BusquedaServicio {
     @param fechaFin fecha de fin de reserva
     @return
   */
-  public static List<Hotel> buscarHotel(List<String> tokens, LocalDate fechaInicio, LocalDate fechaFin) {
-    if (tokens.size() == 0) return null;
+  public static List<Hotel> buscarHotel(String[] tokens, LocalDate fechaInicio, LocalDate fechaFin) {
+    if (tokens[0] == null) return null;
     Session session = HibernateUtil.getSession().openSession();
     query.delete(109, query.length());
     if (fechaInicio != null) {
+      // query.append("""
+      // LEFT JOIN cuarto cuar ON cuar.hotel_id = h.id
+      // LEFT JOIN reserva r ON r.cuarto_id = cuar.id
+      // """
+      // );
+      // query.append("AND r.fecha_entrada < DATE '").append(fechaFin).append("'\n");
+      // query.append("AND r.fecha_salida > DATE '").append(fechaInicio).append("'\n");
+      // query.append("\nWHERE\n r.id IS NULL AND\n ");
       query.append("""
-      LEFT JOIN cuarto cuar ON cuar.hotel_id = h.id
-      LEFT JOIN reserva r ON r.cuarto_id = cuar.id
+      WHERE EXISTS (
+        SELECT 1 
+        FROM cuarto cuar
+        WHERE cuar.hotel_id = h.id
+          AND NOT EXISTS (
+            SELECT 1
+            FROM reserva r
+            WHERE r.cuarto_id = cuar.id
       """
       );
       query.append("AND r.fecha_entrada < DATE '").append(fechaFin).append("'\n");
       query.append("AND r.fecha_salida > DATE '").append(fechaInicio).append("'\n");
-      query.append("\nWHERE\n r.id IS NULL AND\n ");
+      query.append(")\n) \nAND\n ");
     } else {
       query.append("\nWHERE\n");
     }
     // query.append("h.categoria_id IN (1,2,3,7) AND h.estrellas IN (1,3,4,5,2) AND");
-
-    for (int i = 0; i < tokens.size(); i++) {
-      String token = tokens.get(i);
+    int i = 0;
+    while (tokens[i] != null) {
+      String token = tokens[i];
       if (i != 0) {
         query.append(" OR ");
       }
@@ -62,6 +76,7 @@ public class BusquedaServicio {
       query.append("p.nombre_normalizado ILIKE unaccent('%").append(token); 
       query.append("%')");
       query.append(")\n");
+      i++;
     }
     
     List<Hotel> hotles =  session.createNativeQuery(query.toString(), Hotel.class).list();

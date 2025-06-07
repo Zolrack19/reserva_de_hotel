@@ -34,10 +34,10 @@ public class Reserva {
   @JoinColumn(name = "cuarto_id")
   private Cuarto cuarto;
 
-  @Column(name = "fecha_entrada")
+  @Column(name = "fecha_entrada", nullable = false)
   private LocalDate fechaEntrada;
   
-  @Column(name = "fecha_salida")
+  @Column(name = "fecha_salida", nullable = false)
   private LocalDate fechaSalida;
 
   public Reserva() {}

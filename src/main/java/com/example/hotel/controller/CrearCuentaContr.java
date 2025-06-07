@@ -3,11 +3,14 @@ package com.example.hotel.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Pais;
 import com.example.hotel.service.CrearCuentaServicio;
+import com.example.hotel.util.Rutas;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -214,22 +217,22 @@ public class CrearCuentaContr implements Initializable {
 
   @FXML
   private void cambiarALogin() {
-    App.scene.setRoot(App.loginRoot);
+    App.scene.setRoot(App.getVista(Rutas.LOGIN));
     App.primaryStage.sizeToScene();
   }
 
 
   public void crearCliente() throws IOException {
     crearCuentaServicio.crearCliente(cbxPais.getValue(), nombre, apellido, email, contra);
-    if (App.inicioRoot == null) {
-      App.inicioRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/inicio.fxml"));
+    if (App.getVista(Rutas.INICIO) == null) {
+      App.setVista(Rutas.INICIO);
     }
     Platform.runLater(() -> {
-      App.navegar(App.inicioRoot);
+      App.navegar(null, Rutas.INICIO);
       App.primaryStage.setMaximized(true);
     });
-    App.loginRoot = null;
-    App.crearCuentaRoot = null;
+    App.removeVista(Rutas.LOGIN);
+    App.removeVista(Rutas.CREAR_CUENTA);
   }
 
   public VBox getRaiz() {
@@ -240,4 +243,8 @@ public class CrearCuentaContr implements Initializable {
     return crearCuentaServicio;
   }
 
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("\n\n🧹 CraerCuenta eliminado por GC\n\n");
+  }
 }

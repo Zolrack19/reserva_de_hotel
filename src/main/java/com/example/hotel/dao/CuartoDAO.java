@@ -18,6 +18,8 @@ public class CuartoDAO {
     Transaction tr = session.beginTransaction();
 
     session.save(cuarto);
+    session.flush();
+    session.refresh(cuarto);
 
     tr.commit();
     session.close();

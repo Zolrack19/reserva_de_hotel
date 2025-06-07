@@ -43,12 +43,11 @@ public class Cuarto {
   @Column(nullable = false)
   private String nombre;
 
-  @Column(length = 25)
-  private String numero;
+  private int numero;
 
   private short estrellas;
 
-  @Column(length = 3000, nullable = false)
+  @Column(length = 1000, nullable = false)
   private String descripcion;
   
   @Column(precision = 10, scale = 2, name = "precio_por_noche")
@@ -57,13 +56,11 @@ public class Cuarto {
   private byte capacidad;
 
   public Cuarto() {}
-  public Cuarto(Hotel hotel, CategoriaCuarto categoriaCuarto, String imagenUrl, String nombre, String numero,
+  public Cuarto(Hotel hotel, CategoriaCuarto categoriaCuarto, String nombre,
     short estrellas, String descripcion, BigDecimal precioPorNoche, byte capacidad) {
     this.hotel = hotel;
     this.categoriaCuarto = categoriaCuarto;
-    this.imagenUrl = imagenUrl;
     this.nombre = nombre;
-    this.numero = numero;
     this.estrellas = estrellas;
     this.descripcion = descripcion;
     this.precioPorNoche = precioPorNoche;
@@ -72,7 +69,7 @@ public class Cuarto {
 
   @Override
   public String toString() {
-    return this.getNumero();
+    return String.valueOf(this.getNumero());
   }
   
 }

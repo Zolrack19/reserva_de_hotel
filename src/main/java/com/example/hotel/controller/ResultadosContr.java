@@ -8,12 +8,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ScheduledFuture;
 
 import com.example.hotel.App;
 import com.example.hotel.auxiliar.Calendario;
 import com.example.hotel.dominio.Categoria;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
+import com.example.hotel.util.Imagenes;
+import com.example.hotel.util.Rutas;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -60,6 +63,7 @@ public class ResultadosContr implements Initializable {
   @FXML
   private Button btnBuscar;
 
+  private ScheduledFuture<?> ttlTask;
   private List<Hotel> resultados;
 
   private List<CheckBox> categorias;
@@ -112,7 +116,7 @@ public class ResultadosContr implements Initializable {
     try {
       for (int i = 0; i < resultados.size(); i++) {
         Hotel hotel = resultados.get(i);
-        Path carpeta = Paths.get(hotel.getImagenUrl());
+        Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
         String url = Files.list(carpeta).sorted().map(path -> path.toUri().toString()).findFirst().orElseThrow();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/tarjeta-resultado.fxml"));
@@ -135,14 +139,14 @@ public class ResultadosContr implements Initializable {
 
   @FXML
   public void buscar() throws IOException {
-    if (App.detallesRoot == null) {
-      App.detallesRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
+    if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
+      App.setVista(Rutas.DETALLES_HOTEL);
     }
-    App.navegar(App.detallesRoot);
+    App.navegar(ttlTask, Rutas.DETALLES_HOTEL);
   }
 
   @FXML
   private void irAInicio() throws IOException {
-    App.navegar(App.inicioRoot);
+    App.navegar(ttlTask, Rutas.INICIO);
   }
 }

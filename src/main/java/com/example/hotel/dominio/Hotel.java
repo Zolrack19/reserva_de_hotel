@@ -54,6 +54,9 @@ public class Hotel {
   @Column(length = 3000, nullable = false)
   private String descripcion;
 
+  @Column(name = "total_cuartos", nullable = false)
+  private int totalCuartos;
+
   public Hotel() {} 
   public Hotel(Ciudad ciudad, Categoria categoria, String imagenUrl,
     String nombre, String descripcion) {
