@@ -18,7 +18,6 @@ import javafx.scene.input.KeyCode;
  * @see InicioController 
 */
 public class TarjetaCaruselContr {
-  
   private static DetallesController dController;
   private Hotel hotel;
   
@@ -43,7 +42,7 @@ public class TarjetaCaruselContr {
     if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
       App.setVista(Rutas.DETALLES_HOTEL);
     }
-    dController.setData(hotel);
+    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel); 
     App.navegar(Rutas.DETALLES_HOTEL);
   }
 

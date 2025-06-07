@@ -110,8 +110,8 @@ public class DetallesController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    TarjetaResultadoContr.setDControlador(this);
-    TarjetaCaruselContr.setDControlador(this);
+    // TarjetaResultadoContr.setDControlador(this);
+    // TarjetaCaruselContr.setDControlador(this);
     lblVolver.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
         try {
@@ -234,7 +234,6 @@ public class DetallesController implements Initializable {
     Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
     try {
       Object[] urls = Files.list(carpeta).filter(Files::isRegularFile).sorted().limit(7).map(path -> path.toUri().toString()).toArray();
-      // Object[] urls = Files.list(carpeta).sorted().limit(7).map(path -> path.toUri().toString()).toArray();
       for (int i = 0; i < urls.length; i++) {
         labels[i].setStyle(
           "-fx-background-image: url('" + urls[i] + "');" +

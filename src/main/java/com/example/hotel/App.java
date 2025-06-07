@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.hibernate.Session;
 
+import com.example.hotel.auxiliar.Vista;
 import com.example.hotel.dominio.Cliente;
 import com.example.hotel.util.HibernateUtil;
 import com.example.hotel.util.Rutas;
@@ -60,7 +61,7 @@ public class App extends Application {
   * Puntero de navegación en la pila.
   */
   private static byte puntero = -1;
-  private static HashMap<Rutas, Parent> vistas = new HashMap<>();
+  private static HashMap<Rutas, Vista> vistas = new HashMap<>();
 
   @Override
   public void stop() throws Exception {
@@ -86,8 +87,8 @@ public class App extends Application {
     sesionActiva = resultado;
     if (!resultado) {
       FXMLLoader fxmlLoader = new FXMLLoader(Rutas.LOGIN.getUrlVista());
-      vistas.put(Rutas.LOGIN, fxmlLoader.load());
-      scene = new Scene(vistas.get(Rutas.LOGIN));
+      vistas.put(Rutas.LOGIN, new Vista(fxmlLoader.load(), null));
+      scene = new Scene(vistas.get(Rutas.LOGIN).getView());
     }
     confInit(stage, resultado);
   }
@@ -105,10 +106,10 @@ public class App extends Application {
     s.close();
     if (cliente == null) return false;
     FXMLLoader fxmlLoader = new FXMLLoader(Rutas.INICIO.getUrlVista());
-    vistas.put(Rutas.INICIO, fxmlLoader.load());
+    vistas.put(Rutas.INICIO, new Vista(fxmlLoader.load(), null));
     puntero++;
     stackNavegacion.add(Rutas.INICIO);
-    scene = new Scene(vistas.get(Rutas.INICIO));
+    scene = new Scene(vistas.get(Rutas.INICIO).getView());
     return true;
   }
 
@@ -198,11 +199,8 @@ public class App extends Application {
     }
     puntero++;
     stackNavegacion.add(ruta);
-    App.scene.setRoot(vistas.get(ruta));
-
+    App.scene.setRoot(vistas.get(ruta).getView());
   }
-
-
 
   public static void resetTtl(Rutas ruta) {
     if (ruta.getTtlTask() != null && !ruta.getTtlTask().isDone()) {
@@ -211,28 +209,30 @@ public class App extends Application {
     ruta.setTtlTask(scheduler.schedule(() -> {
       System.out.println("eliminando vista: " + ruta);
       vistas.remove(ruta);
-    }, 3, TimeUnit.MINUTES));
+    }, 1, TimeUnit.MINUTES));
   }
 
-  public static Parent setVista(Rutas ruta) {
+  public static void setVista(Rutas ruta) {
     try {
-      return vistas.put(ruta, FXMLLoader.load(ruta.getUrlVista()));
+      FXMLLoader loader = new FXMLLoader(ruta.getUrlVista());
+      Parent parent = loader.load();
+      vistas.put(ruta, new Vista(parent, loader.getController()));
     } catch (Exception e) {
       e.printStackTrace();
-      return null;
     }
   }
   
-  public static Parent setVista(Rutas ruta, Parent nodo) {
-    return vistas.put(ruta, nodo);
-  }
-
   public static void removeVista(Rutas ruta) {
     vistas.remove(ruta);
   }
   
   public static Parent getVista(Rutas ruta) {
-    return vistas.get(ruta);
+    if (!vistas.containsKey(ruta)) return null;
+    return vistas.get(ruta).getView();
+  }
+
+  public static Object getControlador(Rutas ruta) {
+    return vistas.get(ruta).getController();
   }
 
   public static void main(String[] args) {

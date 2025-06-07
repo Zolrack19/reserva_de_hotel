@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ScheduledFuture;
 
 import com.example.hotel.App;
 import com.example.hotel.auxiliar.Calendario;
@@ -63,7 +62,6 @@ public class ResultadosContr implements Initializable {
   @FXML
   private Button btnBuscar;
 
-  private ScheduledFuture<?> ttlTask;
   private List<Hotel> resultados;
 
   private List<CheckBox> categorias;
@@ -139,10 +137,10 @@ public class ResultadosContr implements Initializable {
 
   @FXML
   public void buscar() throws IOException {
-    if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
-      App.setVista(Rutas.DETALLES_HOTEL);
-    }
-    App.navegar(Rutas.DETALLES_HOTEL);
+    // if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
+    //   App.setVista(Rutas.DETALLES_HOTEL);
+    // }
+    // App.navegar(Rutas.DETALLES_HOTEL);
   }
 
   @FXML

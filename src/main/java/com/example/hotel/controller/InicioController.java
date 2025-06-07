@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
@@ -61,8 +60,6 @@ public class InicioController implements Initializable {
   @FXML
   private HBox hboxCarusel;
 
-  private ScheduledFuture<?> ttlTask;
-  
   // Ventana emergente que aparece cuando hay resultados de búsqueda.
   private final Popup popup = new Popup();
 
@@ -73,7 +70,7 @@ public class InicioController implements Initializable {
   // Boolean auxiliar para cancelar evento de teclado en txtBuscar.
   private boolean activar;
   private boolean hayResultados;
-  private ResultadosContr resultadosContr;
+  // private ResultadosContr resultadosContr;
 
   /**
     Implementación del método de Initializable.
@@ -318,13 +315,11 @@ public class InicioController implements Initializable {
   private void buscarHotel() throws IOException {
     if (sugerencias.getItems().isEmpty()) return;
     if (App.getVista(Rutas.RESULTADOS) == null) {
-      FXMLLoader loader = new FXMLLoader(Rutas.RESULTADOS.getUrlVista());
-      Parent parent = loader.load();
-      resultadosContr = loader.getController();
-      App.setVista(Rutas.RESULTADOS, parent);
+      App.setVista(Rutas.RESULTADOS);
+      // resultadosContr = (ResultadosContr) App.getControlador(Rutas.RESULTADOS); 
     }
-
-    resultadosContr.inicarTarjetas(sugerencias.getItems());
+    ((ResultadosContr) App.getControlador(Rutas.RESULTADOS)).inicarTarjetas(sugerencias.getItems());
+    // resultadosContr.inicarTarjetas(sugerencias.getItems());
     App.navegar(Rutas.RESULTADOS);
   }
   

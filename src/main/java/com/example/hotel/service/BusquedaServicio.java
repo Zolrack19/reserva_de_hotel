@@ -36,14 +36,6 @@ public class BusquedaServicio {
     Session session = HibernateUtil.getSession().openSession();
     query.delete(109, query.length());
     if (fechaInicio != null) {
-      // query.append("""
-      // LEFT JOIN cuarto cuar ON cuar.hotel_id = h.id
-      // LEFT JOIN reserva r ON r.cuarto_id = cuar.id
-      // """
-      // );
-      // query.append("AND r.fecha_entrada < DATE '").append(fechaFin).append("'\n");
-      // query.append("AND r.fecha_salida > DATE '").append(fechaInicio).append("'\n");
-      // query.append("\nWHERE\n r.id IS NULL AND\n ");
       query.append("""
       WHERE EXISTS (
         SELECT 1 
