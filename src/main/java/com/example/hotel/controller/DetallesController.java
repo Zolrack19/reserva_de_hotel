@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
-import java.util.concurrent.ScheduledFuture;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Cuarto;
@@ -103,8 +102,6 @@ public class DetallesController implements Initializable {
   
   @FXML
   private TableView<Cuarto> tblCuartos;
-
-  private ScheduledFuture<?> ttlTask;
 
   private Label[] labels;
   private byte estrella;
@@ -254,11 +251,18 @@ public class DetallesController implements Initializable {
   @FXML
   public void volver() throws IOException {
     if (App.getVista(Rutas.RESULTADOS) == null) {
-      // App.resultadosRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/resultados.fxml3"));
-      App.navegar(ttlTask, Rutas.INICIO);
+      if (App.getVista(Rutas.INICIO) == null) {
+        App.setVista(Rutas.INICIO);
+      }
+      App.navegar(Rutas.INICIO);
     } else {
-      App.navegar(ttlTask, Rutas.RESULTADOS);
+      App.navegar(Rutas.RESULTADOS);
     }
+  }
+
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("\n\n🧹 Detalles eliminado por GC\n\n");
   }
 
 }

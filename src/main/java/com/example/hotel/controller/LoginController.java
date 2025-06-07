@@ -144,7 +144,7 @@ public class LoginController implements Initializable {
       if (App.getVista(Rutas.INICIO) == null) {
         App.setVista(Rutas.INICIO);
       }
-      App.navegar(null, Rutas.INICIO);
+      App.navegar(Rutas.INICIO);
       App.primaryStage.setMaximized(true);
       App.removeVista(Rutas.CREAR_CUENTA);
       App.removeVista(Rutas.LOGIN);

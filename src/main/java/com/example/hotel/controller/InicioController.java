@@ -325,7 +325,7 @@ public class InicioController implements Initializable {
     }
 
     resultadosContr.inicarTarjetas(sugerencias.getItems());
-    App.navegar(ttlTask, Rutas.RESULTADOS);
+    App.navegar(Rutas.RESULTADOS);
   }
   
   /**
@@ -339,6 +339,11 @@ public class InicioController implements Initializable {
       // App.clienteInfo = FXMLLoader.load(getClass().getResource("/com/example/hotel/cliente-info.fxml"));
       App.setVista(Rutas.CLIENTE_INFO);
     }
-    App.navegar(ttlTask, Rutas.CLIENTE_INFO);
+    App.navegar(Rutas.CLIENTE_INFO);
+  }
+  
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("\n\n🧹 Inicio eliminado por GC\n\n");
   }
 }

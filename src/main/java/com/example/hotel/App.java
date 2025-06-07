@@ -54,13 +54,13 @@ public class App extends Application {
   /**
   * Pila global de navegación.
   */
-  private static final Stack<Parent> stackNavegacion = new Stack<>();
+  private static final Stack<Rutas> stackNavegacion = new Stack<>();
   
   /**
   * Puntero de navegación en la pila.
   */
   private static byte puntero = -1;
-  private static HashMap<Byte, Parent> vistas = new HashMap<>();
+  private static HashMap<Rutas, Parent> vistas = new HashMap<>();
 
   @Override
   public void stop() throws Exception {
@@ -86,8 +86,8 @@ public class App extends Application {
     sesionActiva = resultado;
     if (!resultado) {
       FXMLLoader fxmlLoader = new FXMLLoader(Rutas.LOGIN.getUrlVista());
-      vistas.put(Rutas.LOGIN.getId(), fxmlLoader.load());
-      scene = new Scene(vistas.get(Rutas.LOGIN.getId()));
+      vistas.put(Rutas.LOGIN, fxmlLoader.load());
+      scene = new Scene(vistas.get(Rutas.LOGIN));
     }
     confInit(stage, resultado);
   }
@@ -105,34 +105,62 @@ public class App extends Application {
     s.close();
     if (cliente == null) return false;
     FXMLLoader fxmlLoader = new FXMLLoader(Rutas.INICIO.getUrlVista());
-    vistas.put(Rutas.INICIO.getId(), fxmlLoader.load());
+    vistas.put(Rutas.INICIO, fxmlLoader.load());
     puntero++;
-    stackNavegacion.add(vistas.get(Rutas.INICIO.getId()));
-    scene = new Scene(vistas.get(Rutas.INICIO.getId()));
+    stackNavegacion.add(Rutas.INICIO);
+    scene = new Scene(vistas.get(Rutas.INICIO));
     return true;
   }
 
   private void confInit(Stage stage, boolean maxTamanio) {
     scene.setOnKeyPressed(e -> {
       if (e.isAltDown() && e.getCode() == KeyCode.LEFT) {
-        if (puntero - 1 <= -1)
-          return;
-        scene.setRoot(stackNavegacion.get(--puntero));
+        if (puntero - 1 <= -1) return;
+        resetTtl(stackNavegacion.get(puntero));
+        puntero--;
+        if (stackNavegacion.get(puntero).getTtlTask() != null && !stackNavegacion.get(puntero).getTtlTask().isDone()) {
+          stackNavegacion.get(puntero).getTtlTask().cancel(false);
+        }
+        if (getVista(stackNavegacion.get(puntero)) == null) {
+          setVista(stackNavegacion.get(puntero));
+        }
+        scene.setRoot(getVista(stackNavegacion.get(puntero)));
       } else if (e.isAltDown() && e.getCode() == KeyCode.RIGHT) {
-        if (puntero + 1 >= stackNavegacion.size())
-          return;
-        scene.setRoot(stackNavegacion.get(++puntero));
+        if (puntero + 1 >= stackNavegacion.size()) return;
+        resetTtl(stackNavegacion.get(puntero));
+        puntero++;
+        if (stackNavegacion.get(puntero).getTtlTask() != null && !stackNavegacion.get(puntero).getTtlTask().isDone()) {
+          stackNavegacion.get(puntero).getTtlTask().cancel(false);
+        }
+        if (getVista(stackNavegacion.get(puntero)) == null) {
+          setVista(stackNavegacion.get(puntero));
+        }
+        scene.setRoot(getVista(stackNavegacion.get(puntero)));
       }
     });
     scene.setOnMouseClicked(e -> {
       if (e.getButton() == MouseButton.BACK) {
-        if (puntero - 1 <= -1)
-          return;
-        scene.setRoot(stackNavegacion.get(--puntero));
+        if (puntero - 1 <= -1) return;
+        resetTtl(stackNavegacion.get(puntero));
+        puntero--;
+        if (stackNavegacion.get(puntero).getTtlTask() != null && !stackNavegacion.get(puntero).getTtlTask().isDone()) {
+          stackNavegacion.get(puntero).getTtlTask().cancel(false);
+        }
+        if (getVista(stackNavegacion.get(puntero)) == null) {
+          setVista(stackNavegacion.get(puntero));
+        }
+        scene.setRoot(getVista(stackNavegacion.get(puntero)));
       } else if (e.getButton() == MouseButton.FORWARD) {
-        if (puntero + 1 >= stackNavegacion.size())
-          return;
-        scene.setRoot(stackNavegacion.get(++puntero));
+        if (puntero + 1 >= stackNavegacion.size()) return;
+        resetTtl(stackNavegacion.get(puntero));
+        puntero++;
+        if (stackNavegacion.get(puntero).getTtlTask() != null && !stackNavegacion.get(puntero).getTtlTask().isDone()) {
+          stackNavegacion.get(puntero).getTtlTask().cancel(false);
+        }
+        if (getVista(stackNavegacion.get(puntero)) == null) {
+          setVista(stackNavegacion.get(puntero));
+        }
+        scene.setRoot(getVista(stackNavegacion.get(puntero)));
       }
     });
     primaryStage = stage;
@@ -151,7 +179,14 @@ public class App extends Application {
   * las páginas de la aplicación en una pila y ajustando un puntero a la posición del usuario.
   * @param ruta Página a la que está navegando el usuario, se guarda en la pila.
   */
-  public static void navegar(ScheduledFuture<?> ttlTask, Rutas ruta) {
+  public static void navegar(Rutas ruta) {
+    if (ruta.getTtlTask() != null && !ruta.getTtlTask().isDone()) {
+      ruta.getTtlTask().cancel(false);
+    }
+    if (puntero >= 0) {
+      resetTtl(stackNavegacion.get(puntero));
+    }
+
     if (stackNavegacion.size() >= 20) { // tamaño máximo de la pila
       stackNavegacion.removeFirst();
       if (puntero + 1 == stackNavegacion.size()) {
@@ -162,38 +197,42 @@ public class App extends Application {
       stackNavegacion.removeLast();
     }
     puntero++;
-    stackNavegacion.add(vistas.get(ruta.getId()));
-    App.scene.setRoot(vistas.get(ruta.getId()));
+    stackNavegacion.add(ruta);
+    App.scene.setRoot(vistas.get(ruta));
 
-    if (ttlTask != null) confTtl(ttlTask, ruta);
   }
 
 
 
-  public static void confTtl(ScheduledFuture<?> task, Rutas ruta) {
-    if (task != null && !task.isDone()) {
-      task.cancel(false);
+  public static void resetTtl(Rutas ruta) {
+    if (ruta.getTtlTask() != null && !ruta.getTtlTask().isDone()) {
+      ruta.getTtlTask().cancel(false);
     }
-
-    task = scheduler.schedule(() -> {
-      vistas.remove(ruta.getId());
-    }, 3, TimeUnit.MINUTES);
+    ruta.setTtlTask(scheduler.schedule(() -> {
+      System.out.println("eliminando vista: " + ruta);
+      vistas.remove(ruta);
+    }, 3, TimeUnit.MINUTES));
   }
 
-  public static Parent setVista(Rutas ruta) throws IOException {
-    return vistas.put(ruta.getId(), FXMLLoader.load(ruta.getUrlVista()));
+  public static Parent setVista(Rutas ruta) {
+    try {
+      return vistas.put(ruta, FXMLLoader.load(ruta.getUrlVista()));
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
   }
   
   public static Parent setVista(Rutas ruta, Parent nodo) {
-    return vistas.put(ruta.getId(), nodo);
+    return vistas.put(ruta, nodo);
   }
 
   public static void removeVista(Rutas ruta) {
-    vistas.remove(ruta.getId());
+    vistas.remove(ruta);
   }
   
   public static Parent getVista(Rutas ruta) {
-    return vistas.get(ruta.getId());
+    return vistas.get(ruta);
   }
 
   public static void main(String[] args) {

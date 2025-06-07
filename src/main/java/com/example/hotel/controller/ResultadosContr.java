@@ -142,11 +142,19 @@ public class ResultadosContr implements Initializable {
     if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
       App.setVista(Rutas.DETALLES_HOTEL);
     }
-    App.navegar(ttlTask, Rutas.DETALLES_HOTEL);
+    App.navegar(Rutas.DETALLES_HOTEL);
   }
 
   @FXML
   private void irAInicio() throws IOException {
-    App.navegar(ttlTask, Rutas.INICIO);
+    if (App.getVista(Rutas.INICIO) == null) {
+      App.setVista(Rutas.INICIO);
+    }
+    App.navegar(Rutas.INICIO);
+  }
+
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("\n\n🧹 Resultados eliminado por GC\n\n");
   }
 }

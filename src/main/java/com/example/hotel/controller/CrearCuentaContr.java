@@ -3,7 +3,6 @@ package com.example.hotel.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
@@ -228,7 +227,7 @@ public class CrearCuentaContr implements Initializable {
       App.setVista(Rutas.INICIO);
     }
     Platform.runLater(() -> {
-      App.navegar(null, Rutas.INICIO);
+      App.navegar(Rutas.INICIO);
       App.primaryStage.setMaximized(true);
     });
     App.removeVista(Rutas.LOGIN);

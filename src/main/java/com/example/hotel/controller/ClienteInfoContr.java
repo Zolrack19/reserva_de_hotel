@@ -94,8 +94,6 @@ public class ClienteInfoContr implements Initializable {
   @FXML
   private TableView<Reserva> tblReservasH;
 
-  private ScheduledFuture<?> ttlTask;
-
   private Stage modal;
   private ModalEdicionContr modalController;
   private final ClienteServicio clienteServicio = ClienteServicio.getInstancia();
@@ -301,7 +299,14 @@ public class ClienteInfoContr implements Initializable {
 
   @FXML
   private void volver() throws IOException {
-    App.navegar(ttlTask, Rutas.CLIENTE_INFO);
+    if (App.getVista(Rutas.INICIO) == null) {
+      App.setVista(Rutas.INICIO);
+    }
+    App.navegar(Rutas.INICIO);
   }
 
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("\n\n🧹 ClienteINfo eliminado por GC\n\n");
+  }
 }

@@ -76,11 +76,10 @@ public class TarjetaResultadoContr {
   @FXML
   private void verDetalles() throws IOException {
     if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
-      // App.detallesRoot = FXMLLoader.load(getClass().getResource("/com/example/hotel/detalles-hotel.fxml"));
       App.setVista(Rutas.DETALLES_HOTEL);
     }
     dController.setData(hotel);
-    App.navegar(null, Rutas.DETALLES_HOTEL);
+    App.navegar(Rutas.DETALLES_HOTEL);
   }
 
   protected static void setDControlador(DetallesController controller) {
