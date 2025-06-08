@@ -6,7 +6,9 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.example.hotel.dao.CategoriaDAO;
+import com.example.hotel.dao.CuartoDAO;
 import com.example.hotel.dominio.Categoria;
+import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.util.HibernateUtil;
 
@@ -14,6 +16,7 @@ import com.example.hotel.util.HibernateUtil;
   Servicio que se encarga de hacer consultas personalizadas y generales en la base de datos
 */
 public class BusquedaServicio {
+  private static final CuartoDAO cuartodao = new CuartoDAO();
   private static final CategoriaDAO categoriaDao = new CategoriaDAO();
   // len = 106
   private static final StringBuilder query = new StringBuilder("""
@@ -95,5 +98,9 @@ public class BusquedaServicio {
 
   public static List<Categoria> getCategorias() {
     return categoriaDao.getCategoriasRango(0, 20); // cambianr si hay más
+  }
+
+  public static List<Cuarto> getCuartos(Hotel hotel) {
+    return cuartodao.getCuartosPorHotel(hotel.getId(), 0, 10);
   }
 }

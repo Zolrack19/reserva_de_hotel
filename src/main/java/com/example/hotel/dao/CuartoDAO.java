@@ -46,7 +46,7 @@ public class CuartoDAO {
     return Cuartos;
   }
 
-  public List<Cuarto> getCuartosPorHotel(int idHotel, int inicio, int fin) {
+  public List<Cuarto> getCuartosPorHotel(long idHotel, int inicio, int fin) {
     Session session = HibernateUtil.getSession().openSession();
     List<Cuarto> Cuartos = session.createQuery("from Cuarto c where c.hotel.id = :id order by c.id", Cuarto.class)
     .setParameter("id", idHotel)

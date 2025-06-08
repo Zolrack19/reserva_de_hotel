@@ -6,17 +6,20 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
+import com.example.hotel.service.BusquedaServicio;
 import com.example.hotel.util.Imagenes;
 import com.example.hotel.util.Rutas;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -26,6 +29,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import org.controlsfx.control.RangeSlider;
 
 /**
@@ -106,12 +112,10 @@ public class DetallesController implements Initializable {
   private Label[] labels;
   private byte estrella;
   private boolean lblOculto;
+  private Stage modalCuarto;
   
-
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    // TarjetaResultadoContr.setDControlador(this);
-    // TarjetaCaruselContr.setDControlador(this);
     lblVolver.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
         try {
@@ -197,19 +201,37 @@ public class DetallesController implements Initializable {
     estrellas.setCellValueFactory(new PropertyValueFactory<>("estrellas"));
     estrellas.setPrefWidth(200);
     estrellas.setReorderable(false);
-
+    
     tblCuartos.getColumns().addAll(colId, colfechaEntrada, colfechaSalida, estrellas);
     tblCuartos.setFixedCellSize(35);
     tblCuartos.prefHeightProperty().bind(
       Bindings.size(tblCuartos.getItems()).multiply(tblCuartos.getFixedCellSize()).add(35)
     );
 
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 1, "hola mundo", BigDecimal.valueOf(4.51), (byte) 5));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 5, "hola mundo", BigDecimal.valueOf(14.51), (byte) 1));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 2, "hola mundo", BigDecimal.valueOf(47.51), (byte) 3));
-    tblCuartos.getItems().add(new Cuarto(hotel, null, null, (short) 4, "hola mundo", BigDecimal.valueOf(422.51), (byte) 5));
+    tblCuartos.setOnMouseClicked(event -> {
+      if (event.getClickCount() == 1) { // o 2 para doble clic
+        Cuarto seleccionado = tblCuartos.getSelectionModel().getSelectedItem();
+        if (seleccionado != null) {
+          if (modalCuarto == null) {
+            crearModal();
+          }
+          ((ModalCuartoContr) App.getControlador(Rutas.MODAL_CUARTO)).setData(hotel, seleccionado);
+          System.out.println("Clic en: " + seleccionado.getNombre());
+          modalCuarto.show();
+        }
+      }
+    });
   }
 
+  private void crearModal() {
+    App.setVista(Rutas.MODAL_CUARTO);
+    modalCuarto = new Stage();
+    modalCuarto.setScene(new Scene(App.getVista(Rutas.MODAL_CUARTO)));
+    modalCuarto.setTitle("Detalles de habitación");
+    modalCuarto.initModality(Modality.WINDOW_MODAL);
+    modalCuarto.initOwner(App.primaryStage);
+    modalCuarto.setResizable(false);
+  }
 
 
   public void setData(Hotel hotel) {
@@ -220,6 +242,12 @@ public class DetallesController implements Initializable {
   }
 
   private void prepararPlantilla() {
+    tblCuartos.getItems().clear();
+    List<Cuarto> cuartos = BusquedaServicio.getCuartos(hotel);
+    for (int i = 0; i < cuartos.size(); i++) {
+      tblCuartos.getItems().add(cuartos.get(i));
+    }
+
     lblNombre.setText(hotel.getNombre());
     if (estrella != hotel.getEstrellas()) {
       estrella = (byte) hotel.getEstrellas();
