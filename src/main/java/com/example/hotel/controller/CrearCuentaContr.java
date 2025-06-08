@@ -192,7 +192,7 @@ public class CrearCuentaContr implements Initializable {
 
     if (secondaryStage == null) {
       secondaryStage = new Stage();
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/codigo-veri.fxml"));
+      FXMLLoader loader = new FXMLLoader(Rutas.CODIGO_VERIF.getUrlVista());
       Parent parent = loader.load();
       contr = loader.getController();
       contr.init(this, email);

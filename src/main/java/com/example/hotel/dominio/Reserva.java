@@ -1,6 +1,7 @@
 package com.example.hotel.dominio;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
@@ -39,6 +41,9 @@ public class Reserva {
   
   @Column(name = "fecha_salida", nullable = false)
   private LocalDate fechaSalida;
+
+  @OneToMany(mappedBy = "reserva")
+  private List<Acompanante> acompanantes;
 
   public Reserva() {}
   public Reserva(Boleta boleta, Cliente cliente, Cuarto cuarto, LocalDate fechaEntrada, LocalDate fechaSalida) {

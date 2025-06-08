@@ -61,7 +61,7 @@ public class App extends Application {
   * Puntero de navegación en la pila.
   */
   private static byte puntero = -1;
-  private static HashMap<Rutas, Vista> vistas = new HashMap<>();
+  private static HashMap<Rutas, Vista> vistas = new HashMap<>(10);
 
   @Override
   public void stop() throws Exception {

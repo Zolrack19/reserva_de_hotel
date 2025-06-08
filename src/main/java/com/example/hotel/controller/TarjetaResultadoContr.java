@@ -34,7 +34,6 @@ public class TarjetaResultadoContr {
   @FXML
   private Label lblEstrellas;
 
-  // private static DetallesController dController;
   private Hotel hotel;
 
   /**
@@ -77,9 +76,7 @@ public class TarjetaResultadoContr {
   private void verDetalles() throws IOException {
     if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
       App.setVista(Rutas.DETALLES_HOTEL);
-      // (DetallesController) App.getControlador(Rutas.DETALLES_HOTEL);
     }
-    // dController.setData(hotel);
     ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel);
     App.navegar(Rutas.DETALLES_HOTEL);
   }

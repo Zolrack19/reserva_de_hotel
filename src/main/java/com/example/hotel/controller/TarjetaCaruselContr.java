@@ -18,7 +18,6 @@ import javafx.scene.input.KeyCode;
  * @see InicioController 
 */
 public class TarjetaCaruselContr {
-  private static DetallesController dController;
   private Hotel hotel;
   
   @FXML
@@ -80,7 +79,4 @@ public class TarjetaCaruselContr {
     );
   }
 
-  protected static void setDControlador(DetallesController controller) {
-    dController = controller;
-  }
 }

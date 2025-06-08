@@ -270,7 +270,7 @@ public class ClienteInfoContr implements Initializable {
   private void crearModal() {
     try {
       modal = new Stage();
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/modal-edicion.fxml"));
+      FXMLLoader loader = new FXMLLoader(Rutas.MODAL_EDICION.getUrlVista());
       Parent parent = loader.load();
       modalController = loader.getController();
       modalController.setBotones(btnGuardar, btnCancelar);
@@ -306,6 +306,6 @@ public class ClienteInfoContr implements Initializable {
 
   @Override
   protected void finalize() throws Throwable {
-    System.out.println("\n\n🧹 ClienteINfo eliminado por GC\n\n");
+    System.out.println("\n\n🧹 ClienteInfo eliminado por GC\n\n");
   }
 }

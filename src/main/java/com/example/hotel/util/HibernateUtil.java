@@ -3,6 +3,7 @@ package com.example.hotel.util;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.example.hotel.dominio.Acompanante;
 import com.example.hotel.dominio.Boleta;
 import com.example.hotel.dominio.Categoria;
 import com.example.hotel.dominio.CategoriaCuarto;
@@ -40,6 +41,7 @@ public class HibernateUtil {
       conf.addAnnotatedClass(Ciudad.class);
       conf.addAnnotatedClass(Comentario.class);
       conf.addAnnotatedClass(Reserva.class);
+      conf.addAnnotatedClass(Acompanante.class);
 
       session = conf.buildSessionFactory();
     } catch (Exception ex) {

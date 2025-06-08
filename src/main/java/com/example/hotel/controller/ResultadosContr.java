@@ -8,15 +8,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
-import com.example.hotel.auxiliar.Calendario;
+import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Categoria;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
 import com.example.hotel.util.Imagenes;
 import com.example.hotel.util.Rutas;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,8 +30,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 
 /**
   Clase que se encarga de la plantilla de resultados, plantilla en la que se muestran los
@@ -40,6 +46,9 @@ public class ResultadosContr implements Initializable {
 
   @FXML
   private Label lblInicio;
+  
+  @FXML
+  private TextField txtBuscar;
   
   @FXML
   private DatePicker dateInicio;
@@ -65,8 +74,15 @@ public class ResultadosContr implements Initializable {
   private List<Hotel> resultados;
 
   private List<CheckBox> categorias;
-  private List<CheckBox> estrellas;
-  /**}
+  private CheckBox[] estrellas;
+
+  private final Popup popup = new Popup();
+  private final ListView<Hotel> sugerencias = new ListView<>();
+  
+  private boolean activar;
+  private boolean hayResultados;
+
+  /**
     Método para  instanciar los elementos gráficos del fxml asociado, se encarga de hacer configurarciones
     como la validación de fechas en los DatePicker y asignar eventos de mouse y teclado, así como crear otros
     componentes gráficos desde código java, ejemplo: RangeSlider.
@@ -74,7 +90,126 @@ public class ResultadosContr implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     categorias = new ArrayList<>();
-    estrellas = new ArrayList<>();
+    estrellas = new CheckBox[5];
+    resultados = new ArrayList<>();
+    configurarFiltros();
+    configurarCalendarios();
+    popup.getContent().add(sugerencias);
+    ConfRepetitiva.confListaSugerencia(sugerencias, txtBuscar);
+     
+    String[] filtrado = new String[5];
+    txtBuscar.textProperty().addListener((obx, oldText, newText) -> {
+      if (App.future != null && !App.future.isDone()) {
+        App.future.cancel(false);
+      }
+
+      App.future = App.scheduler.schedule(() -> {
+        if (activar) {
+          activar = false;
+          return;
+        }
+        if (newText.isEmpty()) return;
+        
+        String tokens[] = newText.split(" ");
+        int j = 0;
+        for (int i = 0; i < tokens.length; i++) {
+          if (tokens[i].length() > 3) {
+            filtrado[j] = tokens[i];
+            j++;
+            if (j >= 5) break;
+          }
+        }
+        while (j < 5) {
+          filtrado[j] = null;
+          j++;
+        }
+        List<Hotel> resultados = BusquedaServicio.buscarHotel(filtrado, dateInicio.getValue(), dateFin.getValue());
+
+        Platform.runLater(() -> {
+          if (newText == null || newText.isEmpty() || resultados == null || resultados.isEmpty()) {
+            popup.hide();
+            hayResultados = false;
+            sugerencias.getItems().clear();
+          } else {
+            hayResultados = true;
+            sugerencias.setItems(FXCollections.observableArrayList(resultados));
+            if (!popup.isShowing()) {
+              popup.show(txtBuscar,
+              txtBuscar.localToScreen(0, txtBuscar.getHeight()).getX(),
+              txtBuscar.localToScreen(0, txtBuscar.getHeight()).getY());
+            }
+          }
+        });
+      }, 400, TimeUnit.MILLISECONDS);
+    });
+
+    txtBuscar.setOnMouseClicked(e -> {
+      if (!popup.isShowing() && hayResultados) {
+        popup.show(txtBuscar,
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getX(),
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getY());
+      }
+    });
+
+    txtBuscar.focusedProperty().addListener((obs, oldVal, newVal) -> {
+      if (newVal) {
+        if (!hayResultados) return;
+        popup.show(txtBuscar,
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getX(),
+        txtBuscar.localToScreen(0, txtBuscar.getHeight()).getY());
+      } else {
+        popup.hide();
+      }
+    });
+
+    // #region eventos para la lista de sugerencia
+    sugerencias.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ESCAPE) {
+        if (popup.isShowing()) {
+          popup.hide();
+        }
+      } else if (e.getCode() == KeyCode.TAB) {
+        e.consume();
+        if (e.isShiftDown()) {
+          lblInicio.requestFocus();
+        } else {
+          dateInicio.requestFocus();
+        }
+        popup.hide();
+      } else if (e.getCode() == KeyCode.ENTER) {
+        Hotel selected = sugerencias.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+          activar = true;
+          txtBuscar.setText(selected.getNombre());
+          popup.hide();
+        }
+      }
+    });
+    sugerencias.setOnMouseClicked(e -> {
+      Hotel selected = sugerencias.getSelectionModel().getSelectedItem();
+      if (selected != null) {
+        activar = true;
+        txtBuscar.setText(selected.getNombre());
+        popup.hide();
+      }
+    });
+    // #endregion 
+  }
+
+  private void configurarFiltros() {
+    List<Categoria> categorias = BusquedaServicio.getCategorias();
+    for (int i = 0; i < categorias.size(); i++) {
+      CheckBox checkBox = new CheckBox(categorias.get(i).getNombre());
+      vboxCategoria.getChildren().add(checkBox);
+      this.categorias.add(checkBox);
+    }
+
+    byte i = 0;
+    for (Node nodo : vboxEstrellas.getChildren()) {
+      estrellas[i] = ((CheckBox) nodo);
+      i++;
+    }
+
     lblInicio.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
         try {
@@ -84,25 +219,12 @@ public class ResultadosContr implements Initializable {
         }
       }
     });
-    resultados = new ArrayList<>();
-    configurarCalendarios();
-
-    List<Categoria> categorias = BusquedaServicio.getCategorias();
-    for (int i = 0; i < categorias.size(); i++) {
-      CheckBox checkBox = new CheckBox(categorias.get(i).getNombre());
-      vboxCategoria.getChildren().add(checkBox);
-      this.categorias.add(checkBox);
-    }
-
-    for (Node nodo : vboxEstrellas.getChildren()) {
-      estrellas.add((CheckBox) nodo);
-    }
   }
 
   private void configurarCalendarios() {
-    Calendario.confEstilo(dateInicio);
-    Calendario.confEstilo(dateFin);
-    Calendario.confCalendarios(dateInicio, dateFin);
+    ConfRepetitiva.confEstiloCalendario(dateInicio);
+    ConfRepetitiva.confEstiloCalendario(dateFin);
+    ConfRepetitiva.confCalendarios(dateInicio, dateFin);
   }
 
   /**
@@ -117,7 +239,7 @@ public class ResultadosContr implements Initializable {
         Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
         String url = Files.list(carpeta).sorted().map(path -> path.toUri().toString()).findFirst().orElseThrow();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/tarjeta-resultado.fxml"));
+        FXMLLoader loader = new FXMLLoader(Rutas.TARJETA_RESULTADO.getUrlVista());
         Parent card = loader.load();
         TarjetaResultadoContr contr = loader.getController();
         contr.setData(hotel, url);

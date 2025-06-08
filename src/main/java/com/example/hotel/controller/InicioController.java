@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
-import com.example.hotel.auxiliar.Calendario;
+import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
 import com.example.hotel.util.Imagenes;
@@ -24,12 +24,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 
 /**
@@ -70,7 +68,6 @@ public class InicioController implements Initializable {
   // Boolean auxiliar para cancelar evento de teclado en txtBuscar.
   private boolean activar;
   private boolean hayResultados;
-  // private ResultadosContr resultadosContr;
 
   /**
     Implementación del método de Initializable.
@@ -81,8 +78,8 @@ public class InicioController implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     configurarCalendarios();
     llenarCarusel();
-    configurarListaSugerencias();
     popup.getContent().add(sugerencias);
+    ConfRepetitiva.confListaSugerencia(sugerencias, txtBuscar);
 
     lblAvatar.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
@@ -139,7 +136,6 @@ public class InicioController implements Initializable {
           }
         });
       }, 400, TimeUnit.MILLISECONDS);
-
     });
 
     txtBuscar.setOnMouseClicked(e -> {
@@ -208,80 +204,11 @@ public class InicioController implements Initializable {
   }
 
   private void configurarCalendarios() {
-    Calendario.confEstilo(dateInicio);
-    Calendario.confEstilo(dateFin);
-    Calendario.confCalendarios(dateInicio, dateFin);
+    ConfRepetitiva.confEstiloCalendario(dateInicio);
+    ConfRepetitiva.confEstiloCalendario(dateFin);
+    ConfRepetitiva.confCalendarios(dateInicio, dateFin);
   }
 
-
-  private void configurarListaSugerencias() {
-    sugerencias.setStyle(
-      "-fx-background-color: rgba(255,255,255,0.05);" +
-      "-fx-border-color: #6c4dc2;" +
-      "-fx-border-width: 1;" +
-      "-fx-background-radius: 8;" +
-      "-fx-border-radius: 8;" +
-      "-fx-padding: 4;" +
-      "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0.0, 0, 2);"
-    );
-    sugerencias.setCellFactory(lv -> {
-      return new ListCell<>() {
-        @Override
-        protected void updateItem(Hotel item, boolean empty) {
-          super.updateItem(item, empty);
-          if (empty || item == null) {
-            setText(null);
-            setStyle(
-              "-fx-background-color: rgba(255, 255, 255, 0.08);" +
-              "-fx-font-size: 13px;" +
-              "-fx-padding: 6 12;" +
-              "-fx-background-radius: 4;"
-            );
-          } else {
-            setText(item.getNombre());
-            setTextFill(Color.WHITE);
-            
-            if (isSelected()) {
-              setStyle(
-                """
-                -fx-background-color: rgba(255, 255, 255, 0.3);
-                -fx-font-size: 14px; 
-                -fx-padding: 6 12; 
-                -fx-background-radius: 4
-                """
-              );
-            } else {
-              setStyle(
-                """
-                  -fx-background-color: rgba(255, 255, 255, 0.08);
-                  -fx-font-size: 14px;
-                  -fx-padding: 6 12;
-                  -fx-background-radius: 4;
-                """
-              );
-            }
-            
-            setOnMouseEntered(e -> setStyle(
-              "-fx-background-color: rgba(255, 255, 255, 0.2);" +
-              "-fx-font-size: 14px;" +
-              "-fx-padding: 6 12;" +
-              "-fx-background-radius: 4;"
-            ));
-            setOnMouseExited(e -> setStyle(
-              "-fx-background-color: rgba(255, 255, 255, 0.08);" +
-              "-fx-font-size: 14px;" +
-              "-fx-padding: 6 12;" +
-              "-fx-background-radius: 4;"
-            ));
-          }
-        }
-      };
-    });
-
-    sugerencias.prefWidthProperty().bind(txtBuscar.widthProperty()); //vincula la anchura con la del txtBuscar
-    sugerencias.setPrefHeight(160);
-    sugerencias.maxHeight(160);
-  }
 
   /**
     Carga tarjetas de hoteles al azar en el componente hboxCarusel.
@@ -295,7 +222,7 @@ public class InicioController implements Initializable {
       Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
       try {
         String url = Files.list(carpeta).sorted().map(path -> path.toUri().toString()).findFirst().orElseThrow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotel/tarjeta-carusel.fxml"));
+        FXMLLoader loader = new FXMLLoader(Rutas.TARJETA_CARUSEL.getUrlVista());
         Parent card = loader.load();
         TarjetaCaruselContr contr = loader.getController();
         contr.setData(hotel, url);
@@ -316,10 +243,8 @@ public class InicioController implements Initializable {
     if (sugerencias.getItems().isEmpty()) return;
     if (App.getVista(Rutas.RESULTADOS) == null) {
       App.setVista(Rutas.RESULTADOS);
-      // resultadosContr = (ResultadosContr) App.getControlador(Rutas.RESULTADOS); 
     }
     ((ResultadosContr) App.getControlador(Rutas.RESULTADOS)).inicarTarjetas(sugerencias.getItems());
-    // resultadosContr.inicarTarjetas(sugerencias.getItems());
     App.navegar(Rutas.RESULTADOS);
   }
   
@@ -331,7 +256,6 @@ public class InicioController implements Initializable {
   @FXML
   private void irACuenta() throws IOException {
     if (App.getVista(Rutas.CLIENTE_INFO) == null) {
-      // App.clienteInfo = FXMLLoader.load(getClass().getResource("/com/example/hotel/cliente-info.fxml"));
       App.setVista(Rutas.CLIENTE_INFO);
     }
     App.navegar(Rutas.CLIENTE_INFO);
