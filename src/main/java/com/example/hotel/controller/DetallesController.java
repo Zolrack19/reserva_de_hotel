@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.example.hotel.App;
 import com.example.hotel.dominio.Cuarto;
@@ -208,6 +209,7 @@ public class DetallesController implements Initializable {
       Bindings.size(tblCuartos.getItems()).multiply(tblCuartos.getFixedCellSize()).add(35)
     );
 
+    Cuarto[] cuartoAnterior = new Cuarto[1];
     tblCuartos.setOnMouseClicked(event -> {
       if (event.getClickCount() == 1) { // o 2 para doble clic
         Cuarto seleccionado = tblCuartos.getSelectionModel().getSelectedItem();
@@ -215,8 +217,10 @@ public class DetallesController implements Initializable {
           if (modalCuarto == null) {
             crearModal();
           }
-          ((ModalCuartoContr) App.getControlador(Rutas.MODAL_CUARTO)).setData(hotel, seleccionado);
-          System.out.println("Clic en: " + seleccionado.getNombre());
+          if (cuartoAnterior[0] != seleccionado) {
+            ((ModalCuartoContr) App.getControlador(Rutas.MODAL_CUARTO)).setData(hotel, seleccionado);
+            cuartoAnterior[0] = seleccionado;
+          }
           modalCuarto.show();
         }
       }

@@ -15,7 +15,7 @@ public class ConfRepetitiva {
   
   public static void confListaSugerencia(ListView<Hotel> sugerencias, TextField txtBuscar) {
     sugerencias.setStyle(
-      "-fx-background-color: rgba(255,255,255,0.05);" +
+      "-fx-background-color: rgba(27, 4, 78, 0.86);" +
       "-fx-border-color: #6c4dc2;" +
       "-fx-border-width: 1;" +
       "-fx-background-radius: 8;" +

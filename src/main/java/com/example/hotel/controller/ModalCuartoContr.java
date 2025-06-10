@@ -39,31 +39,56 @@ public class ModalCuartoContr implements Initializable {
   private Label lblDescripcionCuarto;
 
   private Label[] labels;
+  private Label lblActual;
+  private Object[] urls;
+  private byte puntero;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     labels = new Label[15];
+    
+    btnIzquierda.focusedProperty().addListener((obs, oldVal, newVal) -> {
+      hboxImagenCuarto.requestFocus();
+    });
+    btnDerecha.focusedProperty().addListener((obs, oldVal, newVal) -> {
+      hboxImagenCuarto.requestFocus();
+    });
   }
 
   public void setData(Hotel hotel, Cuarto cuarto) {
+    puntero = 0;
     lblTituloCuarto.setText(cuarto.getNombre());
     lblDescripcionCuarto.setText(cuarto.getDescripcion());
 
     Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl(), cuarto.getImagenUrl());
     try {
-      Object[] urls = Files.list(carpeta).filter(Files::isRegularFile).sorted().limit(15).map(path -> path.toUri().toString()).toArray();
-      System.out.println("longi: " + urls.length);
+      urls = Files.list(carpeta).filter(Files::isRegularFile).sorted().limit(15).map(path -> path.toUri().toString()).toArray();
       hboxImagenCuarto.setStyle(
         "-fx-background-image: url('" + urls[0] + "');" +
         "-fx-background-repeat: no-repeat;" +
         "-fx-background-position: center center;" +
         "-fx-background-size: cover;"
       );
-      for (int i = 0; i < urls.length; i++) {
+      byte i = 0;
+      for (; i < urls.length; i++) {
         if (labels[i] == null) {
           labels[i] = new Label();
           labels[i].setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
           grdImagenes.add(labels[i], i%5, i/5);
+          final byte p = i;
+          labels[i].setOnMouseClicked(e -> {
+            if (lblActual == labels[p]) return;
+            lblActual.getStyleClass().remove("lbl-imagen-cuarto");
+            puntero = p;
+            lblActual = labels[p];
+            lblActual.getStyleClass().add("lbl-imagen-cuarto");
+            hboxImagenCuarto.setStyle(
+              "-fx-background-image: url('" + urls[p] + "');" +
+              "-fx-background-repeat: no-repeat;" +
+              "-fx-background-position: center center;" +
+              "-fx-background-size: cover;"
+            );
+          });
         }
         labels[i].setStyle(
           "-fx-background-image: url('" + urls[i] + "');" +
@@ -72,9 +97,46 @@ public class ModalCuartoContr implements Initializable {
           "-fx-background-size: cover;"
         );
       }
+      while (labels[i] != null) {
+        grdImagenes.getChildren().remove(labels[i]);
+        labels[i] = null;
+        i++;
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
+    if (lblActual != null) {
+      lblActual.getStyleClass().remove("lbl-imagen-cuarto");
+    }
+    lblActual = labels[0];
+    lblActual.getStyleClass().add("lbl-imagen-cuarto");
+  }
 
+  @FXML
+  private void clickIzquierdo() {
+    if (puntero == 0) return;
+    lblActual.getStyleClass().remove("lbl-imagen-cuarto");
+    lblActual = labels[--puntero];
+    lblActual.getStyleClass().add("lbl-imagen-cuarto");
+    hboxImagenCuarto.setStyle(
+      "-fx-background-image: url('" + urls[puntero] + "');" +
+      "-fx-background-repeat: no-repeat;" +
+      "-fx-background-position: center center;" +
+      "-fx-background-size: cover;"
+    );
+  }
+
+  @FXML
+  private void clickDerecho() {
+    if (labels[puntero + 1] == null) return;
+    lblActual.getStyleClass().remove("lbl-imagen-cuarto");
+    lblActual = labels[++puntero];
+    lblActual.getStyleClass().add("lbl-imagen-cuarto");
+    hboxImagenCuarto.setStyle(
+      "-fx-background-image: url('" + urls[puntero] + "');" +
+      "-fx-background-repeat: no-repeat;" +
+      "-fx-background-position: center center;" +
+      "-fx-background-size: cover;"
+    );
   }
 }

@@ -389,3 +389,8 @@
   -fx-fill: #666666;
   -fx-opacity: 0.8;
 }
+
+.lbl-imagen-cuarto {
+  -fx-border-color: yellow;
+  -fx-border-width: 2;
+}
