@@ -8,9 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 import com.example.hotel.App;
+import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
@@ -255,24 +255,14 @@ public class DetallesController implements Initializable {
     lblNombre.setText(hotel.getNombre());
     if (estrella != hotel.getEstrellas()) {
       estrella = (byte) hotel.getEstrellas();
-      lblEstrellas.setPrefWidth(23.5 * estrella);
-      lblEstrellas.setStyle(
-        "-fx-background-image: url('" + Imagenes.ESTRELLA.getUrl() + "');" +
-        "-fx-background-repeat: repeat-x;" +
-        "-fx-background-position: left center;"
-      );
+      ConfRepetitiva.confEstrellas(lblEstrellas, hotel.getEstrellas());
     }
     lblDescripcion.setText(hotel.getDescripcion());
     Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
     try {
       Object[] urls = Files.list(carpeta).filter(Files::isRegularFile).sorted().limit(7).map(path -> path.toUri().toString()).toArray();
       for (int i = 0; i < urls.length; i++) {
-        labels[i].setStyle(
-          "-fx-background-image: url('" + urls[i] + "');" +
-          "-fx-background-repeat: no-repeat;" +
-          "-fx-background-position: center center;" +
-          "-fx-background-size: cover;"
-        );
+        ConfRepetitiva.setBackground(labels[i], urls[i].toString());
       }
     } catch (IOException e) {
       e.printStackTrace();

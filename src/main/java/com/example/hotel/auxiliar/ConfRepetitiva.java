@@ -3,9 +3,12 @@ package com.example.hotel.auxiliar;
 import java.time.LocalDate;
 
 import com.example.hotel.dominio.Hotel;
+import com.example.hotel.util.Imagenes;
 
+import javafx.scene.Node;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -126,5 +129,23 @@ public class ConfRepetitiva {
         dateFin.setValue(newVal.plusDays(1));
       }
     });
+  }
+
+  public static void setBackground(Node nodo, String url) {
+    nodo.setStyle(
+      "-fx-background-image: url('" + url + "');" +
+      "-fx-background-repeat: no-repeat;" +
+      "-fx-background-position: center center;" +
+      "-fx-background-size: cover;"
+    );
+  }
+
+  public static void confEstrellas(Label lblEstrellas, int cantidad) {
+    lblEstrellas.setPrefWidth(23.5 * cantidad);
+    lblEstrellas.setStyle(
+      "-fx-background-image: url('" + Imagenes.ESTRELLA.getUrl() + "');" +
+      "-fx-background-repeat: repeat-x;" +
+      "-fx-background-position: left center;"
+    );
   }
 }

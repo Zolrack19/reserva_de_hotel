@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
+import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.util.Imagenes;
@@ -15,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -46,12 +48,15 @@ public class ModalCuartoContr implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     labels = new Label[15];
-    
-    btnIzquierda.focusedProperty().addListener((obs, oldVal, newVal) -> {
-      hboxImagenCuarto.requestFocus();
+    btnDerecha.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        clickDerecho();
+      }
     });
-    btnDerecha.focusedProperty().addListener((obs, oldVal, newVal) -> {
-      hboxImagenCuarto.requestFocus();
+    btnIzquierda.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        clickIzquierdo();
+      }
     });
   }
 
@@ -63,39 +68,24 @@ public class ModalCuartoContr implements Initializable {
     Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl(), cuarto.getImagenUrl());
     try {
       urls = Files.list(carpeta).filter(Files::isRegularFile).sorted().limit(15).map(path -> path.toUri().toString()).toArray();
-      hboxImagenCuarto.setStyle(
-        "-fx-background-image: url('" + urls[0] + "');" +
-        "-fx-background-repeat: no-repeat;" +
-        "-fx-background-position: center center;" +
-        "-fx-background-size: cover;"
-      );
+      ConfRepetitiva.setBackground(hboxImagenCuarto, urls[0].toString());
       byte i = 0;
       for (; i < urls.length; i++) {
         if (labels[i] == null) {
           labels[i] = new Label();
+          labels[i].setFocusTraversable(true);
+          labels[i].getStyleClass().add("lbl-imagen-cuarto");
           labels[i].setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
           grdImagenes.add(labels[i], i%5, i/5);
           final byte p = i;
-          labels[i].setOnMouseClicked(e -> {
-            if (lblActual == labels[p]) return;
-            lblActual.getStyleClass().remove("lbl-imagen-cuarto");
-            puntero = p;
-            lblActual = labels[p];
-            lblActual.getStyleClass().add("lbl-imagen-cuarto");
-            hboxImagenCuarto.setStyle(
-              "-fx-background-image: url('" + urls[p] + "');" +
-              "-fx-background-repeat: no-repeat;" +
-              "-fx-background-position: center center;" +
-              "-fx-background-size: cover;"
-            );
+          labels[i].setOnMouseClicked(e -> { lblClick(p); });
+          labels[i].setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+              lblClick(p);
+            }
           });
         }
-        labels[i].setStyle(
-          "-fx-background-image: url('" + urls[i] + "');" +
-          "-fx-background-repeat: no-repeat;" +
-          "-fx-background-position: center center;" +
-          "-fx-background-size: cover;"
-        );
+        ConfRepetitiva.setBackground(labels[i], urls[i].toString());
       }
       while (labels[i] != null) {
         grdImagenes.getChildren().remove(labels[i]);
@@ -112,18 +102,22 @@ public class ModalCuartoContr implements Initializable {
     lblActual.getStyleClass().add("lbl-imagen-cuarto");
   }
 
+  private void lblClick(byte p) {
+    if (lblActual == labels[p]) return;
+    lblActual.getStyleClass().remove("lbl-imagen-cuarto");
+    puntero = p;
+    lblActual = labels[p];
+    lblActual.getStyleClass().add("lbl-imagen-cuarto");
+    ConfRepetitiva.setBackground(hboxImagenCuarto, urls[p].toString());
+  }
+
   @FXML
   private void clickIzquierdo() {
     if (puntero == 0) return;
     lblActual.getStyleClass().remove("lbl-imagen-cuarto");
     lblActual = labels[--puntero];
     lblActual.getStyleClass().add("lbl-imagen-cuarto");
-    hboxImagenCuarto.setStyle(
-      "-fx-background-image: url('" + urls[puntero] + "');" +
-      "-fx-background-repeat: no-repeat;" +
-      "-fx-background-position: center center;" +
-      "-fx-background-size: cover;"
-    );
+    ConfRepetitiva.setBackground(hboxImagenCuarto, urls[puntero].toString());
   }
 
   @FXML
@@ -132,11 +126,6 @@ public class ModalCuartoContr implements Initializable {
     lblActual.getStyleClass().remove("lbl-imagen-cuarto");
     lblActual = labels[++puntero];
     lblActual.getStyleClass().add("lbl-imagen-cuarto");
-    hboxImagenCuarto.setStyle(
-      "-fx-background-image: url('" + urls[puntero] + "');" +
-      "-fx-background-repeat: no-repeat;" +
-      "-fx-background-position: center center;" +
-      "-fx-background-size: cover;"
-    );
+    ConfRepetitiva.setBackground(hboxImagenCuarto, urls[puntero].toString());
   }
 }

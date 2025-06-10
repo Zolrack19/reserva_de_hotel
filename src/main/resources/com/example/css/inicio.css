@@ -390,7 +390,7 @@
   -fx-opacity: 0.8;
 }
 
-.lbl-imagen-cuarto {
-  -fx-border-color: yellow;
+.lbl-imagen-cuarto:focused {
+  -fx-border-color: rgba(255, 122, 248, 0.623);
   -fx-border-width: 2;
 }
