@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
@@ -96,6 +97,7 @@ public class ClienteInfoContr implements Initializable {
   private Stage modal;
   private ModalEdicionContr modalController;
   private final ClienteServicio clienteServicio = ClienteServicio.getInstancia();
+  private ScheduledFuture<?> ttlTask;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -117,11 +119,8 @@ public class ClienteInfoContr implements Initializable {
         App.sesionActiva = false;
       }
     });
-    App.scheduler.schedule(() -> {
-      cbxPais.getItems().addAll(clienteServicio.getPaises());
-      cbxPais.setValue(App.cliente.getPais());
-    }, 0, TimeUnit.SECONDS);
-    crearModal();
+    cbxPais.getItems().addAll(clienteServicio.getPaises());
+    cbxPais.setValue(App.cliente.getPais());
     lblNombre.setText(App.cliente.getNombre());
     lblApellido.setText(App.cliente.getApellido());
     lblEmail.setText(App.cliente.getEmail());
@@ -139,6 +138,7 @@ public class ClienteInfoContr implements Initializable {
       btnGuardar.setManaged(true);
       btnCancelar.setVisible(true);
       btnCancelar.setManaged(true);
+      if (modal == null) crearModal();
       modalController.setISO(App.cliente.getPais().getCodigoISO());
     });
   
@@ -174,60 +174,100 @@ public class ClienteInfoContr implements Initializable {
     });
     lblEditarNombre.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      modalController.prepararModal("Nombre", lblNombre, (short) 150);
+      if (modal == null) crearModal();
+      modalController.prepararModal("Nombre", lblNombre, 150);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
 
     lblEditarApellido.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      modalController.prepararModal("Apellidos", lblApellido, (short) 150);
+      if (modal == null) crearModal();
+      modalController.prepararModal("Apellidos", lblApellido, 150);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });    
 
     lblEditarContra.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
-      modalController.prepararModal("Contraseña actual", null, (short) 50);
+      if (modal == null) crearModal();
+      modalController.prepararModal("Contraseña actual", null, 50);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
     
     lblEditarSaldo.setOnKeyPressed(e -> {
     if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
+    if (modal == null) crearModal();
       modalController.setIsSaldo(true);
-      modalController.prepararModal("Saldo", lblSaldo, (short) 11);
+      modalController.prepararModal("Saldo", lblSaldo, 11);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
     
     lblEditarTelefono.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
+      if (modal == null) crearModal();
       modalController.setIsTelefono(true);
-      modalController.prepararModal("Número de teléfono", lblTelefono, (short) 25);
+      modalController.prepararModal("Número de teléfono", lblTelefono, 25);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
 
     lblEditarNombre.setOnMouseClicked(e -> {
-      modalController.prepararModal("Nombre", lblNombre, (short) 150);
+      if (modal == null) crearModal();
+      modalController.prepararModal("Nombre", lblNombre, 150);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
    
     lblEditarApellido.setOnMouseClicked(e -> {
-      modalController.prepararModal("Apellidos", lblApellido, (short) 150);
+      if (modal == null) crearModal();
+      modalController.prepararModal("Apellidos", lblApellido, 150);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
    
     lblEditarContra.setOnMouseClicked(e -> {
-      modalController.prepararModal("Contraseña actual", null, (short) 50);
+      if (modal == null) crearModal();
+      modalController.prepararModal("Contraseña actual", null, 50);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
    
     lblEditarSaldo.setOnMouseClicked(e -> {
+      if (modal == null) crearModal();
       modalController.setIsSaldo(true);
-      modalController.prepararModal("Saldo", lblSaldo, (short) 11);
+      modalController.prepararModal("Saldo", lblSaldo, 11);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
     
     lblEditarTelefono.setOnMouseClicked(e -> {
+      if (modal == null) crearModal();
       modalController.setIsTelefono(true);
-      modalController.prepararModal("Número de teléfono", lblTelefono, (short) 20);
+      modalController.prepararModal("Número de teléfono", lblTelefono, 20);
+      if (ttlTask != null && !ttlTask.isDone()) {
+        ttlTask.cancel(false);
+      }
       modal.show();
     });
     configurarTabla();
@@ -275,8 +315,9 @@ public class ClienteInfoContr implements Initializable {
       modalController = loader.getController();
       modalController.setBotones(btnGuardar, btnCancelar);
       modalController.setISO(App.cliente.getPais().getCodigoISO());
-      modal.setOnCloseRequest(e -> {
+      modal.setOnHidden(e -> {
         modalController.reiniciar();
+        resetTtl();
       });
       modalController.setModal(modal);
       Scene scene = new Scene(parent);
@@ -294,6 +335,16 @@ public class ClienteInfoContr implements Initializable {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private void resetTtl() {
+    if (ttlTask != null && !ttlTask.isDone()) {
+      ttlTask.cancel(false);
+    }
+    ttlTask = App.scheduler.schedule(() -> {
+      modal = null;
+      modalController = null;
+    }, 1, TimeUnit.MINUTES);
   }
 
   @FXML

@@ -76,7 +76,7 @@ public class ModalEdicionContr implements Initializable {
   private boolean guardar = true;
   private boolean isTelefono;
   private boolean isSaldo;
-  private short maxLongitud;
+  private int maxLongitud;
 
   /**
     Aplica eventos de escucha a los componentes gráficos del modal.
@@ -203,7 +203,7 @@ public class ModalEdicionContr implements Initializable {
     @param lblAEditar Referencia al label de {@link ClienteInfoContr} para cambiar de contenido en su plantilla
     @param maxLongitud Longitud máxima según el atributo a editar
   */
-  public void prepararModal(String campo, Label lblAEditar, short maxLongitud) {
+  public void prepararModal(String campo, Label lblAEditar, int maxLongitud) {
     this.lblAEditar = lblAEditar;
     this.maxLongitud = maxLongitud;
     lblTituloPrincipal.setText(campo);
@@ -307,5 +307,10 @@ public class ModalEdicionContr implements Initializable {
   public void setBotones(Button btnGuardar, Button btnCancelar) {
     this.btnGuardar = btnGuardar;
     this.btnCancelar = btnCancelar;
+  }
+
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("\n\n🧹 ModalEdicion eliminado por GC\n\n");
   }
 }

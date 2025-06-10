@@ -128,4 +128,9 @@ public class ModalCuartoContr implements Initializable {
     lblActual.getStyleClass().add("lbl-imagen-cuarto");
     ConfRepetitiva.setBackground(hboxImagenCuarto, urls[puntero].toString());
   }
+
+  @Override
+  protected void finalize() throws Throwable {
+    System.out.println("\n\n🧹 ModalCuarto eliminado por GC\n\n");
+  }
 }
