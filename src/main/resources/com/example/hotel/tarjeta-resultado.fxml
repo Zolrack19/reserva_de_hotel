@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="root" focusTraversable="true" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#verDetalles" prefHeight="300.0" prefWidth="694.0" spacing="16.0" styleClass="resultadoCard" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.TarjetaResultadoContr">
+<HBox fx:id="root" focusTraversable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="694.0" spacing="16.0" styleClass="resultadoCard" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.TarjetaResultadoContr">
 	<children>
 		<Label fx:id="lblImagen" maxWidth="300.0" prefHeight="270.0" prefWidth="229.0" HBox.hgrow="ALWAYS">
 			<HBox.margin>

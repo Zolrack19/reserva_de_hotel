@@ -123,7 +123,7 @@ public class ResultadosContr implements Initializable {
           filtrado[j] = null;
           j++;
         }
-        List<Hotel> resultados = BusquedaServicio.buscarHotel(filtrado, dateInicio.getValue(), dateFin.getValue());
+        resultados = BusquedaServicio.buscarHotel(filtrado, dateInicio.getValue(), dateFin.getValue());
 
         Platform.runLater(() -> {
           if (newText == null || newText.isEmpty() || resultados == null || resultados.isEmpty()) {
@@ -231,22 +231,17 @@ public class ResultadosContr implements Initializable {
     Implementación de prueba del botón de buscar, solo se encarga de cambiar de plantilla, fxml.
     @throws IOException
   */
-  private void crearTarjetas() {
+  private void crearTarjetas() throws IOException {
     // prueba de lo que sería la generación de las tarjetas de resultados de búsqueda de hoteles
-    try {
-      for (int i = 0; i < resultados.size(); i++) {
-        Hotel hotel = resultados.get(i);
-        Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
-        String url = Files.list(carpeta).sorted().map(path -> path.toUri().toString()).findFirst().orElseThrow();
-
-        FXMLLoader loader = new FXMLLoader(Rutas.TARJETA_RESULTADO.getUrlVista());
-        Parent card = loader.load();
-        TarjetaResultadoContr contr = loader.getController();
-        contr.setData(hotel, url);
-        vboxResultados.getChildren().add(card);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    for (int i = 0; i < resultados.size(); i++) {
+      Hotel hotel = resultados.get(i);
+      Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
+      String url = Files.list(carpeta).sorted().map(path -> path.toUri().toString()).findFirst().orElseThrow();
+      FXMLLoader loader = new FXMLLoader(Rutas.TARJETA_RESULTADO.getUrlVista());
+      Parent card = loader.load();
+      TarjetaResultadoContr contr = loader.getController();
+      setDataTarjetaCarusel(contr, hotel, url);
+      vboxResultados.getChildren().add(card);
     }
   }
 
@@ -254,23 +249,52 @@ public class ResultadosContr implements Initializable {
     vboxResultados.getChildren().clear();
     resultados.clear();
     resultados.addAll(hoteles);
-    crearTarjetas();
+    try {
+      crearTarjetas();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
-  public void buscar() throws IOException {
-    // if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
-    //   App.setVista(Rutas.DETALLES_HOTEL);
-    // }
-    // App.navegar(Rutas.DETALLES_HOTEL);
+  private void buscar() {
+    if (resultados == null || !hayResultados) return;
+    PantallaCarga pantallaDeCarga = PantallaCarga.getPantallaCarga();
+    vboxResultados.getChildren().clear();
+    pantallaDeCarga.mostrar();
+    vboxResultados.getChildren().add(pantallaDeCarga);
   }
 
   @FXML
-  private void irAInicio() throws IOException {
+  private void irAInicio() {
     if (App.getVista(Rutas.INICIO) == null) {
       App.setVista(Rutas.INICIO);
     }
     App.navegar(Rutas.INICIO);
+  }
+
+  private void setDataTarjetaCarusel(TarjetaResultadoContr contr, Hotel hotel, String imagenURL) {
+    contr.getRoot().setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        verDetalles(hotel);
+      }
+    });
+    contr.getRoot().setOnMouseClicked(e -> {
+      verDetalles(hotel);
+    });
+
+    ConfRepetitiva.setBackground(contr.getLblImagen(), imagenURL);
+    contr.getLblTitulo().setText(hotel.getNombre());
+    contr.getLblDescripcion().setText(hotel.getDescripcion());
+    ConfRepetitiva.confEstrellas(contr.getLblEstrellas(), hotel.getEstrellas());
+  }
+
+  private void verDetalles(Hotel hotel) {
+    if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
+      App.setVista(Rutas.DETALLES_HOTEL);
+    }
+    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel);
+    App.navegar(Rutas.DETALLES_HOTEL);
   }
 
   @Override

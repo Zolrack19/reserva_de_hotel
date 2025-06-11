@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#verDetalles" prefHeight="350.0" prefWidth="305.0" styleClass="caruselCard" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.TarjetaCaruselContr">
+<VBox fx:id="root" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="305.0" styleClass="caruselCard" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.TarjetaCaruselContr">
 	<children>
 		<Label fx:id="lblImagen" maxWidth="1.7976931348623157E308" prefHeight="222.0" prefWidth="305.0" style="-fx-border-color: white;" styleClass="lblprueba" />
 		<Label fx:id="lblTitulo" prefHeight="54.0" prefWidth="295.0" wrapText="true">

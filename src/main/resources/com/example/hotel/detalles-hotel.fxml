@@ -6,7 +6,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.Blend?>
@@ -192,19 +191,6 @@
                                     </DatePicker>
                                  </children>
                               </HBox>
-                           </children>
-                        </VBox>
-                        <VBox maxWidth="140.0" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="Capacidad">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <Spinner fx:id="spnCapacidad" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                         <VBox fx:id="vboxPresupuesto" maxWidth="250.0" prefHeight="200.0" prefWidth="160.0" HBox.hgrow="ALWAYS">

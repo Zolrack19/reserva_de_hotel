@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.hotel.controller.AcompananteContr" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="lblNPersona" minHeight="-Infinity" text="Persona" wrapText="true">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <HBox spacing="20.0">
+         <children>
+            <VBox prefHeight="65.0" prefWidth="252.0">
+               <children>
+                  <Label minHeight="-Infinity" text="Nombres" wrapText="true">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtNombres" styleClass="txtGenerico">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox prefHeight="65.0" prefWidth="253.0">
+               <children>
+                  <Label minHeight="-Infinity" text="Apellidos" wrapText="true">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtApellidos" styleClass="txtGenerico">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -23,8 +23,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -88,9 +86,6 @@ public class DetallesController implements Initializable {
   
   @FXML
   private DatePicker dateFin;
-  
-  @FXML
-  private Spinner<Integer> spnCapacidad;
 
   @FXML
   private VBox vboxPresupuesto;
@@ -117,6 +112,10 @@ public class DetallesController implements Initializable {
   
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    ConfRepetitiva.confEstiloCalendario(dateInicio);
+    ConfRepetitiva.confEstiloCalendario(dateFin);
+    ConfRepetitiva.confCalendarios(dateInicio, dateFin);
+
     lblVolver.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
         try {
@@ -146,9 +145,6 @@ public class DetallesController implements Initializable {
         lblOculto = false;
       }
     });
-
-    SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 1);
-    spnCapacidad.setValueFactory(valueFactory);
 
     RangeSlider rangeSlider = new RangeSlider(10, 500, 10, 150);
     rangeSlider.setMajorTickUnit(10);
@@ -187,23 +183,28 @@ public class DetallesController implements Initializable {
     colId.setCellValueFactory(new PropertyValueFactory<>("id"));
     colId.setPrefWidth(100);
     colId.setReorderable(false);
-    
-    TableColumn<Cuarto, String> colfechaEntrada = new TableColumn<>("N° habitación");
-    colfechaEntrada.setCellValueFactory(new PropertyValueFactory<>("numero"));
-    colfechaEntrada.setPrefWidth(200);
-    colfechaEntrada.setReorderable(false);
-    
-    TableColumn<Cuarto, BigDecimal> colfechaSalida = new TableColumn<>("Precio por noche");
-    colfechaSalida.setCellValueFactory(new PropertyValueFactory<>("precioPorNoche"));
-    colfechaSalida.setPrefWidth(200);
-    colfechaSalida.setReorderable(false);
 
-    TableColumn<Cuarto, Byte> estrellas = new TableColumn<>("Puntuación");
-    estrellas.setCellValueFactory(new PropertyValueFactory<>("estrellas"));
-    estrellas.setPrefWidth(200);
-    estrellas.setReorderable(false);
+    TableColumn<Cuarto, String> colNombre = new TableColumn<>("Habitación");
+    colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+    colNombre.setPrefWidth(200);
+    colNombre.setReorderable(false);
     
-    tblCuartos.getColumns().addAll(colId, colfechaEntrada, colfechaSalida, estrellas);
+    TableColumn<Cuarto, String> colNHabitacion = new TableColumn<>("N° habitación");
+    colNHabitacion.setCellValueFactory(new PropertyValueFactory<>("numero"));
+    colNHabitacion.setPrefWidth(200);
+    colNHabitacion.setReorderable(false);
+    
+    TableColumn<Cuarto, BigDecimal> colPrecio = new TableColumn<>("Precio por noche");
+    colPrecio.setCellValueFactory(new PropertyValueFactory<>("precioPorNoche"));
+    colPrecio.setPrefWidth(200);
+    colPrecio.setReorderable(false);
+
+    TableColumn<Cuarto, Byte> colCapacidad = new TableColumn<>("Capacidad");
+    colCapacidad.setCellValueFactory(new PropertyValueFactory<>("capacidad"));
+    colCapacidad.setPrefWidth(200);
+    colCapacidad.setReorderable(false);
+    
+    tblCuartos.getColumns().addAll(colId, colNombre, colNHabitacion, colPrecio, colCapacidad);
     tblCuartos.setFixedCellSize(35);
     tblCuartos.prefHeightProperty().bind(
       Bindings.size(tblCuartos.getItems()).multiply(tblCuartos.getFixedCellSize()).add(35)
@@ -211,7 +212,7 @@ public class DetallesController implements Initializable {
 
     Cuarto[] cuartoAnterior = new Cuarto[1];
     tblCuartos.setOnMouseClicked(event -> {
-      if (event.getClickCount() == 1) { // o 2 para doble clic
+      if (event.getClickCount() == 1) {
         Cuarto seleccionado = tblCuartos.getSelectionModel().getSelectedItem();
         if (seleccionado != null) {
           if (modalCuarto == null) {
@@ -231,6 +232,9 @@ public class DetallesController implements Initializable {
     App.setVista(Rutas.MODAL_CUARTO);
     modalCuarto = new Stage();
     modalCuarto.setScene(new Scene(App.getVista(Rutas.MODAL_CUARTO)));
+    modalCuarto.setOnHidden(e -> {
+      ((ModalCuartoContr) App.getControlador(Rutas.MODAL_CUARTO)).resetModal(modalCuarto.getScene(), App.getVista(Rutas.MODAL_CUARTO));
+    });
     modalCuarto.setTitle("Detalles de habitación");
     modalCuarto.initModality(Modality.WINDOW_MODAL);
     modalCuarto.initOwner(App.primaryStage);
@@ -254,7 +258,7 @@ public class DetallesController implements Initializable {
 
     lblNombre.setText(hotel.getNombre());
     if (estrella != hotel.getEstrellas()) {
-      estrella = (byte) hotel.getEstrellas();
+      estrella = hotel.getEstrellas();
       ConfRepetitiva.confEstrellas(lblEstrellas, hotel.getEstrellas());
     }
     lblDescripcion.setText(hotel.getDescripcion());
@@ -270,7 +274,7 @@ public class DetallesController implements Initializable {
   }
 
   @FXML
-  public void volver() throws IOException {
+  public void volver() {
     if (App.getVista(Rutas.RESULTADOS) == null) {
       if (App.getVista(Rutas.INICIO) == null) {
         App.setVista(Rutas.INICIO);

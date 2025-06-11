@@ -80,7 +80,7 @@ public class ConfRepetitiva {
       };
     });
 
-    sugerencias.prefWidthProperty().bind(txtBuscar.widthProperty()); //vincula la anchura con la del txtBuscar
+    sugerencias.prefWidthProperty().bind(txtBuscar.widthProperty());
     sugerencias.setPrefHeight(160);
     sugerencias.maxHeight(160);
   }
@@ -95,6 +95,7 @@ public class ConfRepetitiva {
         if (date.isBefore(LocalDate.now())) {
           setDisable(true);
           setStyle("-fx-background-color: #EEEEEE;");
+          // setStyle("-fx-background-color:rgba(16, 0, 61, 0.6); -fx-border-color: rgba(24, 22, 129, 0.6);");
         }
       }
     });

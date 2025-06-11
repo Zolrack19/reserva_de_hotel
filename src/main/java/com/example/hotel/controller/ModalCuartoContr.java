@@ -11,9 +11,13 @@ import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.util.Imagenes;
+import com.example.hotel.util.Rutas;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -22,6 +26,9 @@ import javafx.scene.layout.HBox;
 
 public class ModalCuartoContr implements Initializable {
   
+  @FXML
+  private HBox principal;
+
   @FXML
   private HBox hboxImagenCuarto;
   
@@ -40,10 +47,14 @@ public class ModalCuartoContr implements Initializable {
   @FXML
   private Label lblDescripcionCuarto;
 
+  @FXML
+  private Button btnForm;
+
   private Label[] labels;
   private Label lblActual;
   private Object[] urls;
   private byte puntero;
+  private boolean enForm;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -56,6 +67,15 @@ public class ModalCuartoContr implements Initializable {
     btnIzquierda.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
         clickIzquierdo();
+      }
+    });
+    btnForm.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        try {
+          irFormulario();
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
       }
     });
   }
@@ -111,6 +131,12 @@ public class ModalCuartoContr implements Initializable {
     ConfRepetitiva.setBackground(hboxImagenCuarto, urls[p].toString());
   }
 
+  public void resetModal(Scene scene, Parent root) {
+    if (!enForm) return;
+    scene.setRoot(root);
+    enForm = false;
+  }
+
   @FXML
   private void clickIzquierdo() {
     if (puntero == 0) return;
@@ -129,8 +155,16 @@ public class ModalCuartoContr implements Initializable {
     ConfRepetitiva.setBackground(hboxImagenCuarto, urls[puntero].toString());
   }
 
+  @FXML
+  private void irFormulario() throws IOException {
+    FXMLLoader loader = new FXMLLoader(Rutas.FORM_RESERVA.getUrlVista());
+    Parent parent = loader.load();
+    enForm = true;
+    principal.getScene().setRoot(parent);
+  }
+
   @Override
-  protected void finalize() throws Throwable {
+  protected void finalize() {
     System.out.println("\n\n🧹 ModalCuarto eliminado por GC\n\n");
   }
 }

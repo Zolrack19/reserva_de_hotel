@@ -43,7 +43,7 @@ public class Hotel {
   private String imagenUrl;
   
   @Column(nullable =  false)
-  private short estrellas;
+  private byte estrellas;
 
   @Column(length = 150, nullable =  false)
   private String nombre;

@@ -31,10 +31,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 
 /**
-* Clase de inicio a la aplicación, una vez que se inicia sesión o se crea una cuenta
-* esta clase instancia componentes de la página de bienvenida.
-* Implementa Initializable para instancar los componentes gráficos.
-* @see Initializable
+  Clase de inicio a la aplicación, una vez que se inicia sesión o se crea una cuenta
+  esta clase instancia componentes de la página de bienvenida.
+  Implementa Initializable para instancar los componentes gráficos.
+  @see Initializable
 */
 public class InicioController implements Initializable {
 
@@ -215,7 +215,6 @@ public class InicioController implements Initializable {
     @see TarjetaCaruselContr
   */
   private void llenarCarusel() {
-    
     List<Hotel> hoteles = BusquedaServicio.hotelesAlazar(6);
     for (int i = 0; i < hoteles.size(); i++) {
       Hotel hotel = hoteles.get(i);
@@ -225,21 +224,43 @@ public class InicioController implements Initializable {
         FXMLLoader loader = new FXMLLoader(Rutas.TARJETA_CARUSEL.getUrlVista());
         Parent card = loader.load();
         TarjetaCaruselContr contr = loader.getController();
-        contr.setData(hotel, url);
+        setData(contr, hotel, url);
         hboxCarusel.getChildren().add(card);
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
+  }
 
+  private void setData(TarjetaCaruselContr contr, Hotel hotel, String imagenURL) {
+    contr.getRoot().setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        verDetalles(hotel);
+      }
+    });
+    contr.getRoot().setOnMouseClicked(e -> {
+      verDetalles(hotel);
+    });
+
+    ConfRepetitiva.setBackground(contr.getLblImagen(), imagenURL);
+    contr.getLblTitulo().setText(hotel.getNombre());
+    contr.getLblPais().setText(hotel.getCiudad().getNombre() + ", " + hotel.getCiudad().getPais());
+    ConfRepetitiva.confEstrellas(contr.getLblEstrellas(), hotel.getEstrellas());
+  }
+
+  private void verDetalles(Hotel hotel) {
+    if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
+      App.setVista(Rutas.DETALLES_HOTEL);
+    }
+    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel); 
+    App.navegar(Rutas.DETALLES_HOTEL);
   }
 
   /**
   * Versión de preuba, evento que cambia de plantilla fxml.
-  * @throws IOException
   */
   @FXML
-  private void buscarHotel() throws IOException {
+  private void buscarHotel() {
     if (sugerencias.getItems().isEmpty()) return;
     if (App.getVista(Rutas.RESULTADOS) == null) {
       App.setVista(Rutas.RESULTADOS);
@@ -251,10 +272,9 @@ public class InicioController implements Initializable {
   /**
   * Cambia a la plantilla de cuenta en donde se muestran los detalles de usuario.
   * @see ClienteInfoContr
-  * @throws IOException
   */
   @FXML
-  private void irACuenta() throws IOException {
+  private void irACuenta() {
     if (App.getVista(Rutas.CLIENTE_INFO) == null) {
       App.setVista(Rutas.CLIENTE_INFO);
     }

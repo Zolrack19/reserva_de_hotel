@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@../css/inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.ModalCuartoContr">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" stylesheets="@../css/inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotel.controller.FormCuartoContr">
    <content>
       <HBox fx:id="principal" prefHeight="800.0" prefWidth="1100.0">
          <children>
@@ -19,11 +20,11 @@
             <VBox>
                <children>
                   <Region minHeight="-Infinity" prefHeight="44.0" prefWidth="837.0" />
-                  <HBox prefHeight="684.0" prefWidth="1100.0" spacing="30.0">
+                  <HBox prefHeight="684.0" prefWidth="1100.0" spacing="35.0">
                      <children>
                         <VBox minWidth="-Infinity" prefWidth="350.0">
                            <children>
-                              <Label fx:id="lblTituloCuarto2" minHeight="-Infinity" text="Titulo" wrapText="true">
+                              <Label fx:id="lblTituloHotel" minHeight="-Infinity" text="Titulo" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -31,12 +32,12 @@
                                     <Insets />
                                  </VBox.margin>
                               </Label>
-                              <Label fx:id="lblTituloCuarto23" minHeight="-Infinity" text="estella" wrapText="true">
+                              <Label fx:id="lblEstrella" minHeight="-Infinity" text="estrella" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblTituloCuarto21" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="211.0" prefWidth="373.0" style="-fx-background-color: red;" text="Imagen" wrapText="true" VBox.vgrow="ALWAYS">
+                              <Label fx:id="lblImagen" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="224.0" prefWidth="350.0" wrapText="true" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -44,7 +45,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <Label fx:id="lblTituloCuarto22" minHeight="-Infinity" text="Datos de reserva" wrapText="true">
+                              <Label minHeight="-Infinity" text="Datos de reserva" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -56,12 +57,12 @@
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="lblTituloCuarto1113" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Entrada" wrapText="true">
+                                          <Label minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Entrada" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblTituloCuarto11132" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Vie, 27 jun 2025" wrapText="true">
+                                          <Label fx:id="lblFechaEntrada" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Vie, 27 jun 2025" wrapText="true">
                                              <font>
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
@@ -70,12 +71,12 @@
                                     </VBox>
                                     <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="lblTituloCuarto11131" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Salida" wrapText="true">
+                                          <Label minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Salida" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblTituloCuarto111321" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Vie, 28 jun 2025" wrapText="true">
+                                          <Label fx:id="lblFechaSalida" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Vie, 28 jun 2025" wrapText="true">
                                              <font>
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
@@ -84,25 +85,42 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <Label fx:id="lblTituloCuarto11133" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Duracion total de la instancia" wrapText="true">
+                              <Label minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Duracion total de la instancia" wrapText="true">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblTituloCuarto111331" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="1 noche" wrapText="true">
+                              <Label fx:id="lblNoches" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="1 noche" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
                               </Label>
+                              <HBox>
+                                 <children>
+                                    <Label minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="N° de habitación:" wrapText="true">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblNumHabitacion" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="321" wrapText="true">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Label fx:id="lblTituloCuarto1113311" minHeight="-Infinity" minWidth="-Infinity" text="Precio" wrapText="true">
+                                    <Label minHeight="-Infinity" minWidth="-Infinity" text="Precio" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="21.0" />
                                        </font>
                                     </Label>
                                     <Region minWidth="-Infinity" prefWidth="10.0" HBox.hgrow="ALWAYS" />
-                                    <Label fx:id="lblTituloCuarto11133111" minHeight="-Infinity" minWidth="-Infinity" text="S/" wrapText="true">
+                                    <Label fx:id="lblDivisa" minHeight="-Infinity" minWidth="-Infinity" text="S/" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="21.0" />
                                        </font>
@@ -110,7 +128,7 @@
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="lblTituloCuarto111331111" minHeight="-Infinity" minWidth="-Infinity" prefHeight="77.0" prefWidth="67.0" text="100.00" wrapText="true">
+                                    <Label fx:id="lblPrecio" minHeight="-Infinity" minWidth="-Infinity" prefHeight="77.0" prefWidth="67.0" text="100.00" wrapText="true">
                                        <font>
                                           <Font name="System Bold" size="21.0" />
                                        </font>
@@ -120,7 +138,7 @@
                            </children></VBox>
                         <VBox minWidth="-Infinity" prefWidth="350.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label fx:id="lblTituloCuarto" minHeight="-Infinity" text="Datos del cliente" wrapText="true">
+                              <Label minHeight="-Infinity" text="Datos del cliente" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -132,12 +150,12 @@
                                  <children>
                                     <VBox minWidth="-Infinity" prefWidth="244.0">
                                        <children>
-                                          <Label fx:id="lblTituloCuarto111" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Nombre completo" wrapText="true">
+                                          <Label minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="Nombre completo" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <TextField styleClass="txtInicio">
+                                          <TextField fx:id="txtNombre" styleClass="txtGenerico">
                                              <VBox.margin>
                                                 <Insets top="5.0" />
                                              </VBox.margin>
@@ -146,17 +164,17 @@
                                     </VBox>
                                     <VBox minWidth="-Infinity" prefHeight="65.0" prefWidth="277.0">
                                        <children>
-                                          <Label fx:id="lblTituloCuarto1111" minHeight="-Infinity" text="Email" wrapText="true">
+                                          <Label minHeight="-Infinity" text="Email" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblTituloCuarto11111" maxWidth="1.7976931348623157E308" prefHeight="21.0" text="Esto es un super email.com" wrapText="true">
+                                          <Label fx:id="lblEmail" maxWidth="1.7976931348623157E308" prefHeight="21.0" text="Esto es un super email.com" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets top="5.0" />
+                                                <Insets top="10.0" />
                                              </VBox.margin>
                                           </Label>
                                        </children>
@@ -167,36 +185,36 @@
                                  <children>
                                     <VBox minWidth="-Infinity" prefWidth="244.0">
                                        <children>
-                                          <Label fx:id="lblTituloCuarto1111" minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="País" wrapText="true">
+                                          <Label minHeight="-Infinity" prefHeight="22.0" prefWidth="346.0" text="País" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblTituloCuarto111112" maxWidth="1.7976931348623157E308" prefHeight="21.0" text="Peru" wrapText="true">
+                                          <Label fx:id="lblPais" maxWidth="1.7976931348623157E308" prefHeight="21.0" text="Peru" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets top="5.0" />
+                                                <Insets top="10.0" />
                                              </VBox.margin>
                                           </Label>
                                        </children>
                                     </VBox>
                                     <VBox minWidth="-Infinity" prefHeight="65.0" prefWidth="266.0">
                                        <children>
-                                          <Label fx:id="lblTituloCuarto11111" minHeight="-Infinity" text="Número de teléfono" wrapText="true">
+                                          <Label minHeight="-Infinity" text="Número de teléfono" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
                                           <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="253.0" spacing="20.0">
                                              <children>
-                                                <Label fx:id="lblTituloCuarto111111" minHeight="-Infinity" text="+51" wrapText="true">
+                                                <Label fx:id="lblPrefijoTelefono" minHeight="-Infinity" text="+51" wrapText="true">
                                                    <font>
                                                       <Font size="16.0" />
                                                    </font>
                                                 </Label>
-                                                <TextField maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="170.0" styleClass="txtInicio" />
+                                                <TextField fx:id="txtTelefono" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="170.0" styleClass="txtGenerico" />
                                              </children>
                                              <VBox.margin>
                                                 <Insets top="5.0" />
@@ -209,70 +227,32 @@
                                     <Insets top="20.0" />
                                  </VBox.margin>
                               </HBox>
-                              <Label fx:id="lblTituloCuarto1" minHeight="-Infinity" text="Acompañantes" wrapText="true">
+                              <CheckBox fx:id="chxReserva" mnemonicParsing="false" text="Estoy en la reserva">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <Label fx:id="lblAcomponantes" minHeight="-Infinity" text="Acompañantes" wrapText="true">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets bottom="8.0" top="15.0" />
+                                    <Insets bottom="8.0" top="20.0" />
                                  </VBox.margin>
                               </Label>
-                              <VBox spacing="10.0">
-                                 <children>
-                                    <VBox>
-                                       <children>
-                                          <Label fx:id="lblTituloCuarto11" minHeight="-Infinity" text="Persona 1" wrapText="true">
-                                             <font>
-                                                <Font name="System Bold" size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <HBox spacing="20.0">
-                                             <children>
-                                                <VBox prefHeight="65.0" prefWidth="252.0">
-                                                   <children>
-                                                      <Label fx:id="lblTituloCuarto1112" minHeight="-Infinity" text="Nombres" wrapText="true">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <TextField styleClass="txtInicio">
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </TextField>
-                                                   </children>
-                                                </VBox>
-                                                <VBox prefHeight="65.0" prefWidth="253.0">
-                                                   <children>
-                                                      <Label fx:id="lblTituloCuarto11121" minHeight="-Infinity" text="Apellidos" wrapText="true">
-                                                         <font>
-                                                            <Font size="16.0" />
-                                                         </font>
-                                                      </Label>
-                                                      <TextField styleClass="txtInicio">
-                                                         <VBox.margin>
-                                                            <Insets top="5.0" />
-                                                         </VBox.margin>
-                                                      </TextField>
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </VBox>
-                                 </children>
+                              <VBox fx:id="vbxAcompanantes" spacing="10.0">
                                  <VBox.margin>
                                     <Insets bottom="40.0" />
                                  </VBox.margin>
                               </VBox>
-                              <HBox alignment="CENTER_LEFT">
+                              <HBox alignment="BOTTOM_LEFT">
                                  <children>
                                     <VBox>
                                        <children>
-                                          <Label fx:id="lblTituloCuarto11122" minHeight="-Infinity" text="Medio de pago" wrapText="true">
+                                          <Label minHeight="-Infinity" text="Medio de pago" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -280,14 +260,14 @@
                                                 <Insets bottom="5.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <ComboBox prefWidth="150.0" />
+                                          <ComboBox fx:id="cbxMedioPago" prefWidth="150.0" />
                                        </children>
                                     </VBox>
                                     <Region prefHeight="53.0" prefWidth="233.0" />
-                                    <Button mnemonicParsing="false" text="Reservar habitación" />
+                                    <Button fx:id="btnReserva" mnemonicParsing="false" styleClass="btnBuscarInicio" text="Reservar habitación" />
                                  </children>
                               </HBox>
-                              <Label fx:id="lblTituloCuarto112" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minHeight="-Infinity" text="“Gracias por permitirnos ser parte de su viaje. Nos honra su elección y aguardamos con entusiasmo el placer de su visita.”" textAlignment="CENTER" wrapText="true">
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minHeight="-Infinity" text="“Gracias por permitirnos ser parte de su viaje. Nos honra su elección y aguardamos con entusiasmo el placer de su visita.”" textAlignment="CENTER" wrapText="true">
                                  <font>
                                     <Font name="System Bold Italic" size="17.0" />
                                  </font>

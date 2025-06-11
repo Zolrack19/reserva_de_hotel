@@ -1,24 +1,17 @@
 package com.example.hotel.controller;
 
-import java.io.IOException;
-
-import com.example.hotel.App;
-import com.example.hotel.auxiliar.ConfRepetitiva;
-import com.example.hotel.dominio.Hotel;
-import com.example.hotel.util.Rutas;
-
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
+import lombok.Getter;
 
 /**
  * Controlador de los componentes de una tarjeta de carusel.
  * Muestra recomendaciones de hoteles al inicio de la aplicación.
  * @see InicioController 
 */
+@Getter
 public class TarjetaCaruselContr {
-  private Hotel hotel;
   
   @FXML
   private Parent root;
@@ -35,38 +28,4 @@ public class TarjetaCaruselContr {
   @FXML
   private Label lblEstrellas;
   
-
-  @FXML
-  private void verDetalles() throws IOException {
-    if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
-      App.setVista(Rutas.DETALLES_HOTEL);
-    }
-    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel); 
-    App.navegar(Rutas.DETALLES_HOTEL);
-  }
-
-  /**
-  * @version 1.0
-  * Instancia los componentes gráficos de la plantilla.
-  * @param hotel Entidad de un hotel.
-  * @param imagenURL Url de la imagen a mostrar.
-  */
-  public void setData(Hotel hotel, String imagenURL) {
-    root.setOnKeyPressed(e -> {
-      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
-        try {
-          verDetalles();
-        } catch (Exception ex) {
-          ex.printStackTrace();
-        }
-      }
-    });
-
-    this.hotel = hotel;
-    ConfRepetitiva.setBackground(lblImagen, imagenURL);
-    lblTitulo.setText(hotel.getNombre());
-    lblPais.setText(hotel.getCiudad().getNombre() + ", " + hotel.getCiudad().getPais());
-    ConfRepetitiva.confEstrellas(lblEstrellas, hotel.getEstrellas());
-  }
-
 }

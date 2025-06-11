@@ -46,6 +46,10 @@ public class ClienteServicio {
     paisDAO.instanciarDivisa(pais);
   }
 
+  public void reservarHabitacion() {
+    
+  }
+
   /**
     Método para obtener una lista de paises.
   */
