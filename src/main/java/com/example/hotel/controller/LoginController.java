@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import com.example.hotel.App;
 import com.example.hotel.service.ClienteServicio;
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.InnerShadow;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -50,19 +51,11 @@ public class LoginController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
 
-    lblCrearCuenta.setOnKeyPressed(event -> {
-      switch (event.getCode()) {
-        case SPACE, ENTER -> {
-          try {
-            cambiarACrearCuenta();
-          } catch (IOException e) {
-            System.err.println(e.getLocalizedMessage());
-          }
-        }
-        default -> {}
+    lblCrearCuenta.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        cambiarACrearCuenta();
       }
     });
-
 
     InnerShadow innerShadow = new InnerShadow(0, Color.rgb(209, 58, 255));
     primaryButton.setEffect(innerShadow);
@@ -155,7 +148,7 @@ public class LoginController implements Initializable {
   
 
   @FXML
-  private void cambiarACrearCuenta() throws IOException {
+  private void cambiarACrearCuenta() {
     if (App.getVista(Rutas.CREAR_CUENTA) == null) {
       App.setVista(Rutas.CREAR_CUENTA);
     }

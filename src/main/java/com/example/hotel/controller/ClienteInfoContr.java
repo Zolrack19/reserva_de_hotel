@@ -8,11 +8,14 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.example.hotel.App;
 import com.example.hotel.dominio.Pais;
 import com.example.hotel.dominio.Reserva;
 import com.example.hotel.service.ClienteServicio;
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -38,6 +41,8 @@ import javafx.stage.Stage;
   @see ModalEdicionContr
 */
 public class ClienteInfoContr implements Initializable {
+
+  private static final Logger log = LoggerFactory.getLogger(ClienteInfoContr.class);
 
   @FXML
   private Label lblVolver;
@@ -106,7 +111,7 @@ public class ClienteInfoContr implements Initializable {
         try {
           volver();
         } catch (Exception ex) {
-          ex.printStackTrace();
+          log.error("Error al navegar a la pantalla de inicio", e);
         }
       }
     });
@@ -171,106 +176,75 @@ public class ClienteInfoContr implements Initializable {
       btnGuardar.setVisible(false);
       btnGuardar.setManaged(false);
       modalController.setGuardar(true);
+      log.info("Atributos de usuario actaulizados");
     });
     lblEditarNombre.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
       if (modal == null) crearModal();
-      modalController.prepararModal("Nombre", lblNombre, 150);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Nombre", lblNombre, 150);
     });
 
     lblEditarApellido.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
       if (modal == null) crearModal();
-      modalController.prepararModal("Apellidos", lblApellido, 150);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Apellidos", lblApellido, 150);
     });    
 
     lblEditarContra.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
       if (modal == null) crearModal();
-      modalController.prepararModal("Contraseña actual", null, 50);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Contraseña actual", null, 50);
     });
     
     lblEditarSaldo.setOnKeyPressed(e -> {
     if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
     if (modal == null) crearModal();
       modalController.setIsSaldo(true);
-      modalController.prepararModal("Saldo", lblSaldo, 11);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Saldo", lblSaldo, 11);
     });
     
     lblEditarTelefono.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
       if (modal == null) crearModal();
       modalController.setIsTelefono(true);
-      modalController.prepararModal("Número de teléfono", lblTelefono, 25);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Número de teléfono", lblTelefono, 25);
     });
 
     lblEditarNombre.setOnMouseClicked(e -> {
       if (modal == null) crearModal();
-      modalController.prepararModal("Nombre", lblNombre, 150);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Nombre", lblNombre, 150);
     });
    
     lblEditarApellido.setOnMouseClicked(e -> {
       if (modal == null) crearModal();
-      modalController.prepararModal("Apellidos", lblApellido, 150);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Apellidos", lblApellido, 150);
     });
    
     lblEditarContra.setOnMouseClicked(e -> {
       if (modal == null) crearModal();
-      modalController.prepararModal("Contraseña actual", null, 50);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Contraseña actual", null, 50);
     });
    
     lblEditarSaldo.setOnMouseClicked(e -> {
       if (modal == null) crearModal();
       modalController.setIsSaldo(true);
-      modalController.prepararModal("Saldo", lblSaldo, 11);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Saldo", lblSaldo, 11);
     });
     
     lblEditarTelefono.setOnMouseClicked(e -> {
       if (modal == null) crearModal();
       modalController.setIsTelefono(true);
-      modalController.prepararModal("Número de teléfono", lblTelefono, 20);
-      if (ttlTask != null && !ttlTask.isDone()) {
-        ttlTask.cancel(false);
-      }
-      modal.show();
+      abrirModal("Número de teléfono", lblTelefono, 20);
     });
     configurarTabla();
+  }
+
+  private void abrirModal(String nombreCampo, Label lblAsociado, int limite) {
+    modalController.prepararModal(nombreCampo, lblAsociado, limite);
+    if (ttlTask != null && !ttlTask.isDone()) {
+      ttlTask.cancel(false);
+    }
+    modal.show();
   }
 
   @SuppressWarnings("unchecked")
@@ -333,7 +307,7 @@ public class ClienteInfoContr implements Initializable {
       modal.initOwner(App.primaryStage);
       modal.setResizable(false);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Error al crear modal de edición", e);
     }
   }
 

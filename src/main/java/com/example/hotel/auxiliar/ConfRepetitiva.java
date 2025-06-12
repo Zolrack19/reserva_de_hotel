@@ -3,7 +3,7 @@ package com.example.hotel.auxiliar;
 import java.time.LocalDate;
 
 import com.example.hotel.dominio.Hotel;
-import com.example.hotel.util.Imagenes;
+import com.example.hotel.singleton.Imagenes;
 
 import javafx.scene.Node;
 import javafx.scene.control.DateCell;

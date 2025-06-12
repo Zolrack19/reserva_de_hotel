@@ -10,8 +10,8 @@ import java.util.ResourceBundle;
 import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
-import com.example.hotel.util.Imagenes;
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.Imagenes;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

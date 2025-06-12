@@ -102,7 +102,7 @@ public class CodigoVeriContr implements Initializable {
 
   @FXML
   private void reenviarCodigo() {
-   App.scheduler.schedule(() -> {
+    App.scheduler.schedule(() -> {
       contr.getCrearCuentaServicio().evnviarComprobante(email);
     }, 0, TimeUnit.MILLISECONDS);
   }

@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.example.hotel.dominio.Boleta;
-import com.example.hotel.util.HibernateUtil;
+import com.example.hotel.singleton.HibernateUtil;
 
 /**
   Clase que se encarga de hacer un crud sencillo para la tabla de boletas en la base de datos

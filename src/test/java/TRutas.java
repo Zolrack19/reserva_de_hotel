@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

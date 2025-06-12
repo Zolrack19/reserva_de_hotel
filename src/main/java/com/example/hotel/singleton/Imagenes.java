@@ -1,4 +1,4 @@
-package com.example.hotel.util;
+package com.example.hotel.singleton;
 
 import java.io.File;
 // import java.nio.file.Paths;

@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.example.hotel.App;
 import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
-import com.example.hotel.util.Imagenes;
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.Imagenes;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -38,6 +41,7 @@ import javafx.stage.Popup;
 */
 public class InicioController implements Initializable {
 
+  private static final Logger log = LoggerFactory.getLogger(InicioController.class);
 
   @FXML
   private HBox principal; 
@@ -86,7 +90,7 @@ public class InicioController implements Initializable {
         try {
           irACuenta();
         } catch (Exception ex) {
-          ex.printStackTrace();
+          log.error("Error al navegar a la interfaz de cuenta de usuario", ex);
         }
       }
     });
@@ -163,7 +167,7 @@ public class InicioController implements Initializable {
         try {
           buscarHotel();
         } catch (Exception ex) {
-          ex.printStackTrace();
+          log.error("Error al navegar a la UI de resultados de búsqueda", ex);
         }
       }
     });
@@ -227,7 +231,7 @@ public class InicioController implements Initializable {
         setData(contr, hotel, url);
         hboxCarusel.getChildren().add(card);
       } catch (IOException e) {
-        e.printStackTrace();
+        log.error("Error al crear tarjetas de carusel", e);
       }
     }
   }

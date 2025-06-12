@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.example.hotel.dominio.MedioPago;
-import com.example.hotel.util.HibernateUtil;
+import com.example.hotel.singleton.HibernateUtil;
 
 /**
   Clase para realizar crud para la tabla medio_pago en la base de datos.

@@ -1,7 +1,9 @@
-package com.example.hotel.util;
+package com.example.hotel.singleton;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.hotel.dominio.Acompanante;
 import com.example.hotel.dominio.Boleta;
@@ -22,6 +24,7 @@ import com.example.hotel.dominio.Reserva;
   Abre una sesión, la almacena y usa el patrón singlenton para brindar conexiones a la base de datos.
 */
 public class HibernateUtil {
+  private static final Logger log = LoggerFactory.getLogger(HibernateUtil.class);
   private static final SessionFactory session;
 
   static {
@@ -45,7 +48,7 @@ public class HibernateUtil {
 
       session = conf.buildSessionFactory();
     } catch (Exception ex) {
-      System.err.println("Error en inciar sesión con la base de dato " + ex);
+      log.error("Error en inciar sesión con la base de datos", ex);
       throw new ExceptionInInitializerError(ex);
     }
   }

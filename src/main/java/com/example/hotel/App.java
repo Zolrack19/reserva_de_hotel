@@ -14,11 +14,13 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.hotel.auxiliar.Vista;
 import com.example.hotel.dominio.Cliente;
-import com.example.hotel.util.HibernateUtil;
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.HibernateUtil;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +35,8 @@ import javafx.stage.Stage;
   @author Carlos Barrientos <a>https://github.com/Zolrack19/reserva_de_hotel</a>
 */
 public class App extends Application {
+
+  private static final Logger log = LoggerFactory.getLogger(App.class);
 
   /**
   * Programador de tareas asíncronas
@@ -105,6 +109,7 @@ public class App extends Application {
     .uniqueResult();
     s.close();
     if (cliente == null) return false;
+    log.info("Usuario accediendo a la aplicación con inicio de sesión automático");
     FXMLLoader fxmlLoader = new FXMLLoader(Rutas.INICIO.getUrlVista());
     vistas.put(Rutas.INICIO, new Vista(fxmlLoader.load(), null));
     puntero++;
@@ -218,7 +223,7 @@ public class App extends Application {
       Parent parent = loader.load();
       vistas.put(ruta, new Vista(parent, loader.getController()));
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Error al cargar archivo fxml para crear una vista", e);
     }
   }
   
@@ -236,6 +241,8 @@ public class App extends Application {
   }
 
   public static void main(String[] args) {
+    log.info("Inicializando aplicación");
     launch();
+    log.info("Finalizando aplicación");
   }
 }

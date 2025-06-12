@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.example.hotel.dominio.Cuarto;
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

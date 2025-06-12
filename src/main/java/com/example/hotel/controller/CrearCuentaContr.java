@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import com.example.hotel.App;
 import com.example.hotel.dominio.Pais;
 import com.example.hotel.service.CrearCuentaServicio;
-import com.example.hotel.util.Rutas;
+import com.example.hotel.singleton.Rutas;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,6 +20,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -126,10 +127,9 @@ public class CrearCuentaContr implements Initializable {
     });
 
 
-    lblCambiarLogin.setOnKeyPressed(event -> {
-      switch (event.getCode()) {
-        case ENTER, SPACE -> cambiarALogin();
-        default -> {}
+    lblCambiarLogin.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        cambiarALogin();
       }
     });
   }

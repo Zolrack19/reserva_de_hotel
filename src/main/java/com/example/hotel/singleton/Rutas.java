@@ -1,4 +1,4 @@
-package com.example.hotel.util;
+package com.example.hotel.singleton;
 
 import java.net.URL;
 import java.util.concurrent.ScheduledFuture;

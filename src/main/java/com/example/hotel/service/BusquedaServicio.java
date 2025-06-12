@@ -10,7 +10,7 @@ import com.example.hotel.dao.CuartoDAO;
 import com.example.hotel.dominio.Categoria;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
-import com.example.hotel.util.HibernateUtil;
+import com.example.hotel.singleton.HibernateUtil;
 
 /**
   Servicio que se encarga de hacer consultas personalizadas y generales en la base de datos

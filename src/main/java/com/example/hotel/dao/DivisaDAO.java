@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.example.hotel.dominio.Divisa;
-import com.example.hotel.util.HibernateUtil;
+import com.example.hotel.singleton.HibernateUtil;
 
 /**
   Clase para realizar crud para la tabla divisa en la base de datos.

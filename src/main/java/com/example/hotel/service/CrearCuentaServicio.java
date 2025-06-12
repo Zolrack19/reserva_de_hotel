@@ -12,6 +12,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.Authenticator;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.example.hotel.App;
 import com.example.hotel.dao.ClienteDAO;
@@ -20,6 +22,8 @@ import com.example.hotel.dominio.Cliente;
 import com.example.hotel.dominio.Pais;
 
 public class CrearCuentaServicio {
+
+  private static final Logger log = LoggerFactory.getLogger(CrearCuentaServicio.class);
   
   private InternetAddress address;
   private MimeMessage message;
@@ -45,7 +49,7 @@ public class CrearCuentaServicio {
       message.setFrom(new InternetAddress("carlosmbl1902@gmail.com"));
       message.setSubject("Código de comprobación");
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Error en establecer el mensaje por defecto para el correo electrónico", e);
     }
   }
 
@@ -60,9 +64,9 @@ public class CrearCuentaServicio {
         "text/html; charset=utf-8");
       message.setRecipient(Message.RecipientType.TO, this.address);
       Transport.send(message);
-      System.out.println("mensaje envíado correctamente");
+      log.info("Mensaje de comprobante enviado correctamente al correo: " + email);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error("Error al envíar mensaje al correo electrónico: " + email, e);
     }
   }
 
@@ -86,6 +90,7 @@ public class CrearCuentaServicio {
     paisDAO.instanciarDivisa(pais);
     App.cliente.setPais(pais);
     clienteDAO.crearCliente(App.cliente);
+    log.info("Usuario creado correctamente");
   }
 
   public boolean emailRepetido(String email) {
