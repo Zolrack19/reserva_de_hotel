@@ -55,6 +55,9 @@ public class ModalCuartoContr implements Initializable {
   private Object[] urls;
   private byte puntero;
   private boolean enForm;
+  private Parent form;
+  private FormCuartoContr fromContr;
+  private Cuarto cuarto;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -81,6 +84,7 @@ public class ModalCuartoContr implements Initializable {
   }
 
   public void setData(Hotel hotel, Cuarto cuarto) {
+    this.cuarto = cuarto;
     puntero = 0;
     lblTituloCuarto.setText(cuarto.getNombre());
     lblDescripcionCuarto.setText(cuarto.getDescripcion());
@@ -133,6 +137,9 @@ public class ModalCuartoContr implements Initializable {
 
   public void resetModal(Scene scene, Parent root) {
     if (!enForm) return;
+    if (fromContr != null) {
+      fromContr.limpiarForm();
+    }
     scene.setRoot(root);
     enForm = false;
   }
@@ -157,10 +164,14 @@ public class ModalCuartoContr implements Initializable {
 
   @FXML
   private void irFormulario() throws IOException {
-    FXMLLoader loader = new FXMLLoader(Rutas.FORM_RESERVA.getUrlVista());
-    Parent parent = loader.load();
+    if (form == null) {
+      FXMLLoader loader = new FXMLLoader(Rutas.FORM_RESERVA.getUrlVista());
+      form = loader.load();
+      fromContr = loader.getController();
+    }
+    fromContr.rellenarData(cuarto);
     enForm = true;
-    principal.getScene().setRoot(parent);
+    principal.getScene().setRoot(form);
   }
 
   @Override

@@ -16,7 +16,7 @@ public enum Rutas {
   MODAL_CUARTO(Rutas.class.getResource("/com/example/hotel/modal-cuarto.fxml")),
   MODAL_EDICION(Rutas.class.getResource("/com/example/hotel/modal-edicion.fxml")),
   RESULTADOS(Rutas.class.getResource("/com/example/hotel/resultados.fxml")),
-  SPINNER(Rutas.class.getResource("/com/example/hotel/spinner.fxml")),
+  ACOMPANANTE(Rutas.class.getResource("/com/example/hotel/acompanante.fxml")),
   TARJETA_CARUSEL(Rutas.class.getResource("/com/example/hotel/tarjeta-carusel.fxml")),
   TARJETA_RESULTADO(Rutas.class.getResource("/com/example/hotel/tarjeta-resultado.fxml")),
   CODIGO_VERIF(Rutas.class.getResource("/com/example/hotel/codigo-veri.fxml"))
