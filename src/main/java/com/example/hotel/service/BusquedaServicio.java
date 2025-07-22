@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.example.hotel.dao.CategoriaDAO;
-import com.example.hotel.dao.CuartoDAO;
 import com.example.hotel.dominio.Categoria;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;

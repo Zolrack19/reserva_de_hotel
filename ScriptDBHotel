@@ -1,0 +1,221 @@
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
+-- tablas catálogo
+CREATE TABLE categoria (
+  id SMALLINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE categoria_cuarto (
+  id SMALLINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE medio_pago (
+  id SMALLINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE divisa (
+  id SMALLINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  simbolo VARCHAR(10) NOT NULL
+);
+--------------------------------------------------------
+
+-- tablas 
+CREATE TABLE pais (
+  id SMALLINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre VARCHAR(150) NOT NULL,
+  divisa_id SMALLINT NOT NULL,
+  prefijo_telefonico VARCHAR(10) NOT NULL,
+  codigo_iso VARCHAR(5) NOT NULL,
+  CONSTRAINT fk_divisa FOREIGN KEY (divisa_id) REFERENCES divisa(id)
+);
+
+CREATE TABLE ciudad (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  pais_id SMALLINT NOT NULL,
+  nombre VARCHAR(200) NOT NULL,
+  CONSTRAINT fk_pais FOREIGN KEY (pais_id) REFERENCES pais(id)
+);
+
+CREATE TABLE cliente (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  pais_id SMALLINT NOT NULL,
+  email VARCHAR(200) NOT NULL,
+  contrasena TEXT NOT NULL,
+  nombre VARCHAR(150) NOT NULL,
+  apellido VARCHAR(150) NOT NULL,
+  saldo DECIMAL(10, 2) DEFAULT 0,
+  telefono VARCHAR(20),
+  CONSTRAINT fk_pais FOREIGN KEY (pais_id) REFERENCES pais(id)
+);
+
+CREATE TABLE hotel (
+  id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  ciudad_id INTEGER ,--NOT NULL,
+  categoria_id SMALLINT ,--NOT NULL,
+  imagen_url VARCHAR,
+  estrellas SMALLINT DEFAULT 1 NOT NULL,
+  nombre VARCHAR(150) NOT NULL,
+  nombre_normalizado VARCHAR(150),
+  descripcion VARCHAR(3000) NOT NULL,
+  total_cuartos INTEGER NOT NULL DEFAULT 0,
+  CONSTRAINT fk_ciudad FOREIGN KEY (ciudad_id) REFERENCES ciudad(id),
+  CONSTRAINT fk_categoria FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+);
+
+CREATE TABLE cuarto (
+  id BIGSERIAL PRIMARY KEY,
+  hotel_id INTEGER NOT NULL,
+  categoria_cuarto_id SMALLINT ,-- NOT NULL,
+  imagen_url VARCHAR,
+  numero INTEGER NOT NULL,
+  estrellas SMALLINT DEFAULT 1 NOT NULL,
+  descripcion VARCHAR(1000) NOT NULL,
+  precio_por_noche DECIMAL(10, 2) NOT NULL,
+  capacidad SMALLINT NOT NULL,
+  CONSTRAINT fk_hotel FOREIGN KEY (hotel_id) REFERENCES hotel(id),
+  CONSTRAINT fk_categoria_cuarto FOREIGN KEY (categoria_cuarto_id) REFERENCES categoria_cuarto(id)
+);
+
+CREATE TABLE comentario (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  texto VARCHAR(680) NOT NULL,
+  cliente_id INTEGER NOT NULL,
+  hotel_id INTEGER,
+  fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+  CONSTRAINT fk_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+  CONSTRAINT fk_hotel FOREIGN KEY (hotel_id) REFERENCES hotel(id)
+);
+
+CREATE TABLE reserva (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  cliente_id INTEGER NOT NULL,
+  cuarto_id BIGINT NOT NULL,
+  fecha_entrada DATE NOT NULL,
+  fecha_salida DATE NOT NULL,
+  CONSTRAINT fk_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+  CONSTRAINT fk_cuarto FOREIGN KEY (cuarto_id) REFERENCES cuarto(id)
+);
+
+CREATE TABLE boleta (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  reserva_id BIGINT NOT NULL,
+  codigo VARCHAR(25),
+  medio_pago_id SMALLINT NOT NULL,
+  monto_emitido DECIMAL(10, 2) NOT NULL,
+  fecha_pago TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  CONSTRAINT fk_reserva FOREIGN KEY (reserva_id) REFERENCES reserva(id),
+  CONSTRAINT fk_medio_pago FOREIGN KEY (medio_pago_id) REFERENCES medio_pago(id)
+);
+
+
+-- indices
+-- CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+CREATE INDEX nombre_apellido_cliente
+ON cliente(nombre text_pattern_ops, apellido text_pattern_ops);
+
+CREATE INDEX apellido_cliente
+ON cliente(apellido text_pattern_ops);
+
+CREATE INDEX idx_cliente_email
+ON cliente(email);
+
+CREATE INDEX nombre_hotel
+ON hotel(nombre text_pattern_ops);
+
+
+
+-- triggers
+CREATE OR REPLACE FUNCTION asignar_valores_hotel()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    NEW.imagen_url := 'h' || NEW.id;
+    NEW.nombre_normalizado := unaccent(NEW.nombre);
+  
+  ELSIF TG_OP = 'UPDATE' THEN
+    IF NEW.nombre <> OLD.nombre THEN
+      NEW.nombre_normalizado := unaccent(NEW.nombre);    --
+    END IF;
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_hotel
+BEFORE INSERT OR UPDATE ON hotel
+FOR EACH ROW
+EXECUTE FUNCTION asignar_valores_hotel();
+
+
+CREATE OR REPLACE FUNCTION asignar_codigo_boleta()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE boleta
+  SET codigo = 'BO:' || LPAD(NEW.id::TEXT, 5, '0')
+  WHERE id = NEW.id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_codigo_boleta
+AFTER INSERT ON boleta
+FOR EACH ROW
+EXECUTE FUNCTION asignar_codigo_boleta();
+
+
+CREATE OR REPLACE FUNCTION asignar_valores_cuarto()
+RETURNS TRIGGER AS $$
+DECLARE 
+  num_cuartos INTEGER;
+BEGIN
+  
+  SELECT h.total_cuartos INTO num_cuartos FROM hotel h where h.id = NEW.hotel_id;
+  
+  NEW.numero := num_cuartos + 1;
+  NEW.imagen_url := 'c' || NEW.id;
+  
+  UPDATE hotel
+  SET total_cuartos = NEW.numero
+  WHERE id = NEW.hotel_id;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_cuarto
+BEFORE INSERT ON cuarto
+FOR EACH ROW
+EXECUTE FUNCTION asignar_valores_cuarto();
+
+
+-- funcion auxiliar
+CREATE OR REPLACE FUNCTION public.hoteles_aleatorios(cantidad integer)
+RETURNS SETOF hotel
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  id_array integer[];
+BEGIN
+  SELECT array_agg(id) 
+  INTO id_array 
+  FROM (
+    SELECT id 
+    FROM hotel 
+    ORDER BY random() 
+    LIMIT cantidad
+  ) sub;
+
+  RETURN QUERY
+  SELECT * 
+  FROM hotel 
+  WHERE id = ANY(id_array);
+END;
+$$;
+
+

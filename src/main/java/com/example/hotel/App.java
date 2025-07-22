@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.hotel.auxiliar.Vista;
-import com.example.hotel.dao.MedioPagoDAO;
 import com.example.hotel.dominio.Cliente;
 import com.example.hotel.singleton.HibernateUtil;
 import com.example.hotel.singleton.Rutas;
