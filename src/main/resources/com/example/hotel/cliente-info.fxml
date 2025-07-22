@@ -324,12 +324,7 @@
                            </font>
                         </Label>
                         <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                        <ComboBox maxHeight="-Infinity" maxWidth="200.0" minWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets right="14.0" />
-                           </HBox.margin>
-                        </ComboBox>
-                        <ComboBox maxWidth="200.0" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="btnExportarReservas" mnemonicParsing="false" onMouseClicked="#exportarData" text="Exportar reservas" />
                      </children>
                   </HBox>
                   <TableView fx:id="tblReservasH" maxHeight="1.7976931348623157E308" minHeight="-Infinity" VBox.vgrow="ALWAYS">

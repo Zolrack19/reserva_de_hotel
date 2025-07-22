@@ -93,7 +93,10 @@ public class ResultadosContr implements Initializable {
     estrellas = new CheckBox[5];
     resultados = new ArrayList<>();
     configurarFiltros();
-    configurarCalendarios();
+    ConfRepetitiva.confEstiloCalendario(dateInicio);
+    ConfRepetitiva.confEstiloCalendario(dateFin);
+    ConfRepetitiva.confCalendarios(dateInicio, dateFin);
+
     popup.getContent().add(sugerencias);
     ConfRepetitiva.confListaSugerencia(sugerencias, txtBuscar);
      
@@ -221,11 +224,7 @@ public class ResultadosContr implements Initializable {
     });
   }
 
-  private void configurarCalendarios() {
-    ConfRepetitiva.confEstiloCalendario(dateInicio);
-    ConfRepetitiva.confEstiloCalendario(dateFin);
-    ConfRepetitiva.confCalendarios(dateInicio, dateFin);
-  }
+
 
   /**
     Implementación de prueba del botón de buscar, solo se encarga de cambiar de plantilla, fxml.
@@ -259,10 +258,12 @@ public class ResultadosContr implements Initializable {
   @FXML
   private void buscar() {
     if (resultados == null || !hayResultados) return;
-    PantallaCarga pantallaDeCarga = PantallaCarga.getPantallaCarga();
-    vboxResultados.getChildren().clear();
-    pantallaDeCarga.mostrar();
-    vboxResultados.getChildren().add(pantallaDeCarga);
+    // PantallaCarga pantallaDeCarga = PantallaCarga.getPantallaCarga();
+    // vboxResultados.getChildren().clear();
+    // pantallaDeCarga.mostrar();
+    // vboxResultados.getChildren().add(pantallaDeCarga);
+    inicarTarjetas(sugerencias.getItems());
+    hayResultados = false;
   }
 
   @FXML
@@ -293,7 +294,7 @@ public class ResultadosContr implements Initializable {
     if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
       App.setVista(Rutas.DETALLES_HOTEL);
     }
-    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel);
+    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel, dateInicio.getValue(), dateFin.getValue());
     App.navegar(Rutas.DETALLES_HOTEL);
   }
 

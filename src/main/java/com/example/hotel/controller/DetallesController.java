@@ -6,32 +6,40 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 import com.example.hotel.App;
 import com.example.hotel.auxiliar.ConfRepetitiva;
+import com.example.hotel.dominio.Comentario;
 import com.example.hotel.dominio.Cuarto;
 import com.example.hotel.dominio.Hotel;
 import com.example.hotel.service.BusquedaServicio;
+import com.example.hotel.service.ComentarioServicio;
 import com.example.hotel.singleton.Imagenes;
 import com.example.hotel.singleton.Rutas;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import org.controlsfx.control.RangeSlider;
 
 /**
  * Controla la plantilla de los detalles de hotel, encargado de mostrar
@@ -70,6 +78,15 @@ public class DetallesController implements Initializable {
   private Label lblImagen7;
   
   @FXML
+  private VBox vboxComentarios;
+  
+  @FXML
+  private TextField txtComentario;
+  
+  @FXML
+  private Button btnSend;
+  
+  @FXML
   private Label lblNombre;
   
   @FXML
@@ -86,21 +103,10 @@ public class DetallesController implements Initializable {
   
   @FXML
   private DatePicker dateFin;
-
-  @FXML
-  private VBox vboxPresupuesto;
-
-  @FXML
-  private Label lblDivisa1;
-
-  @FXML
-  private Label lblDivisa2;
-
-  @FXML
-  private Label lblMinValor;
   
   @FXML
-  private Label lblMaxValor;
+  private Button btnBuscar;
+
   
   @FXML
   private TableView<Cuarto> tblCuartos;
@@ -109,12 +115,42 @@ public class DetallesController implements Initializable {
   private byte estrella;
   private boolean lblOculto;
   private Stage modalCuarto;
+  private String imagen;
+
+  private LocalDate fechaEntrada;
+  private LocalDate fechaSalida;
+
+
+  private Cuarto[] cuartoAnterior;
   
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     ConfRepetitiva.confEstiloCalendario(dateInicio);
     ConfRepetitiva.confEstiloCalendario(dateFin);
     ConfRepetitiva.confCalendarios(dateInicio, dateFin);
+
+    btnBuscar.setOnMouseClicked(e -> {
+      buscar();
+    });
+    btnBuscar.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        buscar();
+      }
+    });
+    
+    btnSend.setOnMouseClicked(e -> {
+      String comentario = txtComentario.getText().trim();
+      if (comentario.isEmpty()) return;
+      nuevoComentario(comentario);
+    });
+    btnSend.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        String comentario = txtComentario.getText().trim();
+        if (comentario.isEmpty()) return;
+        nuevoComentario(comentario);
+      }
+    });
+
 
     lblVolver.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
@@ -146,36 +182,27 @@ public class DetallesController implements Initializable {
       }
     });
 
-    RangeSlider rangeSlider = new RangeSlider(10, 500, 10, 150);
-    rangeSlider.setMajorTickUnit(10);
-    rangeSlider.setMinorTickCount(0);
-    rangeSlider.setBlockIncrement(10);
-    rangeSlider.setSnapToTicks(true);
-
-    rangeSlider.lowValueProperty().addListener((obs, oldVal, newVal) -> {
-      if (newVal.doubleValue() > rangeSlider.getHighValue() - 50) {
-        rangeSlider.setLowValue(rangeSlider.getHighValue() - 50);
-        return;
-      }
-      lblMinValor.setText(String.format("%,d", newVal.intValue()));
-    });
-
-    rangeSlider.highValueProperty().addListener((obs, oldVal, newVal) -> {
-      if (newVal.doubleValue() < rangeSlider.getLowValue() + 50) {
-        rangeSlider.setHighValue(rangeSlider.getLowValue() + 50);
-        return;
-      }
-      if (newVal.intValue() != 500) {
-        lblMaxValor.setText(String.format("%,d", newVal.intValue()));
-      } else {
-        lblMaxValor.setText(String.format("%,d%s", newVal.intValue(), "+"));
-      }
-    });
-    vboxPresupuesto.getChildren().add(rangeSlider);
-
     configurarTabla();
   }
 
+  private void nuevoComentario(String comentario) {
+    try {
+      ComentarioServicio.crearComentario(hotel, App.cliente, comentario);
+      Parent parent = crearComentario(App.cliente.getApellido(), comentario);
+      vboxComentarios.getChildren().add(parent);
+      txtComentario.setText("");
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  private Parent crearComentario(String usuario, String contenido) throws IOException {
+    FXMLLoader loader = new FXMLLoader(Rutas.COMENTARIO.getUrlVista());
+    Parent card = loader.load();
+    ComentarioContr contr = loader.getController();
+    contr.init(usuario, contenido);
+    return card;
+  }
 
   @SuppressWarnings("unchecked")
   private void configurarTabla() {
@@ -210,7 +237,7 @@ public class DetallesController implements Initializable {
       Bindings.size(tblCuartos.getItems()).multiply(tblCuartos.getFixedCellSize()).add(35)
     );
 
-    Cuarto[] cuartoAnterior = new Cuarto[1];
+    cuartoAnterior = new Cuarto[1];
     tblCuartos.setOnMouseClicked(event -> {
       if (event.getClickCount() == 1) {
         Cuarto seleccionado = tblCuartos.getSelectionModel().getSelectedItem();
@@ -219,13 +246,22 @@ public class DetallesController implements Initializable {
             crearModal();
           }
           if (cuartoAnterior[0] != seleccionado) {
-            ((ModalCuartoContr) App.getControlador(Rutas.MODAL_CUARTO)).setData(hotel, seleccionado);
+            if (dateInicio.getValue() == null || dateFin.getValue() == null) {
+              return;
+            }
+            ((ModalCuartoContr) App.getControlador(Rutas.MODAL_CUARTO)).setData(hotel, seleccionado, imagen, dateInicio.getValue(), dateFin.getValue());
             cuartoAnterior[0] = seleccionado;
           }
           modalCuarto.show();
         }
       }
     });
+  }
+
+  public void nose() {
+    tblCuartos.getItems().remove(cuartoAnterior[0]);
+    modalCuarto.close();
+    cuartoAnterior[0] = null;
   }
 
   private void crearModal() {
@@ -242,19 +278,35 @@ public class DetallesController implements Initializable {
   }
 
 
-  public void setData(Hotel hotel) {
+  public void setData(Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida) {
     if (this.hotel == null || this.hotel != hotel) {
       this.hotel = hotel;
+      this.fechaEntrada = fechaEntrada;
+      this.fechaSalida = fechaSalida;
+      dateInicio.setValue(fechaEntrada);
+      dateFin.setValue(fechaSalida);
       prepararPlantilla();
     }
   }
 
   private void prepararPlantilla() {
     tblCuartos.getItems().clear();
-    List<Cuarto> cuartos = BusquedaServicio.getCuartos(hotel);
-    for (int i = 0; i < cuartos.size(); i++) {
-      tblCuartos.getItems().add(cuartos.get(i));
-    }
+
+    vboxComentarios.getChildren().clear();
+    App.scheduler.schedule(() -> {
+      Platform.runLater(() -> {
+        try {
+        List<Comentario> comentarios = ComentarioServicio.getComentariosByHotel(hotel.getId());
+          for (Comentario comentario : comentarios) {
+            Parent card = crearComentario(comentario.getCliente().getApellido(), comentario.getTexto());
+            vboxComentarios.getChildren().add(card);
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      });
+    }, 0, TimeUnit.SECONDS);
+
 
     lblNombre.setText(hotel.getNombre());
     if (estrella != hotel.getEstrellas()) {
@@ -265,6 +317,7 @@ public class DetallesController implements Initializable {
     Path carpeta = Paths.get(Imagenes.DB.getUrl(), hotel.getImagenUrl());
     try {
       Object[] urls = Files.list(carpeta).filter(Files::isRegularFile).sorted().limit(7).map(path -> path.toUri().toString()).toArray();
+      imagen = urls[0].toString();
       for (int i = 0; i < urls.length; i++) {
         ConfRepetitiva.setBackground(labels[i], urls[i].toString());
       }
@@ -272,6 +325,20 @@ public class DetallesController implements Initializable {
       e.printStackTrace();
     }
   }
+
+  
+  public void buscar() {
+    if (dateInicio.getValue() == null || dateFin.getValue() == null) return;
+    fechaEntrada = dateInicio.getValue();
+    fechaSalida = dateFin.getValue();
+    List<Cuarto> cuartos = BusquedaServicio.getCuartos(hotel, fechaEntrada, fechaSalida);
+    if (cuartos == null) return;
+    tblCuartos.getItems().clear();
+    for (int i = 0; i < cuartos.size(); i++) {
+      tblCuartos.getItems().add(cuartos.get(i));
+    }
+  }
+
 
   @FXML
   public void volver() {

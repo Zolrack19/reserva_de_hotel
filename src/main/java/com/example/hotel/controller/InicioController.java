@@ -256,7 +256,7 @@ public class InicioController implements Initializable {
     if (App.getVista(Rutas.DETALLES_HOTEL) == null) {
       App.setVista(Rutas.DETALLES_HOTEL);
     }
-    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel); 
+    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).setData(hotel, null, null); 
     App.navegar(Rutas.DETALLES_HOTEL);
   }
 
@@ -283,6 +283,7 @@ public class InicioController implements Initializable {
       App.setVista(Rutas.CLIENTE_INFO);
     }
     App.navegar(Rutas.CLIENTE_INFO);
+    ((ClienteInfoContr) App.getControlador(Rutas.CLIENTE_INFO)).llenarTabla();
   }
   
   @Override

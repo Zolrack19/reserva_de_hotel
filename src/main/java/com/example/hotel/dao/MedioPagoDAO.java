@@ -32,7 +32,7 @@ public class MedioPagoDAO {
 
   public List<MedioPago> getMedioPagosRango(int inicio, int fin) {
     Session session = HibernateUtil.getSession().openSession();
-    List<MedioPago> medioPagos = session.createQuery("from MedioPago m order by m.id", MedioPago.class)
+    List<MedioPago> medioPagos = session.createQuery("from medio_pago m order by m.id", MedioPago.class)
     .setFirstResult(inicio)
     .setMaxResults(fin)
     .list();

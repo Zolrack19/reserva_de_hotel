@@ -1,17 +1,31 @@
 package com.example.hotel.controller;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.ss.SpreadsheetVersion;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.AreaReference;
+import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFTable;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTable;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTableColumn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.hotel.App;
+import com.example.hotel.dao.ReservaDAO;
 import com.example.hotel.dominio.Pais;
 import com.example.hotel.dominio.Reserva;
 import com.example.hotel.service.ClienteServicio;
@@ -99,13 +113,18 @@ public class ClienteInfoContr implements Initializable {
   @FXML
   private TableView<Reserva> tblReservasH;
 
+  @FXML
+  private Button btnExportarReservas;
+
   private Stage modal;
   private ModalEdicionContr modalController;
   private final ClienteServicio clienteServicio = ClienteServicio.getInstancia();
   private ScheduledFuture<?> ttlTask;
+  ReservaDAO reservaDAO;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    reservaDAO = new ReservaDAO();
     lblVolver.setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
         try {
@@ -175,8 +194,10 @@ public class ClienteInfoContr implements Initializable {
       clienteServicio.actualizarCliente(App.cliente);
       btnGuardar.setVisible(false);
       btnGuardar.setManaged(false);
+      btnCancelar.setVisible(false);
+      btnCancelar.setManaged(false);
       modalController.setGuardar(true);
-      log.info("Atributos de usuario actaulizados");
+      log.info("Atributos de usuario actualizados");
     });
     lblEditarNombre.setOnKeyPressed(e -> {
       if (e.getCode() != KeyCode.SPACE && e.getCode() != KeyCode.ENTER) return;
@@ -275,10 +296,13 @@ public class ClienteInfoContr implements Initializable {
       Bindings.size(tblReservasH.getItems()).multiply(tblReservasH.getFixedCellSize()).add(35)
     );
 
-    tblReservasH.getItems().add(new Reserva(1, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
-    tblReservasH.getItems().add(new Reserva(2, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
-    tblReservasH.getItems().add(new Reserva(3, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
-    tblReservasH.getItems().add(new Reserva(4, null, null, null, LocalDate.now(), LocalDate.now().plusDays(4)));
+  }
+
+
+  public void llenarTabla() {
+    reservaDAO.getReservasPorCliente(App.cliente.getId(), 0, 20).forEach(reserva -> {
+      tblReservasH.getItems().add(reserva);
+    });
   }
 
   private void crearModal() {
@@ -327,6 +351,71 @@ public class ClienteInfoContr implements Initializable {
       App.setVista(Rutas.INICIO);
     }
     App.navegar(Rutas.INICIO);
+  }
+
+  @FXML
+  private void exportarData() {
+    XSSFWorkbook workbook = new XSSFWorkbook();
+    XSSFSheet sheet = workbook.createSheet("Usuarios");
+    Row cabecera = sheet.createRow(0);
+    cabecera.createCell(0).setCellValue("id");
+    cabecera.createCell(1).setCellValue("Fecha de entrada");
+    cabecera.createCell(2).setCellValue("Fecha de salida");
+    
+    CellStyle estiloFecha = workbook.createCellStyle();
+    estiloFecha.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("dd/MM/yyyy"));
+    for (int i = 0; i < tblReservasH.getItems().size(); i++) {
+      Row fila = sheet.createRow(i + 1);
+      Reserva reserva = tblReservasH.getItems().get(i);
+      Cell celdaId = fila.createCell(0);
+      Cell celdaFE = fila.createCell(1);
+      Cell celdaFS = fila.createCell(2);
+      
+      celdaId.setCellValue(reserva.getId());
+      celdaFE.setCellValue(Date.valueOf(reserva.getFechaEntrada()));
+      celdaFE.setCellStyle(estiloFecha);
+      celdaFS.setCellValue(Date.valueOf(reserva.getFechaSalida()));
+      celdaFS.setCellStyle(estiloFecha);
+    }
+    AreaReference area = new AreaReference(
+    new CellReference(0, 0),
+    new CellReference(tblReservasH.getItems().size() - 1, 3),
+    SpreadsheetVersion.EXCEL2007);
+
+    XSSFTable tabla = sheet.createTable(area);
+    tabla.setName("UsuariosTabla");
+    tabla.setDisplayName("TablaDeUsuarios");
+
+    CTTable cttable = tabla.getCTTable();
+    cttable.addNewTableStyleInfo().setName("TableStyleMedium2");
+    cttable.setId(1);
+    cttable.setRef(area.formatAsString());
+    cttable.setDisplayName("TablaUsuarios");
+    cttable.setName("TablaUsuarios");
+    cttable.setTotalsRowShown(false);
+
+    cttable.setTableColumns(cttable.addNewTableColumns());
+    cttable.getTableColumns().setCount(4); // columnas?
+    
+    for (int i = 0; i < 4; i++) {
+      CTTableColumn col = cttable.getTableColumns().addNewTableColumn();
+      col.setId(i + 1);
+      col.setName("col " + i);
+    }
+
+    tabla.setStyleName("TableStyleMedium2");
+    
+    for (int i = 0; i < 4; i++) {
+      sheet.autoSizeColumn(i);
+    }
+
+    try (FileOutputStream out = new FileOutputStream("MisReservas.xlsx")) {
+      workbook.write(out);
+      workbook.close();
+    } catch(IOException e) {
+      log.error("Error en exportar data de reservas a un excel", e);
+    }
+
   }
 
   @Override

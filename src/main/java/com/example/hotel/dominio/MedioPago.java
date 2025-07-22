@@ -34,4 +34,15 @@ public class MedioPago {
   public MedioPago(String nombre) {
     this.nombre = nombre;
   }
+
+  @Override
+  public String toString() {
+    return this.nombre;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    MedioPago p = (MedioPago) obj;
+    return p != null && id == p.getId();
+  }
 }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import com.example.hotel.auxiliar.ConfRepetitiva;
@@ -57,7 +58,9 @@ public class ModalCuartoContr implements Initializable {
   private boolean enForm;
   private Parent form;
   private FormCuartoContr fromContr;
+  private Hotel hotel;
   private Cuarto cuarto;
+  private String imagen;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -83,8 +86,15 @@ public class ModalCuartoContr implements Initializable {
     });
   }
 
-  public void setData(Hotel hotel, Cuarto cuarto) {
+  LocalDate fechaInicio;
+  LocalDate fechaFin;
+
+  public void setData(Hotel hotel, Cuarto cuarto, String imagen, LocalDate inicio, LocalDate fin) {
+    this.hotel = hotel;
     this.cuarto = cuarto;
+    this.imagen = imagen;
+    this.fechaInicio = inicio;
+    this.fechaFin = fin;
     puntero = 0;
     lblTituloCuarto.setText(cuarto.getNombre());
     lblDescripcionCuarto.setText(cuarto.getDescripcion());
@@ -138,7 +148,7 @@ public class ModalCuartoContr implements Initializable {
   public void resetModal(Scene scene, Parent root) {
     if (!enForm) return;
     if (fromContr != null) {
-      fromContr.limpiarForm();
+      // fromContr.limpiarForm();
     }
     scene.setRoot(root);
     enForm = false;
@@ -169,7 +179,7 @@ public class ModalCuartoContr implements Initializable {
       form = loader.load();
       fromContr = loader.getController();
     }
-    fromContr.rellenarData(cuarto);
+    fromContr.rellenarData(hotel, cuarto, imagen, fechaInicio, fechaFin);
     enForm = true;
     principal.getScene().setRoot(form);
   }

@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.hotel.auxiliar.Vista;
+import com.example.hotel.dao.MedioPagoDAO;
 import com.example.hotel.dominio.Cliente;
 import com.example.hotel.singleton.HibernateUtil;
 import com.example.hotel.singleton.Rutas;
@@ -214,7 +215,7 @@ public class App extends Application {
     ruta.setTtlTask(scheduler.schedule(() -> {
       System.out.println("eliminando vista: " + ruta);
       vistas.remove(ruta);
-    }, 1, TimeUnit.MINUTES));
+    }, 3, TimeUnit.MINUTES));
   }
 
   public static void setVista(Rutas ruta) {

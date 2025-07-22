@@ -43,6 +43,15 @@ public class ReservaDAO {
     session.close();
     return reserva;
   }
+  
+  public Reserva getPorCliente(int idCliente) {
+    Session session = HibernateUtil.getSession().openSession();
+    Reserva reserva = session.createQuery("from Reserva r r.cliente.id = :id", Reserva.class)
+    .setParameter("id", idCliente)
+    .uniqueResult();
+    session.close();
+    return reserva;
+  }
 
   public List<Reserva> getReservasRango(int inicio, int fin) {
     Session session = HibernateUtil.getSession().openSession();

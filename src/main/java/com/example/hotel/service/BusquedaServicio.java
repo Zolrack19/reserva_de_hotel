@@ -16,15 +16,9 @@ import com.example.hotel.singleton.HibernateUtil;
   Servicio que se encarga de hacer consultas personalizadas y generales en la base de datos
 */
 public class BusquedaServicio {
-  private static final CuartoDAO cuartodao = new CuartoDAO();
   private static final CategoriaDAO categoriaDao = new CategoriaDAO();
   // len = 106
-  private static final StringBuilder query = new StringBuilder("""
-    SELECT DISTINCT h.*
-    FROM hotel h
-    JOIN ciudad c ON h.ciudad_id = c.id
-    JOIN pais p ON c.pais_id = p.id
-  """);
+  private static final StringBuilder query = new StringBuilder();
   
   /**
     Método para generar un query complejo y personalizado, se encarga de buscar hoteles
@@ -36,8 +30,14 @@ public class BusquedaServicio {
   */
   public static List<Hotel> buscarHotel(String[] tokens, LocalDate fechaInicio, LocalDate fechaFin) {
     if (tokens[0] == null) return null;
+    query.append("""
+      SELECT DISTINCT h.*
+      FROM hotel h
+      JOIN ciudad c ON h.ciudad_id = c.id
+      JOIN pais p ON c.pais_id = p.id 
+    """);
     Session session = HibernateUtil.getSession().openSession();
-    query.delete(109, query.length());
+    // query.delete(109, query.length());
     if (fechaInicio != null) {
       query.append("""
       WHERE EXISTS (
@@ -76,6 +76,7 @@ public class BusquedaServicio {
     
     List<Hotel> hotles =  session.createNativeQuery(query.toString(), Hotel.class).list();
     session.close();
+    query.setLength(0);
     return hotles;
   }
 
@@ -100,7 +101,27 @@ public class BusquedaServicio {
     return categoriaDao.getCategoriasRango(0, 20); // cambianr si hay más
   }
 
-  public static List<Cuarto> getCuartos(Hotel hotel) {
-    return cuartodao.getCuartosPorHotel(hotel.getId(), 0, 10);
+  public static List<Cuarto> getCuartos(Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida) {
+    if (fechaEntrada == null || fechaSalida == null) return null;
+    Session s = HibernateUtil.getSession().openSession();
+    query.append("""
+    SELECT c.*
+    FROM cuarto c
+    WHERE c.hotel_id =""").append(hotel.getId()).append("\n");
+    query.append("""
+    AND NOT EXISTS (
+      SELECT 1
+      FROM reserva r
+      WHERE r.cuarto_id = c.id
+        AND r.fecha_entrada <= '""").append(fechaEntrada).append(""" 
+        '
+        AND r.fecha_salida >= '""").append(fechaSalida).append("""
+        '
+    )"""
+    );
+    List<Cuarto> cuartos = s.createNativeQuery(query.toString(), Cuarto.class).list();
+    query.setLength(0);
+    s.close();
+    return cuartos;
   }
 }

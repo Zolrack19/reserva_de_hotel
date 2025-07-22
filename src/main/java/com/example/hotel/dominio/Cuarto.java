@@ -29,7 +29,7 @@ public class Cuarto {
   @OneToMany(mappedBy = "cuarto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
   private List<Reserva> reservas;
 
-  @ManyToOne()
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "hotel_id")
   private Hotel hotel;
 

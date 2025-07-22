@@ -19,6 +19,7 @@ public enum Rutas {
   ACOMPANANTE(Rutas.class.getResource("/com/example/hotel/acompanante.fxml")),
   TARJETA_CARUSEL(Rutas.class.getResource("/com/example/hotel/tarjeta-carusel.fxml")),
   TARJETA_RESULTADO(Rutas.class.getResource("/com/example/hotel/tarjeta-resultado.fxml")),
+  COMENTARIO(Rutas.class.getResource("/com/example/hotel/comentario.fxml")),
   CODIGO_VERIF(Rutas.class.getResource("/com/example/hotel/codigo-veri.fxml"))
   ;
 

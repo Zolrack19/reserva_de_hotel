@@ -1,21 +1,27 @@
 package com.example.hotel.controller;
 
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
-
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
+import com.example.hotel.App;
+import com.example.hotel.auxiliar.ConfRepetitiva;
 import com.example.hotel.dominio.Cuarto;
+import com.example.hotel.dominio.Hotel;
+import com.example.hotel.dominio.MedioPago;
+import com.example.hotel.service.CuartoServicio;
 import com.example.hotel.singleton.Rutas;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.KeyCode;
 
 public class FormCuartoContr implements Initializable {
 
@@ -41,6 +47,12 @@ public class FormCuartoContr implements Initializable {
   private Label lblNumHabitacion;
 
   @FXML
+  private Label lblEmail;
+
+  @FXML
+  private Label lblPais;
+
+  @FXML
   private Label lblDivisa;
 
   @FXML
@@ -54,58 +66,66 @@ public class FormCuartoContr implements Initializable {
 
   @FXML
   private TextField txtTelefono;
-
+  
   @FXML
-  private CheckBox chxReserva;
-
+  private ComboBox<MedioPago> cbxMedioPago;
+  
   @FXML
-  private Label lblAcomponantes;
-
-  @FXML
-  private VBox vbxAcompanantes;
+  private Button btnReserva;
 
   private Cuarto cuarto;
+  private BigDecimal precioTotal;
+  private LocalDate fechaInicio, fechaFin;
+  private CuartoServicio cuartoServicio = new CuartoServicio();
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    chxReserva.setSelected(true);
-    lblAcomponantes.setVisible(false);
-    lblAcomponantes.setManaged(false);
-    vbxAcompanantes.setVisible(false);
-    vbxAcompanantes.setManaged(false);
-    chxReserva.setOnAction(e -> {
-      if (vbxAcompanantes.getChildren().isEmpty()) {
-        try {
-          rellenar();
-        } catch (Exception ex) {
-          ex.printStackTrace();
-        }
+    cbxMedioPago.getItems().addAll(cuartoServicio.getMedioPago());
+    txtNombre.setEditable(false);
+    txtTelefono.setEditable(false);
+    btnReserva.setOnMouseClicked(e -> {
+      reservar();
+    });
+    btnReserva.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.SPACE) {
+        reservar();
       }
-      lblAcomponantes.setVisible(!lblAcomponantes.isVisible());
-      lblAcomponantes.setManaged(!lblAcomponantes.isManaged());
-      vbxAcompanantes.setVisible(!vbxAcompanantes.isVisible());
-      vbxAcompanantes.setManaged(!vbxAcompanantes.isManaged());
     });
   }
 
-  public void rellenarData(Cuarto cuarto) {
-    this.cuarto = cuarto;
-    // lblFechaEntrada.setText(fechaEntrada.toString());
-    // lblFechaEntrada.setText(fechaSalida.toString());
-  }
-
-  public void limpiarForm() {
-    vbxAcompanantes.getChildren().clear();
-  }
-
-  private void rellenar() throws IOException {
-    for (int i = 0; i < cuarto.getCapacidad() - 1; i++) {
-      FXMLLoader loader = new FXMLLoader(Rutas.ACOMPANANTE.getUrlVista());
-      Parent card = loader.load();
-      // TarjetaCaruselContr contr = loader.getController();
-      // setData(contr, hotel, url);
-      vbxAcompanantes.getChildren().add(card);
+  public void reservar() {
+    if (App.cliente.getSaldo().compareTo(precioTotal) < 0) {
+      System.out.println("No se puede continuar con la transacción");
+      return;
     }
+    cuartoServicio.reservar(cuarto, fechaInicio, fechaFin, precioTotal);
+    ((DetallesController) App.getControlador(Rutas.DETALLES_HOTEL)).nose();
+  }
+
+
+
+  public void rellenarData(Hotel hotel, Cuarto cuarto, String imagen, LocalDate fechaInicio, LocalDate fechaFin) {
+    this.cuarto = cuarto;
+    lblTituloHotel.setText(hotel.getNombre());
+    lblEmail.setText(App.cliente.getEmail());
+    lblPais.setText(App.cliente.getPais().getNombre());
+    lblDivisa.setText(App.cliente.getPais().getDivisa().getNombre());
+    lblPrefijoTelefono.setText(App.cliente.getPais().getPrefijoTelefonico());
+    ConfRepetitiva.setBackground(lblImagen, imagen);
+    ConfRepetitiva.confEstrellas(lblEstrella, hotel.getEstrellas());
+    txtNombre.setText(App.cliente.getNombre() + " " + App.cliente.getApellido());
+    txtTelefono.setText(App.cliente.getTelefono());
+    lblFechaEntrada.setText(fechaInicio.toString());
+    lblFechaSalida.setText(fechaFin.toString());
+
+    this.fechaInicio = fechaInicio;
+    this.fechaFin = fechaFin;
+
+    long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin);
+    precioTotal = cuarto.getPrecioPorNoche().multiply(BigDecimal.valueOf(dias)).setScale(2, RoundingMode.HALF_UP);
+
+    lblNoches.setText(dias + ((dias == 1) ? " noche" : " noches"));
+    lblPrecio.setText(precioTotal.toString());
   }
 
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="-Infinity" prefWidth="100.0" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.hotel.controller.ComentarioContr" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="lblNombreComentario" text="Titulo de la persona" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblContenidoComentario" text="Este es un super comentario que puede albergar mas de una linea de texto" wrapText="true">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+   </children>
+</VBox>
